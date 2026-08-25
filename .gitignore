@@ -1,0 +1,30 @@
+# Legacy snapshot
+/legacy/
+
+# Dependencies and generated output
+/node_modules/
+/dist/
+/coverage/
+*.log
+
+# Local environment overrides
+.env.local
+.env.*.local
+
+# Local agent / editor state
+.omx/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.local
+
+# Non-Bun package-manager artifacts
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

@@ -1,0 +1,21 @@
+name: bun-baseline
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  env-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        # Reads package.json "packageManager": "bun@1.4.0"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Frozen lockfile install
+        run: bun install --frozen-lockfile
+      - name: Env check
+        run: bun run env:check
