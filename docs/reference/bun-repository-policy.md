@@ -72,7 +72,7 @@ bun install --frozen-lockfile
 
 锁文件与 `package.json` 不一致时该命令失败，这是预期行为。
 
-**第 1 轮特例：** Bun 1.4.0 在零依赖时会打印 `No packages! Deleted empty lockfile` 并删除空锁文件。因此本轮没有 `bun.lock` 可提交。第 2 轮第一次 `bun add` 之后必须生成并提交锁文件，其后每次 CI 都走冻结安装。
+**第 1 轮特例：** Bun 1.4.0 在零依赖时会打印 `No packages! Deleted empty lockfile` 并删除空锁文件。第 2 轮安装 Vue/Vite 后已生成 `bun.lock`，此后 CI 必须走冻结安装。
 
 ## 4. 生命周期脚本
 
@@ -92,7 +92,7 @@ GitHub Actions 使用 `oven-sh/setup-bun@v2`，让它读取 `package.json` 的 `
 
 同时安装 Node 22.x，满足后续 Vite 8 的 engines，供可能落到 Node 的工具使用。
 
-最小 workflow 见 `.github/workflows/bun-baseline.yml`：
+最小 workflow 见 `.github/workflows/bun-baseline.yml`，仅 `workflow_dispatch` 手动触发：
 
 1. `actions/checkout`
 2. `oven-sh/setup-bun@v2`

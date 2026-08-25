@@ -3,6 +3,14 @@
 > 快照日期：2026-08-24  
 > 原则：这里记录的是迁移计划制定时的注册表快照，不是永久真理。真正执行某一轮时必须重新查询。
 
+第 2 轮执行时复核（2026-08-25）：
+
+- `vue@3.5.41`、`vite@8.2.2`、`@vitejs/plugin-vue@6.0.8`、`vue-tsc@3.3.11`、`@vue/tsconfig@0.9.1` 与基线一致。
+- `typescript@latest` 仍为 7.0.2；`typescript-eslint@8.68.0` 的 peer 仍是 `>=4.8.4 <6.1.0`，因此继续钉 `typescript@6.0.3`。
+- 官方 `create-vue@latest --ts --bare` 使用 `typescript@~6.0.0`、`vue@^3.5.40`、`vite@^8.1.5`。本轮在该范围内选择已审阅的最高精确版本。
+- 脚手架默认 `@types/node@24` 与 `@tsconfig/node24`。本仓库 CI/本机是 Node 22，改为 `@types/node@22.20.1`，不安装 Node 24 预设。
+- 未安装脚手架中的 `vite-plugin-vue-devtools`、`npm-run-all2`。
+
 ## 1. 为什么“最新”必须先解析再安装
 
 包的 `latest` 标签只代表发布者设置的默认标签，不保证：

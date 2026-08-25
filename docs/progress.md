@@ -7,8 +7,8 @@
 | ---: | --- | --- | --- | --- | --- |
 | 0 | 旧项目归档与基线 | 已完成 | 初始提交 | 初始提交 | 288 个旧受管路径保存在 `legacy/`；忽略和文档校验通过。仓库已重新 init，不再保留上游历史 |
 | 1 | Bun 基础 | 已完成 | 初始提交 | 初始提交 | `packageManager: bun@1.4.0`；`bun run env:check` 通过；零依赖无 lockfile（Bun 会删除空锁）；CI/生命周期策略已记录 |
-| 2 | Vue + Vite 最小骨架 | 未开始 |  |  |  |
-| 3 | TypeScript 语言实验 | 未开始 |  |  |  |
+| 2 | Vue + Vite 最小骨架 | 已完成 | `f0ce9ad` | 未提交 | `vue@3.5.41` 与 `@vue/compiler-sfc@3.5.41` 同 patch；`bun run typecheck`/`build` 通过；dev HMR 与无错误控制台已验证。按要求本轮不提交 |
+| 3 | TypeScript 语言实验 | 已完成 | `f0ce9ad` | 未提交 | `bun run lab:ts` 通过；`unknown`/`ApiResult`/递归路由/`satisfies` 均有 `@ts-expect-error` 预期失败。未迁生产代码 |
 | 4 | 严格 TS 工程配置 | 未开始 |  |  |  |
 | 5 | Vite、环境与插件 | 未开始 |  |  |  |
 | 6 | 应用装配 | 未开始 |  |  |  |

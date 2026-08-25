@@ -1,9 +1,7 @@
 name: bun-baseline
 
 on:
-  push:
-    branches: [master, main]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   env-check:
@@ -19,3 +17,7 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Env check
         run: bun run env:check
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Production build
+        run: bun run build

@@ -4,14 +4,19 @@ import { resolve } from "node:path";
 
 const EXPECTED_PACKAGE_MANAGER = "bun@1.4.0";
 
-const ROUND1_FORBIDDEN = [
+const ROUND2_REQUIRED = [
   "vue",
+  "vite",
+  "@vitejs/plugin-vue",
+  "typescript",
+  "vue-tsc",
+] as const;
+
+const ROUND2_FORBIDDEN = [
   "vue-router",
   "pinia",
   "element-plus",
   "@element-plus/icons-vue",
-  "vite",
-  "@vitejs/plugin-vue",
 ] as const;
 
 type PackageJson = {
@@ -78,9 +83,15 @@ if (dependencyCount === 0 && hasLockfile) {
   );
 }
 
-for (const name of ROUND1_FORBIDDEN) {
+for (const name of ROUND2_REQUIRED) {
+  if (!(name in installed)) {
+    errors.push(`round 2 requires dependency ${name}`);
+  }
+}
+
+for (const name of ROUND2_FORBIDDEN) {
   if (name in installed) {
-    errors.push(`round 1 forbids dependency ${name}`);
+    errors.push(`round 2 forbids dependency ${name}`);
   }
 }
 
