@@ -1,10 +1,20 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["src/**/*", "src/**/*.vue"],
-  "exclude": ["src/**/__tests__/*"],
+  "exclude": ["src/**/__tests__/*", "src/**/*.spec.ts"],
   "compilerOptions": {
+    // Browser app only. Do not add "node" here; Vite config uses tsconfig.node.json.
     "noEmit": true,
+    // @vue/tsconfig defaults skipLibCheck to true. Round 4 requires third-party .d.ts to be checked.
+    "skipLibCheck": false,
     "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./src/*"]
     },
