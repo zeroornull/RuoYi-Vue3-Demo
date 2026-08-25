@@ -18,7 +18,11 @@
 
 第 6 轮执行时复核（2026-08-25）：
 
-- 安装 `element-plus@2.14.5`。未装 `@element-plus/icons-vue`、`js-cookie`、`vue-router`、`pinia`。
+- 安装 `element-plus@2.14.5`。未装 `@element-plus/icons-vue`、`vue-router`、`pinia`。
+
+第 8 轮执行时复核（2026-08-25）：
+
+- 安装 `axios@1.19.0`、`js-cookie@3.0.8`、`file-saver@2.0.5`。
 - 应用工程因 EP / `@vueuse` 声明问题将 `skipLibCheck` 改回 `true`，见 `docs/migration-debt.md`。
 
 ## 1. 为什么“最新”必须先解析再安装

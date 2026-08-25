@@ -1,7 +1,8 @@
 # RuoYi-Vue3：Bun + TypeScript + 最新 Vue 生态 20 轮迁移学习手册
 
-> 文档状态：迁移准备阶段  
+> 文档状态：阶段 C 进行中（第 0—8 轮已完成，下一轮第 9 轮 API 合约）  
 > 基线日期：2026-08-24  
+> 进度快照：2026-08-25  
 > 适用对象：希望一边完成真实项目迁移、一边系统学习 Bun、TypeScript、Vue 3 与现代前端工程化的开发者
 
 ## 1. 当前仓库处于什么状态
@@ -13,7 +14,9 @@
 - 本仓库已重新 `git init`，不再保留上游 RuoYi 提交记录，也没有 Git remote。对照旧实现只看本机 `legacy/`。
 - `legacy/` 被 Git 忽略，执行 `git clean -xfd` 之类命令可能删除它。不要把它当成唯一备份。
 
-当前根目录已经是最小可运行的 Vue + Vite + TypeScript 应用，含三环境、dev proxy 与 Element Plus 装配，不含 Router、Pinia 或旧业务页面。
+当前根目录已经是可运行的 Vue + Vite + TypeScript 应用：三环境、dev proxy、Element Plus 装配、共享纯工具、类型化 HTTP 客户端都在。不含 Router、Pinia、业务 API 和业务页面。
+
+最新汇总见 **[迁移轮次进度](./progress.md)**（含 Git 对照、未入库的第 8 轮、债务和下一步）。
 
 ## 2. 为什么要分轮迁移
 

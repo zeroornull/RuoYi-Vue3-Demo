@@ -14,6 +14,8 @@ const ROUND2_REQUIRED = [
 
 const ROUND6_REQUIRED = ["element-plus"] as const;
 
+const ROUND8_REQUIRED = ["axios", "js-cookie", "file-saver"] as const;
+
 const ROUND6_FORBIDDEN = [
   "vue-router",
   "pinia",
@@ -103,6 +105,12 @@ for (const name of ROUND2_REQUIRED) {
 for (const name of ROUND6_REQUIRED) {
   if (!(name in installed)) {
     errors.push(`round 6 requires dependency ${name}`);
+  }
+}
+
+for (const name of ROUND8_REQUIRED) {
+  if (!(name in installed)) {
+    errors.push(`round 8 requires dependency ${name}`);
   }
 }
 

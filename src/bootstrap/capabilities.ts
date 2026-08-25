@@ -35,13 +35,13 @@ export const globalCapabilityPlan = [
     name: "download / $download",
     kind: "globalProperty",
     deleteRound: 8,
-    note: "HTTP download adapter.",
+    note: "Use src/http/download.ts. Do not hang download on globalProperties.",
   },
   {
     name: "$cache",
     kind: "plugin",
     deleteRound: 8,
-    note: "session/local cache adapter.",
+    note: "session/local adapters are src/http/cache.ts. JSON parse failures return null.",
   },
   {
     name: "getConfigKey",

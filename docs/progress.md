@@ -1,36 +1,157 @@
-# 迁移轮次进度表
+# 迁移轮次进度
 
-> 状态只能使用：`未开始`、`进行中`、`已完成`、`阻塞`。  
-> 只有该轮停止条件全部满足并记录验证证据后，才能标为“已完成”。
+> 快照日期：2026-08-25  
+> 当前 HEAD：`e15ba29`（第 7 轮已入库）  
+> 下一轮：第 9 轮 — API 合约  
+> 状态只能使用：`未开始`、`进行中`、`已完成`、`阻塞`。
 
-| 轮次 | 主题 | 状态 | 开始 commit | 结束 commit | 验证记录/备注 |
-| ---: | --- | --- | --- | --- | --- |
-| 0 | 旧项目归档与基线 | 已完成 | 初始提交 | 初始提交 | 288 个旧受管路径保存在 `legacy/`；忽略和文档校验通过。仓库已重新 init，不再保留上游历史 |
-| 1 | Bun 基础 | 已完成 | 初始提交 | 初始提交 | `packageManager: bun@1.4.0`；`bun run env:check` 通过；零依赖无 lockfile（Bun 会删除空锁）；CI/生命周期策略已记录 |
-| 2 | Vue + Vite 最小骨架 | 已完成 | `f0ce9ad` | 未提交 | `vue@3.5.41` 与 `@vue/compiler-sfc@3.5.41` 同 patch；`bun run typecheck`/`build` 通过；dev HMR 与无错误控制台已验证。按要求本轮不提交 |
-| 3 | TypeScript 语言实验 | 已完成 | `f0ce9ad` | 未提交 | `bun run lab:ts` 通过；`unknown`/`ApiResult`/递归路由/`satisfies` 均有 `@ts-expect-error` 预期失败。未迁生产代码 |
-| 4 | 严格 TS 工程配置 | 已完成 | `f0ce9ad` | 未提交 | 覆盖 `skipLibCheck`；app 含 DOM、node 不含；`strictImportMetaEnv` 已开。typecheck/build 通过。未提交 |
-| 5 | Vite、环境与插件 | 已完成 | `f0ce9ad` | 未提交 | 三 mode 构建前缀正确；缺 `VITE_APP_BASE_API` 构建失败；proxy 回 502；未复制旧插件。未提交 |
-| 6 | 应用装配 | 已完成 | `f0ce9ad` | 未提交 | `element-plus@2.14.5`；中文 locale 与暗色 CSS 变量已验证；未装 Router/Pinia。app `skipLibCheck` 记入债务表。未提交 |
-| 7 | 共享类型与工具 | 已完成 | `f0ce9ad` | 未提交 | `bun test tests/unit` 29 pass；`parseTime`/`handleTree`/`tansParams`/字典/密码已锁定。未提交 |
-| 8 | HTTP 边界 | 未开始 |  |  |  |
-| 9 | API 合约 | 未开始 |  |  |  |
-| 10 | Pinia | 未开始 |  |  |  |
-| 11 | 静态 Router | 未开始 |  |  |  |
-| 12 | 动态路由与权限 | 未开始 |  |  |  |
-| 13 | Layout、主题、TagsView、图标 | 未开始 |  |  |  |
-| 14 | 通用组件与表单 | 未开始 |  |  |  |
-| 15 | 认证、个人中心与锁屏 | 未开始 |  |  |  |
-| 16 | 系统管理域 | 未开始 |  |  | 可拆 16.a—16.d |
-| 17 | 监控域 | 未开始 |  |  | 可拆 17.a—17.c |
-| 18 | 工具域与第三方 | 未开始 |  |  |  |
-| 19 | 质量、依赖收敛与切换 | 未开始 |  |  |  |
+## 1. 当前快照
 
-## 更新规则
+第 **0—8** 轮的工作已经做完。第 **0—7** 轮在 Git 里；第 **8** 轮在工作区，**还没有单独提交**。
 
-1. 开始一轮时填入开始 commit 并将状态改为“进行中”。
-2. 验证失败但仍可继续修复时保持“进行中”，不要过早标记“阻塞”。
+仓库已经不是空壳：根目录可 `dev` / `typecheck` / 三环境 `build`，有 Element Plus 装配和类型化 HTTP 客户端。还没有业务 API、Pinia、Router、管理端布局或业务页面。
+
+| 项 | 现状 |
+| --- | --- |
+| Git remote | `origin` → `https://github.com/zeroornull/RuoYi-Vue3-Demo.git` |
+| 旧代码对照 | 本机 `legacy/`（Git 忽略，不是备份） |
+| 可运行？ | 是。最小页 + Element Plus 中文 locale + 暗色变量 |
+| 登录/菜单/CRUD？ | 否 |
+| 单元测试 | `bun test tests/unit`，当前 **39** 条（工具 29 + HTTP 10） |
+| CI | `.github/workflows/bun-baseline.yml`，仅 `workflow_dispatch` |
+
+### 本地复核
+
+```bash
+bun --version                 # 1.4.0
+node --version                # v22.23.2（或满足 ^20.19.0 \|\| >=22.12.0）
+bun install --frozen-lockfile
+bun run env:check
+bun run lab:ts
+bun test tests/unit
+bun run typecheck
+bun run build:stage
+bun run build:prod
+bun run dev                   # http://127.0.0.1:5173/
+```
+
+### 下一轮先做什么
+
+打开 [第 9 轮：API 合约](./rounds/09-api-contracts-by-domain.md)。只迁 API 函数和 DTO，不迁 store / router / 页面。新调用一律走 `config.ruoyi`，不要再写 `headers.isToken`。
+
+## 2. 轮次总表
+
+| 轮次 | 主题 | 状态 | Git | 验证摘要 |
+| ---: | --- | --- | --- | --- |
+| 0 | 旧项目归档与基线 | 已完成 | `f0ce9ad` | `legacy/` 本机快照；手册入库 |
+| 1 | Bun 基础 | 已完成 | `f0ce9ad` | `packageManager: bun@1.4.0`；零依赖时无 lockfile |
+| 2 | Vue + Vite 最小骨架 | 已完成 | `e539f97` | `vue@3.5.41` 与 compiler-sfc 同 patch；HMR 已验 |
+| 3 | TypeScript 语言实验 | 已完成 | `e539f97` | `learning/ts-lab/`；`bun run lab:ts` |
+| 4 | 严格 TS 工程配置 | 已完成 | `a315108` | app/node 分界；`strictImportMetaEnv` |
+| 5 | Vite、环境与插件 | 已完成 | `a9d270a` | 三 mode 前缀正确；proxy 502；未复制旧插件 |
+| 6 | 应用装配 | 已完成 | `a9d270a` | `element-plus@2.14.5`；中文分页「共 100 条」 |
+| 7 | 共享类型与工具 | 已完成 | `e15ba29` | 纯工具 + Bun test |
+| 8 | HTTP 边界 | 已完成 | **工作区未提交** | axios 拦截器、`config.ruoyi`、401/重复提交/blob/下载 |
+| 9 | API 合约 | 未开始 |  |  |
+| 10 | Pinia | 未开始 |  |  |
+| 11 | 静态 Router | 未开始 |  |  |
+| 12 | 动态路由与权限 | 未开始 |  |  |
+| 13 | Layout、主题、TagsView、图标 | 未开始 |  |  |
+| 14 | 通用组件与表单 | 未开始 |  |  |
+| 15 | 认证、个人中心与锁屏 | 未开始 |  |  |
+| 16 | 系统管理域 | 未开始 |  | 可拆 16.a—16.d |
+| 17 | 监控域 | 未开始 |  | 可拆 17.a—17.c |
+| 18 | 工具域与第三方 | 未开始 |  |  |
+| 19 | 质量、依赖收敛与切换 | 未开始 |  |  |
+
+Git 没有严格「一轮一提交」：2 与 3 同在 `e539f97`，5 与 6 同在 `a9d270a`。
+
+## 3. 第 8 轮未入库内容
+
+工作区相对 `e15ba29` 主要是：
+
+```text
+src/http/
+src/types/http.ts
+src/types/axios.d.ts
+tests/unit/http/
+docs/rounds/08-http-auth-cache-download.md
+docs/migration-debt.md          # 增加 headers 兼容行
+package.json / bun.lock         # axios、js-cookie、file-saver
+```
+
+建议提交说明（需要入库时再用）：
+
+```text
+refactor: migrate typed http auth cache and download boundaries
+```
+
+## 4. 现在仓库里有什么
+
+```text
+src/
+  main.ts                 只装配，不写业务
+  bootstrap/              Element Plus、全局能力清单、空的组件/指令槽
+  config/env.ts           运行时校验 VITE_*
+  http/                   类型化 Axios、token、cache、download
+  utils/                  parseTime、handleTree、tansParams、字典/密码/权限纯函数
+  types/                  env、http、dict、tree、id、query
+  composables/useAppTitle.ts
+  App.vue                 第 6 轮 Element Plus 示例页
+vite/                     构建期 env 校验、charset 插件
+learning/ts-lab/          第 3 轮语言实验，不是生产合约
+tests/unit/               utils + http
+```
+
+**刻意没有：** `src/api/`、`src/stores/`、`src/router/`、业务 `views/`、Pinia、Vue Router。
+
+## 5. 依赖（执行时钉死）
+
+| 包 | 版本 | 备注 |
+| --- | ---: | --- |
+| Bun | 1.4.0 | `packageManager` |
+| Vue | 3.5.41 | 与 `@vue/compiler-sfc` 同 patch |
+| Vite | 8.2.2 | `bunx --bun vite` |
+| TypeScript | 6.0.3 | `typescript-eslint` 仍不支持 7.x |
+| Element Plus | 2.14.5 | 全量 `app.use`，产物约 1 MB JS |
+| Axios | 1.19.0 | 拦截器返回 `ApiResponse<T>` |
+| js-cookie | 3.0.8 | `Admin-Token` |
+| file-saver | 2.0.5 | 下载 |
+| sass-embedded | 1.103.1 | 未把 `@parcel/watcher` 加入 trusted |
+
+未装：`vue-router`、`pinia`、`@element-plus/icons-vue`、auto-import、svg-icons、compression。
+
+## 6. 未结债务
+
+完整表见 [migration-debt.md](./migration-debt.md)。
+
+1. **`tsconfig.app.json` `skipLibCheck: true`**  
+   Element Plus / VueUse 声明过不了 `exactOptionalPropertyTypes`。`tsconfig.node.json` 仍是 `false`。
+2. **HTTP 仍读 `headers.isToken` / `repeatSubmit` / `interval`**  
+   新代码用 `config.ruoyi`。第 9 轮 API 全部改完后删除。
+3. **开发端口 5173，不是旧项目的 80**  
+   本机绑 80 会 `EACCES`。
+4. **`VITE_BUILD_COMPRESS=gzip` 只校验，不产出 `.gz`**  
+   压缩交给部署层。
+5. **全局 `$appTitle` 仍挂着**  
+   页面已改用 `useAppTitle()`。
+
+## 7. 阶段位置
+
+```text
+阶段 A  Bun + 骨架           第 1—2 轮   完成
+阶段 B  TS + Vite            第 3—5 轮   完成
+阶段 C  基础设施 + API       第 6—9 轮   做到第 8；第 9 未开始
+阶段 D  状态 / 路由 / 权限   第 10—12 轮  未开始
+阶段 E  组件与业务页         第 13—18 轮  未开始
+阶段 F  质量与切换           第 19 轮     未开始
+```
+
+## 8. 更新规则
+
+1. 开始一轮时填入 Git 基线并将状态改为「进行中」。
+2. 验证失败但仍可继续修复时保持「进行中」，不要过早标记「阻塞」。
 3. 出现外部权限、服务或协议问题时，记录具体阻塞证据。
-4. 完成后填入结束 commit、验证命令和结果摘要。
-5. 若拆分子批次，在备注中记录每个子批次 commit；父轮只有全部子批次完成后才能完成。
-
+4. 完成后填入结束 commit（或注明仍在工作区）、验证命令和结果摘要。
+5. 若拆分子批次，在备注中记录每个子批次；父轮只有全部子批次完成后才能完成。
+6. 本表是进度的唯一汇总。各轮文档里的「本轮记录」可以更细，但不要和本表打架。
