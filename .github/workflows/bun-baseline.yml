@@ -19,5 +19,9 @@ jobs:
         run: bun run env:check
       - name: Typecheck
         run: bun run typecheck
+      - name: Development build
+        run: bunx --bun vite build --mode development
+      - name: Staging build
+        run: bun run build:stage
       - name: Production build
-        run: bun run build
+        run: bun run build:prod

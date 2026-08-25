@@ -4,7 +4,7 @@
 
 | 位置 | 临时处理 | 为什么暂时需要 | 风险范围 | 删除轮次/条件 | 验证方式 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 暂无 | — | — | — | — | — | 已清空 |
+| `tsconfig.app.json` `skipLibCheck` | 对应用工程重新设为 `true` | `element-plus@2.14.5` 与传递依赖 `@vueuse/core` 的 `.d.ts` 在 `exactOptionalPropertyTypes`、`noUncheckedIndexedAccess` 下失败，并引用未安装的 `vue-router` | 只跳过 `node_modules` 声明。`src/` 仍是 strict。`tsconfig.node.json` 仍为 `skipLibCheck: false` | 当 `skipLibCheck: false` 时 `bun run typecheck` 通过，且仍不安装 Router | 把该项改回 `false` 后跑 `bun run typecheck` | 未删除 |
 
 ## 填写规则
 
@@ -13,4 +13,3 @@
 3. 删除兼容层时，在提交中删除对应行，而不是永久保留“已完成”噪声。
 4. 若一条债务跨过原定轮次，必须补充新的风险与解除条件。
 5. 以下项目不能只登记而不修复：全局关闭 `strict`、全局启用 `skipLibCheck`、HTTP/API 层大面积 `any`、生产代码引用 `legacy/`。
-

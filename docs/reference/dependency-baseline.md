@@ -11,6 +11,16 @@
 - 脚手架默认 `@types/node@24` 与 `@tsconfig/node24`。本仓库 CI/本机是 Node 22，改为 `@types/node@22.20.1`，不安装 Node 24 预设。
 - 未安装脚手架中的 `vite-plugin-vue-devtools`、`npm-run-all2`。
 
+第 5 轮执行时复核（2026-08-25）：
+
+- 安装 `sass-embedded@1.103.1`。Bun 拦截了传递依赖 `@parcel/watcher` 的 `install` 脚本；`sass --version` 仍为 1.103.1，未加入 `trustedDependencies`。
+- 未安装 `vite-plugin-svg-icons`、`vite-plugin-compression`、`unplugin-auto-import`、`unplugin-vue-setup-extend-plus`。
+
+第 6 轮执行时复核（2026-08-25）：
+
+- 安装 `element-plus@2.14.5`。未装 `@element-plus/icons-vue`、`js-cookie`、`vue-router`、`pinia`。
+- 应用工程因 EP / `@vueuse` 声明问题将 `skipLibCheck` 改回 `true`，见 `docs/migration-debt.md`。
+
 ## 1. 为什么“最新”必须先解析再安装
 
 包的 `latest` 标签只代表发布者设置的默认标签，不保证：

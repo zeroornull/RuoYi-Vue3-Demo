@@ -1,0 +1,82 @@
+export type CapabilityKind =
+  | "globalProperty"
+  | "plugin"
+  | "directive"
+  | "globalComponent"
+  | "sideEffectImport";
+
+export type GlobalCapability = {
+  name: string;
+  kind: CapabilityKind;
+  deleteRound: number;
+  note: string;
+};
+
+export const globalCapabilityPlan = [
+  {
+    name: "$appTitle",
+    kind: "globalProperty",
+    deleteRound: 6,
+    note: "Exercise only. App.vue already uses useAppTitle(); remove when no $appTitle callers remain.",
+  },
+  {
+    name: "useDict",
+    kind: "globalProperty",
+    deleteRound: 7,
+    note: "Replace with an explicit composable when dict utils migrate.",
+  },
+  {
+    name: "parseTime / resetForm / handleTree / addDateRange / selectDictLabel(s)",
+    kind: "globalProperty",
+    deleteRound: 7,
+    note: "Pure utils. Callers should import from src/utils.",
+  },
+  {
+    name: "download / $download",
+    kind: "globalProperty",
+    deleteRound: 8,
+    note: "HTTP download adapter.",
+  },
+  {
+    name: "$cache",
+    kind: "plugin",
+    deleteRound: 8,
+    note: "session/local cache adapter.",
+  },
+  {
+    name: "getConfigKey",
+    kind: "globalProperty",
+    deleteRound: 9,
+    note: "System config API.",
+  },
+  {
+    name: "Pinia",
+    kind: "plugin",
+    deleteRound: 10,
+    note: "Not installed this round. Slot reserved after Element Plus.",
+  },
+  {
+    name: "Vue Router",
+    kind: "plugin",
+    deleteRound: 11,
+    note: "Not installed this round. Slot reserved after Pinia.",
+  },
+  {
+    name: "$auth / v-hasPermi / v-hasRole / permission.js",
+    kind: "sideEffectImport",
+    deleteRound: 12,
+    note: "Do not import permission as a side effect in main.ts.",
+  },
+  {
+    name: "$tab / svg-icon / elementIcons",
+    kind: "globalComponent",
+    deleteRound: 13,
+    note: "Layout and icon sprite.",
+  },
+  {
+    name: "DictTag / Pagination / FileUpload / ImageUpload / ImagePreview / RightToolbar / Editor / $modal / v-copyText",
+    kind: "globalComponent",
+    deleteRound: 14,
+    note: "Shared components. Do not register them until those modules exist.",
+  },
+] as const satisfies readonly GlobalCapability[];

@@ -12,10 +12,11 @@ const ROUND2_REQUIRED = [
   "vue-tsc",
 ] as const;
 
-const ROUND2_FORBIDDEN = [
+const ROUND6_REQUIRED = ["element-plus"] as const;
+
+const ROUND6_FORBIDDEN = [
   "vue-router",
   "pinia",
-  "element-plus",
   "@element-plus/icons-vue",
 ] as const;
 
@@ -83,15 +84,31 @@ if (dependencyCount === 0 && hasLockfile) {
   );
 }
 
+for (const file of [
+  ".env.development",
+  ".env.staging",
+  ".env.production",
+] as const) {
+  if (!existsSync(resolve(cwd, file))) {
+    errors.push(`missing ${file}`);
+  }
+}
+
 for (const name of ROUND2_REQUIRED) {
   if (!(name in installed)) {
     errors.push(`round 2 requires dependency ${name}`);
   }
 }
 
-for (const name of ROUND2_FORBIDDEN) {
+for (const name of ROUND6_REQUIRED) {
+  if (!(name in installed)) {
+    errors.push(`round 6 requires dependency ${name}`);
+  }
+}
+
+for (const name of ROUND6_FORBIDDEN) {
   if (name in installed) {
-    errors.push(`round 2 forbids dependency ${name}`);
+    errors.push(`round 6 forbids dependency ${name}`);
   }
 }
 

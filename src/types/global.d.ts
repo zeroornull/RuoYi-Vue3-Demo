@@ -1,5 +1,7 @@
 export {};
 
 declare module "vue" {
-  interface ComponentCustomProperties {}
+  interface ComponentCustomProperties {
+    $appTitle: string;
+  }
 }

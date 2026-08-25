@@ -1,5 +1,5 @@
 {
-  "include": ["vite.config.ts"],
+  "include": ["vite.config.ts", "vite/**/*.ts"],
   "compilerOptions": {
     // Node/Vite tooling only. Do not add "DOM"; that belongs to tsconfig.app.json.
     "target": "ES2023",
@@ -9,6 +9,7 @@
     "types": ["node"],
     "strict": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "skipLibCheck": false,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,

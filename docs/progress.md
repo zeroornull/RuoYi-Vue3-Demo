@@ -10,8 +10,8 @@
 | 2 | Vue + Vite 最小骨架 | 已完成 | `f0ce9ad` | 未提交 | `vue@3.5.41` 与 `@vue/compiler-sfc@3.5.41` 同 patch；`bun run typecheck`/`build` 通过；dev HMR 与无错误控制台已验证。按要求本轮不提交 |
 | 3 | TypeScript 语言实验 | 已完成 | `f0ce9ad` | 未提交 | `bun run lab:ts` 通过；`unknown`/`ApiResult`/递归路由/`satisfies` 均有 `@ts-expect-error` 预期失败。未迁生产代码 |
 | 4 | 严格 TS 工程配置 | 已完成 | `f0ce9ad` | 未提交 | 覆盖 `skipLibCheck`；app 含 DOM、node 不含；`strictImportMetaEnv` 已开。typecheck/build 通过。未提交 |
-| 5 | Vite、环境与插件 | 未开始 |  |  |  |
-| 6 | 应用装配 | 未开始 |  |  |  |
+| 5 | Vite、环境与插件 | 已完成 | `f0ce9ad` | 未提交 | 三 mode 构建前缀正确；缺 `VITE_APP_BASE_API` 构建失败；proxy 回 502；未复制旧插件。未提交 |
+| 6 | 应用装配 | 已完成 | `f0ce9ad` | 未提交 | `element-plus@2.14.5`；中文 locale 与暗色 CSS 变量已验证；未装 Router/Pinia。app `skipLibCheck` 记入债务表。未提交 |
 | 7 | 共享类型与工具 | 未开始 |  |  |  |
 | 8 | HTTP 边界 | 未开始 |  |  |  |
 | 9 | API 合约 | 未开始 |  |  |  |

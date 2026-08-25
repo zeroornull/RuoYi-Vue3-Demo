@@ -13,7 +13,7 @@
 - 本仓库已重新 `git init`，不再保留上游 RuoYi 提交记录，也没有 Git remote。对照旧实现只看本机 `legacy/`。
 - `legacy/` 被 Git 忽略，执行 `git clean -xfd` 之类命令可能删除它。不要把它当成唯一备份。
 
-当前根目录已经是最小可运行的 Vue + Vite + TypeScript 应用，不含 Router、Pinia、Element Plus 或旧业务。第 1 轮固定了 Bun 仓库规则；第 2 轮恢复了空壳启动能力。
+当前根目录已经是最小可运行的 Vue + Vite + TypeScript 应用，含三环境、dev proxy 与 Element Plus 装配，不含 Router、Pinia 或旧业务页面。
 
 ## 2. 为什么要分轮迁移
 
