@@ -19,6 +19,8 @@ jobs:
         run: bun run env:check
       - name: Typecheck
         run: bun run typecheck
+      - name: Unit tests
+        run: bun test tests/unit
       - name: Development build
         run: bunx --bun vite build --mode development
       - name: Staging build

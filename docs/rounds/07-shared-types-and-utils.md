@@ -1,5 +1,7 @@
 # 第 7 轮：共享类型、纯工具与领域基础
 
+> 状态：已完成。按要求未提交。测试使用 Bun test。
+
 ## 主要变量
 
 本轮迁移没有 UI 副作用的共享类型和纯函数，为 HTTP、API、store 和页面提供可靠基础。
@@ -70,13 +72,48 @@ bun run build
 
 若测试框架尚未正式加入，可先使用 Bun test；第 19 轮再统一测试工具。不要因此省略行为锁定。
 
+2026-08-25 实测：`bun test tests/unit` 29 pass / 0 fail；`bun run typecheck` 与 `bun run build` 通过。
+
+未迁（有 UI/store/API 副作用）：`request.js`、`useDict`、`resetForm`、`scroll-to.js`、`handleThemeStyle` 的 DOM 写入、`dynamicTitle` 的 document 写入、代码生成器。
+
+旧缺陷记录：`sprintf` 在 ESM 严格模式里引用未定义的 `args`，本轮不复刻该实现。`parseTime(0)` 因旧 `!time` 判断返回 `null`，不是 epoch。
+
 ## 停止条件
 
-- [ ] HTTP 前置依赖的纯工具已迁移。
-- [ ] 核心纯函数有边界测试。
-- [ ] 共享类型没有 `any` 和超级公共接口。
-- [ ] 浏览器副作用没有混入纯工具层。
-- [ ] 旧行为变化有明确单独记录。
+- [x] HTTP 前置依赖的纯工具已迁移。
+- [x] 核心纯函数有边界测试。
+- [x] 共享类型没有 `any` 和超级公共接口。
+- [x] 浏览器副作用没有混入纯工具层。
+- [x] 旧行为变化有明确单独记录。
+
+## 本轮记录
+
+- 开始 commit：`f0ce9ad`
+- 实际依赖版本：无新包。测试用 Bun test
+- 本轮假设：`handleTree` 可以直接给泛型对象写 `node[children] = []`
+- 发现的隐式约定：TS 6 对泛型索引赋值报 `TS2862`，写入必须经过 `Record<string, unknown>` 断言。`parseTime(0)` 按旧 `!time` 是空值
+- 新增兼容债：无
+- 验证命令与结果：`bun test tests/unit` 29 pass；typecheck/build 通过
+- 结束 commit：未提交
+
+## 第 7 轮复盘
+
+- 我原先的假设：把 `ruoyi.js` 整文件改后缀即可。
+- TypeScript/测试发现的问题：`resetForm` 依赖 Options API 的 `this`；`permission.js`/`dict.js` 一上来就绑 store。纯函数必须把 owned permissions 当成参数。
+- 最终的类型或接口设计：`EntityId` 用 string；字典 `value` 用 string，查找仍用 `==` 兼容数字；树是 `T extends Record<string, unknown>`，没有超级节点接口。
+- 保留的兼容层：无。
+- 下一轮前必须偿还的技术债：无。第 8 轮 HTTP 会用到 `tansParams` 和 `blobValidate`。
+
+## 本轮产物
+
+```text
+src/types/id.ts
+src/types/dict.ts
+src/types/tree.ts
+src/types/query.ts
+src/utils/*.ts
+tests/unit/utils/*.test.ts
+```
 
 ## 推荐提交
 

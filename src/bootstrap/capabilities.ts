@@ -23,13 +23,13 @@ export const globalCapabilityPlan = [
     name: "useDict",
     kind: "globalProperty",
     deleteRound: 7,
-    note: "Replace with an explicit composable when dict utils migrate.",
+    note: "Label lookup is in src/utils/dict-label.ts. The store/API composable waits for rounds 9–10.",
   },
   {
     name: "parseTime / resetForm / handleTree / addDateRange / selectDictLabel(s)",
     kind: "globalProperty",
     deleteRound: 7,
-    note: "Pure utils. Callers should import from src/utils.",
+    note: "Pure functions live in src/utils. resetForm stays unmigrated (Options API this.$refs).",
   },
   {
     name: "download / $download",

@@ -12,7 +12,7 @@
 | 4 | 严格 TS 工程配置 | 已完成 | `f0ce9ad` | 未提交 | 覆盖 `skipLibCheck`；app 含 DOM、node 不含；`strictImportMetaEnv` 已开。typecheck/build 通过。未提交 |
 | 5 | Vite、环境与插件 | 已完成 | `f0ce9ad` | 未提交 | 三 mode 构建前缀正确；缺 `VITE_APP_BASE_API` 构建失败；proxy 回 502；未复制旧插件。未提交 |
 | 6 | 应用装配 | 已完成 | `f0ce9ad` | 未提交 | `element-plus@2.14.5`；中文 locale 与暗色 CSS 变量已验证；未装 Router/Pinia。app `skipLibCheck` 记入债务表。未提交 |
-| 7 | 共享类型与工具 | 未开始 |  |  |  |
+| 7 | 共享类型与工具 | 已完成 | `f0ce9ad` | 未提交 | `bun test tests/unit` 29 pass；`parseTime`/`handleTree`/`tansParams`/字典/密码已锁定。未提交 |
 | 8 | HTTP 边界 | 未开始 |  |  |  |
 | 9 | API 合约 | 未开始 |  |  |  |
 | 10 | Pinia | 未开始 |  |  |  |
