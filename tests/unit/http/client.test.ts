@@ -94,8 +94,10 @@ describe("http client", () => {
     expect(headerValue(calls[0]!, "Authorization")).toBeUndefined();
 
     calls.length = 0;
-    await withToken.get("/legacy-anon", { headers: { isToken: false } });
-    expect(headerValue(calls[0]!, "Authorization")).toBeUndefined();
+    await withToken.get("/ordinary-headers", {
+      headers: { "X-Request-Source": "test" },
+    });
+    expect(headerValue(calls[0]!, "Authorization")).toBe("Bearer abc");
   });
 
   test("serializes GET params onto the url", async () => {

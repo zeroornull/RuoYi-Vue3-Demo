@@ -71,11 +71,11 @@ bun run build
 
 ## 停止条件
 
-- [ ] login/menu API 可供第 10—12 轮使用。
-- [ ] 所有旧 API 文件都有明确迁移状态。
-- [ ] 分页、普通、空和二进制响应已分型。
-- [ ] 契约样本经过脱敏并可重复测试。
-- [ ] API 层无无理由 `any`。
+- [x] login/menu API 可供第 10—12 轮使用。
+- [x] 所有旧 API 文件都有明确迁移状态。
+- [x] 分页、普通、空和二进制响应已分型。
+- [x] 契约样本经过脱敏并可重复测试。
+- [x] API 层无无理由 `any`。
 
 ## 推荐提交
 
@@ -83,3 +83,12 @@ bun run build
 refactor: migrate typed api contracts by domain
 ```
 
+## 本轮记录
+
+- Git 基线：`69d32be`；完成状态：工作区未提交。
+- 协议参考：本机 `legacy/` v3.9.2 与官方 `typescript` 分支 `8563440e`；在此基础上删除官方类型里的 `any`，将后端日期保留为字符串，并将实体 ID 统一为字符串。
+- 迁移范围：`src/api/migration-manifest.ts` 明确记录 19/19 个旧 API 文件；Swagger UI 与生成代码 Blob 另建边界。
+- 关键解析：login、getInfo、getRouters、分页响应从 `unknown` 做运行时验证；拒绝不安全的 number ID。
+- 脱敏样本：`tests/contracts/samples/` 中 login、getInfo、getRouters、user page 共 4 份，不含真实 token、密码、手机号或个人信息。
+- HTTP 债务：API 匿名/防重复开关全部使用 `config.ruoyi`；已删除 `headers.isToken` / `repeatSubmit` / `interval` 兼容读取与债务记录。
+- 验证：`bun test tests/unit` 43 条；包含契约样本后 47 条；`bun run typecheck`、`bun run build`、`bun run build:stage`、`bun run build:prod` 均通过。

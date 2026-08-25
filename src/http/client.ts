@@ -5,7 +5,7 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
-import type { ApiResponse, RepeatSubmitRecord, RuoYiRequestConfig } from "../types/http";
+import type { RepeatSubmitRecord, RuoYiRequestConfig } from "../types/http";
 import { isRecord } from "../utils/guard";
 import { tansParams } from "../utils/params";
 import { resolveErrorMessage } from "../utils/error-code";
@@ -36,22 +36,22 @@ export type HttpDeps = {
 
 export type HttpClient = {
   raw: AxiosInstance;
-  get: <T>(url: string, config?: RuoYiRequestConfig) => Promise<ApiResponse<T>>;
-  post: <T>(
+  get: <R>(url: string, config?: RuoYiRequestConfig) => Promise<R>;
+  post: <R>(
     url: string,
     data?: unknown,
     config?: RuoYiRequestConfig,
-  ) => Promise<ApiResponse<T>>;
-  put: <T>(
+  ) => Promise<R>;
+  put: <R>(
     url: string,
     data?: unknown,
     config?: RuoYiRequestConfig,
-  ) => Promise<ApiResponse<T>>;
-  delete: <T>(
+  ) => Promise<R>;
+  delete: <R>(
     url: string,
     config?: RuoYiRequestConfig,
-  ) => Promise<ApiResponse<T>>;
-  request: <T>(config: RuoYiRequestConfig) => Promise<ApiResponse<T>>;
+  ) => Promise<R>;
+  request: <R>(config: RuoYiRequestConfig) => Promise<R>;
   requestBlob: (config: RuoYiRequestConfig) => Promise<Blob>;
 };
 
@@ -225,9 +225,11 @@ export function createHttpClient(deps: HttpDeps): HttpClient {
     },
   );
 
-  async function request<T>(config: RuoYiRequestConfig): Promise<ApiResponse<T>> {
-    const data = await instance.request<unknown, ApiResponse<T>>(config);
-    return data;
+  async function request<R>(config: RuoYiRequestConfig): Promise<R> {
+    const data = await instance.request<unknown, R>(config);
+    // The response interceptor returns the business envelope instead of AxiosResponse.
+    // Axios 1.19 cannot reduce its conditional AxiosResponseResult for a generic R.
+    return data as R;
   }
 
   async function requestBlob(config: RuoYiRequestConfig): Promise<Blob> {

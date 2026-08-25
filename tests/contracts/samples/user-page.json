@@ -1,0 +1,14 @@
+{
+  "code": 200,
+  "msg": "success",
+  "total": 1,
+  "rows": [
+    {
+      "userId": "9007199254740993",
+      "userName": "sample_user",
+      "nickName": "示例用户",
+      "status": "0",
+      "createTime": "2026-08-25 09:30:00"
+    }
+  ]
+}

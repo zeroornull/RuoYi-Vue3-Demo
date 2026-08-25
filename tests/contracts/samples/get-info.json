@@ -1,0 +1,18 @@
+{
+  "code": 200,
+  "msg": "success",
+  "user": {
+    "userId": "9007199254740993",
+    "deptId": "101",
+    "userName": "sample_user",
+    "nickName": "示例用户",
+    "email": null,
+    "phonenumber": null,
+    "avatar": null,
+    "status": "0"
+  },
+  "roles": ["common"],
+  "permissions": ["system:user:list"],
+  "isDefaultModifyPwd": false,
+  "isPasswordExpired": false
+}
