@@ -29,6 +29,12 @@ export const REMEMBER_ME_DAYS = 30;
 export const DEFAULT_LOGIN_USERNAME = "admin";
 export const DEFAULT_LOGIN_PASSWORD = "admin123";
 
+export const LOGIN_REQUIRED_MESSAGES = {
+  username: "请输入您的账号",
+  password: "请输入您的密码",
+  code: "请输入验证码",
+} as const;
+
 export function emptyLoginForm(): LoginFormModel {
   return {
     username: DEFAULT_LOGIN_USERNAME,

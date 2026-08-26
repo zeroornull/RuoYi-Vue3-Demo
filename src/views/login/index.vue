@@ -14,6 +14,7 @@ import {
   applyCaptcha,
   canSubmitAuth,
   emptyLoginForm,
+  LOGIN_REQUIRED_MESSAGES,
   nextAuthStatus,
   readRememberMe,
   safeLoginRedirect,
@@ -37,9 +38,9 @@ const registerEnabled = ref(false);
 const status = ref<AuthSubmitStatus>("idle");
 
 const loginRules: FormRules<LoginFormModel> = {
-  username: [{ required: true, trigger: "blur", message: "请输入您的账号" }],
-  password: [{ required: true, trigger: "blur", message: "请输入您的密码" }],
-  code: [{ required: true, trigger: "change", message: "请输入验证码" }],
+  username: [{ required: true, trigger: "blur", message: LOGIN_REQUIRED_MESSAGES.username }],
+  password: [{ required: true, trigger: "blur", message: LOGIN_REQUIRED_MESSAGES.password }],
+  code: [{ required: true, trigger: "change", message: LOGIN_REQUIRED_MESSAGES.code }],
 };
 
 const loading = computed(() => status.value === "submitting");
