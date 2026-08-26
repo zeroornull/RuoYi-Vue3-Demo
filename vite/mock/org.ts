@@ -280,6 +280,14 @@ function applySort<T extends { orderNum: number }>(
   return ok({ code: 200, msg: "操作成功" });
 }
 
+export function listMockMenuTree(): Array<{
+  id: string;
+  label: string;
+  children: unknown[];
+}> {
+  return toMenuTreeSelect(menus);
+}
+
 function toMenuTreeSelect(
   rows: MenuRow[],
 ): Array<{ id: string; label: string; children: unknown[] }> {
@@ -417,16 +425,7 @@ function dispatchMenu(method: string, path: string, request: MockRequest): MockR
     return ok({ code: 200, msg: "查询成功", data: rows });
   }
   if (method === "GET" && path === "/system/menu/treeselect") {
-    return ok({ code: 200, msg: "操作成功", data: toMenuTreeSelect(menus) });
-  }
-  const roleTree = restAfter(path, "/system/menu/roleMenuTreeselect");
-  if (method === "GET" && roleTree) {
-    return ok({
-      code: 200,
-      msg: "操作成功",
-      checkedKeys: [],
-      menus: toMenuTreeSelect(menus),
-    });
+    return ok({ code: 200, msg: "操作成功", data: listMockMenuTree() });
   }
   if (method === "PUT" && path === "/system/menu/updateSort") {
     if (!isRecord(request.body)) {
@@ -512,7 +511,13 @@ function dispatchMenu(method: string, path: string, request: MockRequest): MockR
     return ok({ code: 200, msg: "操作成功" });
   }
   const rest = restAfter(path, "/system/menu");
-  if (rest === null || rest === "" || rest === "list" || rest === "treeselect") {
+  if (
+    rest === null ||
+    rest === "" ||
+    rest === "list" ||
+    rest === "treeselect" ||
+    rest.startsWith("roleMenuTreeselect")
+  ) {
     return null;
   }
   if (method === "GET") {

@@ -64,4 +64,19 @@ export const migratedViewLoaders: Record<string, LazyRouteComponent> = {
     "分配角色",
     () => import("../views/system/user/authRole.vue"),
   ),
+  "system/role/index": loadVuePage(
+    "Role",
+    "角色管理",
+    () => import("../views/system/role/index.vue"),
+  ),
+  "system/role/authUser": loadVuePage(
+    "AuthUser",
+    "分配用户",
+    () => import("../views/system/role/authUser.vue"),
+  ),
+  "system/role/selectUser": loadVuePage(
+    "SelectUser",
+    "选择用户",
+    () => import("../views/system/role/selectUser.vue"),
+  ),
 };

@@ -15,6 +15,9 @@ const migrated = [
   "system/user/index",
   "system/user/view",
   "system/user/authRole",
+  "system/role/index",
+  "system/role/authUser",
+  "system/role/selectUser",
 ] as const;
 
 describe("16.a migrated views", () => {
@@ -42,6 +45,9 @@ describe("16.a migrated views", () => {
       "src/views/system/menu/index.vue",
       "src/views/system/user/index.vue",
       "src/views/system/user/authRole.vue",
+      "src/views/system/role/index.vue",
+      "src/views/system/role/authUser.vue",
+      "src/views/system/role/selectUser.vue",
     ];
     const sources = await Promise.all(files.map((file) => Bun.file(file).text()));
     for (const source of sources) {
@@ -56,5 +62,8 @@ describe("16.a migrated views", () => {
     expect(sources[6]).toContain("system:menu:edit");
     expect(sources[7]).toContain("system:user:add");
     expect(sources[8]).toContain("updateAuthRole");
+    expect(sources[9]).toContain("system:role:add");
+    expect(sources[10]).toContain("system:role:remove");
+    expect(sources[11]).toContain("system:role:add");
   });
 });

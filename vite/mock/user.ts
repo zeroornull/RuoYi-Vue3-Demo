@@ -27,13 +27,18 @@ type UserRow = {
   roleIds: string[];
 };
 
-type RoleRow = {
+export type MockRoleRow = {
   roleId: string;
   roleName: string;
   roleKey: string;
   roleSort: number;
-  dataScope: "1";
+  dataScope: "1" | "2" | "3" | "4" | "5";
   status: "0" | "1";
+  remark: string;
+  menuCheckStrictly: boolean;
+  deptCheckStrictly: boolean;
+  menuIds: string[];
+  deptIds: string[];
   createTime: string;
 };
 
@@ -45,35 +50,68 @@ type PostRow = {
   status: "0" | "1";
 };
 
-const roles: RoleRow[] = [
-  {
-    roleId: "1",
-    roleName: "超级管理员",
-    roleKey: "admin",
-    roleSort: 1,
-    dataScope: "1",
-    status: "0",
-    createTime: "2026-01-01 00:00:00",
-  },
-  {
-    roleId: "2",
-    roleName: "普通角色",
-    roleKey: "common",
-    roleSort: 2,
-    dataScope: "1",
-    status: "0",
-    createTime: "2026-01-01 00:00:00",
-  },
-  {
-    roleId: "3",
-    roleName: "停用角色",
-    roleKey: "disabled",
-    roleSort: 3,
-    dataScope: "1",
-    status: "1",
-    createTime: "2026-01-01 00:00:00",
-  },
-];
+let roles: MockRoleRow[] = [];
+
+function seedRoles(): MockRoleRow[] {
+  return [
+    {
+      roleId: "1",
+      roleName: "超级管理员",
+      roleKey: "admin",
+      roleSort: 1,
+      dataScope: "1",
+      status: "0",
+      remark: "超级管理员",
+      menuCheckStrictly: true,
+      deptCheckStrictly: true,
+      menuIds: ["1", "100", "1001", "101", "102", "103", "2", "200"],
+      deptIds: ["100", "101", "103"],
+      createTime: "2026-01-01 00:00:00",
+    },
+    {
+      roleId: "2",
+      roleName: "普通角色",
+      roleKey: "common",
+      roleSort: 2,
+      dataScope: "2",
+      status: "0",
+      remark: "",
+      menuCheckStrictly: true,
+      deptCheckStrictly: true,
+      menuIds: ["1", "100"],
+      deptIds: ["103"],
+      createTime: "2026-01-01 00:00:00",
+    },
+    {
+      roleId: "3",
+      roleName: "停用角色",
+      roleKey: "disabled",
+      roleSort: 3,
+      dataScope: "1",
+      status: "1",
+      remark: "停用",
+      menuCheckStrictly: true,
+      deptCheckStrictly: true,
+      menuIds: [],
+      deptIds: [],
+      createTime: "2026-01-01 00:00:00",
+    },
+    {
+      roleId: "4",
+      roleName: "只读角色",
+      roleKey: "readonly",
+      roleSort: 4,
+      dataScope: "5",
+      status: "0",
+      remark: "",
+      menuCheckStrictly: true,
+      deptCheckStrictly: true,
+      menuIds: ["1"],
+      deptIds: [],
+      createTime: "2026-03-01 00:00:00",
+    },
+  ];
+}
 
 const posts: PostRow[] = [
   { postId: "1", postCode: "ceo", postName: "董事长", postSort: 1, status: "0" },
@@ -144,7 +182,63 @@ function seedUsers(): UserRow[] {
 }
 
 export function resetMockUserState(): void {
+  roles = seedRoles();
   users = seedUsers();
+}
+
+export function getMockRoles(): MockRoleRow[] {
+  return roles;
+}
+
+export function getMockUsers(): UserRow[] {
+  return users;
+}
+
+export function addMockRole(input: Omit<MockRoleRow, "roleId" | "createTime">): MockRoleRow {
+  const row: MockRoleRow = {
+    ...input,
+    roleId: nextId(roles.map((item) => item.roleId)),
+    createTime: now,
+  };
+  roles.push(row);
+  return row;
+}
+
+export function updateMockRole(roleId: string, patch: Partial<MockRoleRow>): MockRoleRow | null {
+  const row = roles.find((item) => item.roleId === roleId);
+  if (!row) {
+    return null;
+  }
+  Object.assign(row, patch);
+  return row;
+}
+
+export function deleteMockRoles(ids: readonly string[]): boolean {
+  const blocked = ids.includes("1");
+  if (blocked) {
+    return false;
+  }
+  const before = roles.length;
+  roles = roles.filter((item) => !ids.includes(item.roleId));
+  return roles.length !== before;
+}
+
+export function addRoleToUsers(roleId: string, userIds: readonly string[]): void {
+  for (const userId of userIds) {
+    const row = users.find((item) => item.userId === userId);
+    if (row && !row.roleIds.includes(roleId)) {
+      row.roleIds = [...row.roleIds, roleId];
+    }
+  }
+}
+
+export function removeRoleFromUsers(roleId: string, userIds: readonly string[]): void {
+  for (const userId of userIds) {
+    const row = users.find((item) => item.userId === userId);
+    if (row) {
+      row.roleIds = row.roleIds.filter((id) => id !== roleId);
+    }
+  }
 }
 
 resetMockUserState();

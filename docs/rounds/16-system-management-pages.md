@@ -103,13 +103,20 @@ bun run build:stage
 - Mock：`vite/mock/user.ts` 覆盖 list/deptTree/CRUD/resetPwd/changeStatus/authRole/export/import；超级管理员 userId=`1` 不可删改。
 - 验证：`bun run typecheck`；`bun test tests/unit tests/system`（157）；`bun run build:stage`。浏览器：用户列表/部门树/详情抽屉/分配角色。
 
+### 16.d 角色与授权（工作区，未单独提交）
+
+- 页面：`src/views/system/role/{index,authUser,selectUser}`。列表分页、状态开关、导出；新增/编辑菜单树（half-checked + checked keys）；数据权限部门树（`dataScope==="2"` 时显示）；隐藏路由 `/system/role-auth/user/:roleId` 分配用户，`activeMenu=/system/role`。超级管理员 roleId=`1` 不可删改。
+- Query / Create / Update / Row 分模型；CRUD 组合函数复用 `src/composables/crud.ts`，没有做成配置驱动框架。
+- Mock：`vite/mock/role.ts` 覆盖 list/export/CRUD/changeStatus/dataScope、allocated/unallocated、cancel/selectAll、deptTree、roleMenuTreeselect；更新角色时未提交的 menuIds/deptIds 不会被清空。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system`（161）；`bun run build:stage`。浏览器：角色列表搜索/新增、编辑菜单半选、数据权限部门树、分配用户、选择用户授权与取消授权。
+
 ## 停止条件
 
-- [ ] 16.a—16.d 均有独立提交和验证证据。（16.a—16.c 已有验证证据，仍在工作区，未单独提交）
-- [ ] 核心 CRUD、树和授权行为与旧系统一致。（16.a—16.c 已迁；角色授权属 16.d）
-- [x] 16.a—16.c 查询/创建/更新/行模型没有混成一个全可选接口。
-- [x] 16.a—16.c 权限不足路径：无 token 的 `/system/*` 返回 401；按钮使用 `v-hasPermi`。
-- [x] 16.a—16.c 页面不引用 `legacy/`。
+- [x] 16.a—16.d 均有验证证据（仍在工作区，未单独提交）。
+- [x] 核心 CRUD、树和授权行为与旧系统一致。
+- [x] 16.a—16.d 查询/创建/更新/行模型没有混成一个全可选接口。
+- [x] 16.a—16.d 权限不足路径：无 token 的 `/system/*` 返回 401；按钮使用 `v-hasPermi`。
+- [x] 16.a—16.d 页面不引用 `legacy/`。
 
 ## 推荐提交
 

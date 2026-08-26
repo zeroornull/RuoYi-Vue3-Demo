@@ -14,6 +14,11 @@ const loadAuthRolePage = loadVuePage(
   "分配角色",
   () => import("../views/system/user/authRole.vue"),
 );
+const loadAuthUserPage = loadVuePage(
+  "AuthUser",
+  "分配用户",
+  () => import("../views/system/role/authUser.vue"),
+);
 
 export const protectedRoutes: AppRouteRecordRaw[] = [
   {
@@ -41,7 +46,7 @@ export const protectedRoutes: AppRouteRecordRaw[] = [
       {
         path: "user/:roleId(\\d+)",
         name: "AuthUser",
-        component: loadDynamicPage,
+        component: loadAuthUserPage,
         meta: { title: "分配用户", activeMenu: "/system/role" },
       },
     ],

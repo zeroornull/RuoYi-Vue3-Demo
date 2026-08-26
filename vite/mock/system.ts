@@ -1,5 +1,6 @@
 import type { MockJson, MockRequest, MockResponse } from "./auth.ts";
 import { dispatchOrgMock, resetMockOrgState } from "./org.ts";
+import { dispatchRoleMock } from "./role.ts";
 import { dispatchUserMock, resetMockUserState } from "./user.ts";
 
 const ok = (body: MockJson, status = 200): MockResponse => ({ status, body });
@@ -882,6 +883,7 @@ export function dispatchSystemMock(request: MockRequest): MockResponse | null {
     dispatchNotice(method, path, request) ??
     dispatchDict(method, path, request) ??
     dispatchOrgMock(request) ??
-    dispatchUserMock(request)
+    dispatchUserMock(request) ??
+    dispatchRoleMock(request)
   );
 }
