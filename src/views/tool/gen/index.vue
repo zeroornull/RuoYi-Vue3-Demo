@@ -4,7 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import type { FormInstance, TableInstance } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Delete, Download, Edit, Plus, Refresh, Search, Upload, View } from "@element-plus/icons-vue";
-import { saveAs } from "file-saver";
+import { saveFile } from "../../../utils/save-file";
 import { delTable, downloadGeneratedCode, genCode, listTable, previewTable, synchDb } from "../../../api/tool/gen";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
@@ -156,7 +156,7 @@ async function handleGenTable(row?: GeneratorTable): Promise<void> {
     return;
   }
   const blob = await downloadGeneratedCode(names);
-  saveAs(blob, zipDownloadName(names));
+  saveFile(blob, zipDownloadName(names));
 }
 
 onActivated(() => {

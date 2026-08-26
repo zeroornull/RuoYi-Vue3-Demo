@@ -2,7 +2,7 @@
 import { computed, reactive, ref } from "vue";
 import { Delete, DocumentCopy, Download } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
-import { saveAs } from "file-saver";
+import { saveFile } from "../../../utils/save-file";
 import draggable from "vuedraggable";
 import SvgIcon from "../../../components/SvgIcon.vue";
 import { generateVueSource, type GenerateMode } from "./codegen";
@@ -111,7 +111,7 @@ function openDownload(): void {
 async function generate(payload: { type: GenerateMode; fileName: string }): Promise<void> {
   const code = generateVueSource(formConf, drawingList.value, payload.type);
   if (operationType.value === "download") {
-    saveAs(new Blob([code], { type: "text/plain;charset=utf-8" }), payload.fileName);
+    saveFile(new Blob([code], { type: "text/plain;charset=utf-8" }), payload.fileName);
     ElMessage.success("导出成功");
     return;
   }

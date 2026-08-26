@@ -135,6 +135,18 @@ rg -n "@ts-ignore|@ts-expect-error|\bany\b|TODO.*migration|legacy/" src tests vi
 - 组件入口 `tests/vue/`：Pagination 翻页/改页大小/隐藏；DictTag 匹配标签与无类型 span；`v-hasPermi` 保留/删除按钮与 `*:*:*` 通配。登录必填文案抽到 `LOGIN_REQUIRED_MESSAGES`，Login.vue 引用；bun 测锁定文案。未把整页 Login 挂进 VTU（Element Plus `el-form` validate 在本仓库的 Vitest 套件里不稳定）。
 - 验证：`bun run test`（Vitest **7** + bun **196**）；`bun run typecheck` / `lint` / `format:check`；`bun run build:stage`。
 
+### 19.c 依赖扫描、许可证与收敛（工作区，未单独提交）
+
+- 命令：`bun pm licenses`（人工审阅）；`bun outdated`；`bun pm why vue|echarts|@vueuse/core|@vue/compiler-sfc`。`bun pm scan` **未跑通**：Bun 1.4.0 需要 `bunfig.toml` 的 `[install.security] scanner`，本批不引入未审的第三方扫描器。
+- 许可证：直依与传递以 MIT / Apache-2.0 / BSD / ISC 为主。无 GPL/AGPL/SSPL。唯一需记下的是 **MPL-2.0** `lightningcss@1.33.0`（及 linux gnu/musl binding），属构建工具传递依赖，文件级 copyleft，可保留。
+- 重复版本：`vue@3.5.41` 与 `@vue/compiler-sfc@3.5.41` 同 patch；`echarts@6.1.0` 仅直接依赖；`@vueuse/core@14.4.0` 仅 `element-plus` 带入，未直接安装。传递重复（`tslib` 2.3.0/2.8.1、`glob` 10/13）不收敛。
+- 分类：
+  - **保留**：Vue/Vite/TS 6.0.3/EP/Pinia/Router 及业务包；`file-saver`、`nprogress`（见适配器）。
+  - **删除（未装）**：`clipboard`（已用 `navigator.clipboard`）、`unplugin-auto-import`、`unplugin-vue-setup-extend-plus`（`defineOptions`）、`vite-plugin-compression`（压缩交给部署）。
+  - **暂缓升级**：`axios` 1.19.0→1.20.0（拦截器/类型）；`typescript` 6.0.3→7.0.2（eslint peer `<6.1.0`）；`@types/node` 22→26（CI Node 22）。
+- 适配器：`src/utils/save-file.ts` 收口 `file-saver`；`src/router/progress.ts` 已收口 `nprogress`。`@types/js-cookie` 钉死 `3.0.6`（去掉 caret）。
+- 验证：`bun run test`（Vitest **7** + bun **197**）；`typecheck` / `lint` / `format:check`；`build:stage`（`save-file-*.js` 152.91 kB 共享 chunk）。
+
 ## 停止条件
 
 - [ ] 干净环境冻结安装通过。

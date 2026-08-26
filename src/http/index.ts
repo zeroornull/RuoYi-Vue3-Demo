@@ -1,5 +1,5 @@
-import { saveAs } from "file-saver";
 import { appEnv } from "../config/env";
+import { saveFile } from "../utils/save-file";
 import { sessionCache } from "./cache";
 import { createHttpClient } from "./client";
 import { downloadForm } from "./download";
@@ -33,7 +33,7 @@ export function download(url: string, params: Record<string, unknown>, filename:
     {
       client: http,
       ui: elementHttpUi,
-      saveAs,
+      saveAs: saveFile,
     },
     url,
     params,

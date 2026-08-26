@@ -2,12 +2,12 @@
 
 > 快照日期：2026-08-26
 > 当前 HEAD：`cb50b8e`（第 11 轮已入库）
-> 下一轮：第 19 轮 — 质量、依赖收敛与切换（19.a—19.b 已完成，下一子批次 19.c 依赖扫描）
+> 下一轮：第 19 轮 — 质量、依赖收敛与切换（19.a—19.c 已完成，下一子批次 19.d 迁移债）
 > 状态只能使用：`未开始`、`进行中`、`已完成`、`阻塞`。
 
 ## 1. 当前快照
 
-第 **0—18** 轮已经做完。第 **0—11** 轮已入库；第 **12—19.b** 同在工作区，尚未单独提交。19.b 接上 Vitest 组件测试入口，现有 bun 测试未改写。
+第 **0—18** 轮已经做完。第 **0—11** 轮已入库；第 **12—19.c** 同在工作区，尚未单独提交。19.c 审阅许可证与过期包，并把 `file-saver` / `nprogress` 隔在适配器后。
 
 仓库已经不是空壳：根目录可 `dev` / `typecheck` / 三环境 `build`，有 Element Plus、类型化 HTTP/API、7 个 Pinia store、Vue Router 5 权限闭环、响应式 Layout、共享组件、认证业务页，系统管理 CRUD，监控域全套页面，以及工具域 Swagger / 代码生成 / 表单构建（含 beautify 快照）。
 
@@ -22,7 +22,7 @@
 | Layout           | 是。桌面/移动端、侧栏、顶栏、TagsView、设置、keep-alive、iframe、图标、菜单搜索、全屏                                                              |
 | 共享组件         | 是。DictTag/Pagination/上传/编辑器/Crontab/TreePanel 等已迁；仅少量全局注册                                                                        |
 | 登录/CRUD 界面？ | 登录/注册/锁屏/个人中心已迁；16.a—16.d 系统管理已迁；17.a—17.c 监控域已迁；18.a—18.e 工具域已迁                                                    |
-| 测试             | bun `tests/unit`+system+monitor+tools+codegen **196** 条 + Vitest `tests/vue` **7** 条 + integration **11** 条 + contracts **4** 条，共 **218** 条 |
+| 测试             | bun `tests/unit`+system+monitor+tools+codegen **197** 条 + Vitest `tests/vue` **7** 条 + integration **11** 条 + contracts **4** 条，共 **219** 条 |
 | CI               | `.github/workflows/bun-baseline.yml`，`workflow_dispatch`；含 typecheck / lint / format:check / unit tests / 三环境 build                          |
 
 ### 本地复核
@@ -46,7 +46,7 @@ bun run dev:backend           # 关闭 Mock，代理到 localhost:8080
 
 ### 下一轮先做什么
 
-打开 [第 19 轮：质量、依赖收敛与切换](./rounds/19-quality-dependency-cutover.md)。19.a—19.b 已完成。下一子批次是 19.c（依赖扫描、许可证与收敛）。
+打开 [第 19 轮：质量、依赖收敛与切换](./rounds/19-quality-dependency-cutover.md)。19.a—19.c 已完成。下一子批次是 19.d（迁移债与 `legacy/` 引用）。
 
 ## 2. 轮次总表
 
@@ -71,13 +71,13 @@ bun run dev:backend           # 关闭 Mock，代理到 localhost:8080
 |   16 | 系统管理域                   | 已完成 | **与第 12—15 轮同在工作区** | 16.a—16.d 完成（161 unit+system / typecheck / stage）；浏览器验角色树与分配用户                              |
 |   17 | 监控域                       | 已完成 | **与第 12—16 轮同在工作区** | 17.a—17.c 完成（173 unit+system+monitor / typecheck / stage）；ECharts 单 chunk；浏览器验 cache/server/druid |
 |   18 | 工具域与第三方               | 已完成 | **与第 12—17 轮同在工作区** | 18.a—18.e 完成（195 unit+system+monitor+tools+codegen / typecheck / stage）；beautify 1.15.4≡2.0.3           |
-|   19 | 质量、依赖收敛与切换         | 进行中 | 叠加在第 12—18 轮工作区     | 19.a—19.b 完成（Vitest 7 + bun 196 / lint / format / stage）；19.c 未开始                                    |
+|   19 | 质量、依赖收敛与切换         | 进行中 | 叠加在第 12—18 轮工作区     | 19.a—19.c 完成（许可证审阅 + save-file/nprogress 适配器；Vitest 7 + bun 197）；19.d 未开始                   |
 
 Git 没有严格「一轮一提交」：2 与 3 同在 `e539f97`，5 与 6 同在 `a9d270a`。
 
-## 3. 第 12—19.b 轮未入库内容
+## 3. 第 12—19.c 轮未入库内容
 
-工作区相对 `cb50b8e` 包含已完成的第 12—18 轮和第 19.a—19.b 子批次：
+工作区相对 `cb50b8e` 包含已完成的第 12—18 轮和第 19.a—19.c 子批次：
 
 ```text
 src/router/                     # 后端 DTO、纯转换、组件白名单、访问筛选、注册表、单飞 guard、NProgress
@@ -97,6 +97,7 @@ tests/monitor/                  # 17.a—17.c 在线用户/日志/任务/缓存/
 tests/tools/                    # 18.a Swagger + 18.b/18.c 代码生成 + 18.d 表单构建
 tests/codegen/                  # 18.e js-beautify 2.x 快照
 tests/vue/                      # 19.b Vitest + Vue Test Utils 组件入口
+src/utils/save-file.ts          # 19.c file-saver 适配器
 tests/integration/auth-profile/ # 登录失败、锁屏、profile patch
 tests/integration/              # auth-routing + navigation-shell
 docs/visual-baselines/          # 第 13 轮桌面/移动端 PNG
@@ -192,7 +193,7 @@ tests/integration/        auth-routing 权限闭环 + navigation-shell
 阶段 C  基础设施 + API       第 6—9 轮   完成
 阶段 D  状态 / 路由 / 权限   第 10—12 轮  完成
 阶段 E  组件与业务页         第 13—18 轮  完成
-阶段 F  质量与切换           第 19 轮     做到第 19.b；19.c 未开始
+阶段 F  质量与切换           第 19 轮     做到第 19.c；19.d 未开始
 ```
 
 ## 8. 更新规则
