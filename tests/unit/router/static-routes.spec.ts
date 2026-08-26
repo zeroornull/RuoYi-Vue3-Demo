@@ -99,6 +99,25 @@ describe("static route definitions", () => {
       expect(loaded.matched.at(-1)?.components?.default).toBeTruthy();
     }
   });
+
+  test("starts and completes injected navigation progress", async () => {
+    const events: string[] = [];
+    const router = createStaticRouter({
+      history: createMemoryHistory(),
+      guard: {
+        isAuthenticated: () => true,
+        isLocked: () => false,
+        setTitle: () => undefined,
+      },
+      progress: {
+        start: () => events.push("start"),
+        done: () => events.push("done"),
+      },
+    });
+    await router.push("/index");
+    await router.isReady();
+    expect(events).toEqual(["start", "done"]);
+  });
 });
 
 describe("route params and redirects", () => {

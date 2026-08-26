@@ -6,6 +6,7 @@ import {
 import { appEnv } from "../../config/env";
 import { getToken, removeToken, setToken } from "../../http/token";
 import { browserSessionStore } from "../persistence";
+import { clearAccessState } from "../access-cleanup";
 import {
   createUseUserStore,
   type UserStoreDeps,
@@ -21,6 +22,7 @@ const browserDeps: UserStoreDeps = {
     setToken(token);
   },
   clearToken: removeToken,
+  clearAccess: clearAccessState,
   unlockScreen: () => useLockStore().unlockScreen(),
   baseApi: appEnv.baseApi,
   sessionStorage: browserSessionStore,

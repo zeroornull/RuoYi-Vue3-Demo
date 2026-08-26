@@ -16,18 +16,19 @@ export const ROUTE_NAMES = {
 export type AppRouteName = (typeof ROUTE_NAMES)[keyof typeof ROUTE_NAMES];
 
 export type AppRouteRecordRaw = RouteRecordRaw & {
-  name?: AppRouteName;
+  name?: string;
   hidden?: boolean;
   alwaysShow?: boolean;
   roles?: string[];
   permissions?: string[];
+  backendQuery?: string | null;
   children?: AppRouteRecordRaw[];
 };
 
 export function collectRouteNames(
   routes: readonly AppRouteRecordRaw[],
-): AppRouteName[] {
-  const names: AppRouteName[] = [];
+): string[] {
+  const names: string[] = [];
   for (const route of routes) {
     if (route.name !== undefined) {
       if (typeof route.name !== "string") {

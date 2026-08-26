@@ -9,6 +9,9 @@ export type StaticGuardDeps = {
   isAuthenticated: () => boolean;
   isLocked: () => boolean;
   setTitle: (title: string) => void;
+  isAccessReady?: () => boolean;
+  ensureAccess?: () => Promise<void>;
+  onAccessError?: (error: unknown) => void | Promise<void>;
 };
 
 function loginRedirect(to: RouteLocationNormalizedGeneric): RouteLocationRaw {
@@ -22,7 +25,7 @@ function loginRedirect(to: RouteLocationNormalizedGeneric): RouteLocationRaw {
 export function createStaticNavigationGuard(
   deps: StaticGuardDeps,
 ): NavigationGuard {
-  return (to) => {
+  return async (to) => {
     if (to.meta.title) deps.setTitle(to.meta.title);
 
     if (!deps.isAuthenticated()) {
@@ -33,12 +36,31 @@ export function createStaticNavigationGuard(
       return { name: ROUTE_NAMES.index, replace: true };
     }
 
+    if (to.meta.public) return true;
+
     if (deps.isLocked() && to.name !== ROUTE_NAMES.lock) {
       return { name: ROUTE_NAMES.lock, replace: true };
     }
 
     if (!deps.isLocked() && to.name === ROUTE_NAMES.lock) {
       return { name: ROUTE_NAMES.index, replace: true };
+    }
+
+    if (
+      deps.isAccessReady &&
+      deps.ensureAccess &&
+      !deps.isAccessReady()
+    ) {
+      try {
+        await deps.ensureAccess();
+        if (!deps.isAccessReady()) {
+          throw new Error("Access bootstrap completed without ready state");
+        }
+        return { path: to.fullPath, replace: true };
+      } catch (error) {
+        await deps.onAccessError?.(error);
+        return loginRedirect(to);
+      }
     }
 
     return true;

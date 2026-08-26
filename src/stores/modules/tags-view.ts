@@ -5,7 +5,7 @@ import { isRecord } from "../../utils/guard";
 import { browserLocalStore, type StoreStorage } from "../persistence";
 import { useSettingsStore } from "./settings";
 
-export type TagQueryValue = string | string[] | null;
+export type TagQueryValue = string | Array<string | null> | null;
 export type TagQuery = Record<string, TagQueryValue>;
 
 export type TagViewMeta = {
@@ -86,7 +86,10 @@ function parseQuery(value: unknown): TagQuery | null {
       query[key] = item;
       continue;
     }
-    if (Array.isArray(item) && item.every((entry) => typeof entry === "string")) {
+    if (
+      Array.isArray(item) &&
+      item.every((entry) => typeof entry === "string" || entry === null)
+    ) {
       query[key] = item;
       continue;
     }

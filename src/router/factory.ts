@@ -5,6 +5,7 @@ import {
   type RouterScrollBehavior,
 } from "vue-router";
 import { createStaticNavigationGuard, type StaticGuardDeps } from "./guard";
+import type { NavigationProgress } from "./progress";
 import { staticRoutes } from "./routes";
 
 export type SavedScrollPosition = { left: number; top: number };
@@ -23,13 +24,24 @@ export const staticScrollBehavior: RouterScrollBehavior = (
 
 export function createStaticRouter(options: {
   history: RouterHistory;
-  guard: StaticGuardDeps;
+  guard: StaticGuardDeps | ((router: Router) => StaticGuardDeps);
+  progress?: NavigationProgress;
 }): Router {
   const router = createRouter({
     history: options.history,
     routes: staticRoutes,
     scrollBehavior: staticScrollBehavior,
   });
-  router.beforeEach(createStaticNavigationGuard(options.guard));
+  if (options.progress) {
+    router.beforeEach(() => {
+      options.progress?.start();
+      return true;
+    });
+    router.afterEach(() => options.progress?.done());
+    router.onError(() => options.progress?.done());
+  }
+  const guard =
+    typeof options.guard === "function" ? options.guard(router) : options.guard;
+  router.beforeEach(createStaticNavigationGuard(guard));
   return router;
 }

@@ -65,13 +65,13 @@ export const globalCapabilityPlan = [
     name: "$auth / v-hasPermi / v-hasRole / permission.js",
     kind: "sideEffectImport",
     deleteRound: 12,
-    note: "Do not import permission as a side effect in main.ts.",
+    note: "Typed route access is in src/router/access.ts; directives remain deferred and permission is not imported as a main.ts side effect.",
   },
   {
     name: "$tab / svg-icon / elementIcons",
     kind: "globalComponent",
     deleteRound: 13,
-    note: "Layout and icon sprite.",
+    note: "Tags use the typed store directly; SvgIcon is registered explicitly and Element icons are imported through a finite semantic registry.",
   },
   {
     name: "DictTag / Pagination / FileUpload / ImageUpload / ImagePreview / RightToolbar / Editor / $modal / v-copyText",

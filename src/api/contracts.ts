@@ -253,11 +253,17 @@ function parseRouteMeta(value: unknown, path: string): RouteMeta {
   const title = optionalString(source, "title");
   const icon = optionalString(source, "icon");
   const noCache = optionalBoolean(source, "noCache");
+  const affix = optionalBoolean(source, "affix");
+  const breadcrumb = optionalBoolean(source, "breadcrumb");
+  const activeMenu = optionalString(source, "activeMenu");
   const link = source.link;
   return {
     ...(title === undefined ? {} : { title }),
     ...(icon === undefined ? {} : { icon }),
     ...(noCache === undefined ? {} : { noCache }),
+    ...(affix === undefined ? {} : { affix }),
+    ...(breadcrumb === undefined ? {} : { breadcrumb }),
+    ...(activeMenu === undefined ? {} : { activeMenu }),
     ...(link === undefined
       ? {}
       : { link: link === null ? null : stringValue(link, `${path}.link`) }),

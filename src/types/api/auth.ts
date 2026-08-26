@@ -41,6 +41,9 @@ export type RouteMeta = {
   title?: string;
   icon?: string;
   noCache?: boolean;
+  affix?: boolean;
+  breadcrumb?: boolean;
+  activeMenu?: string;
   link?: string | null;
 };
 

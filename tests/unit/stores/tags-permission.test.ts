@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test } from "bun:test";
 import { createPinia, setActivePinia } from "pinia";
 import { createMemoryStore } from "../../../src/http/cache";
 import { STORE_MIGRATION_MANIFEST } from "../../../src/stores/migration-manifest";
-import { createUsePermissionStore } from "../../../src/stores/modules/permission";
+import { createUsePermissionStore } from "../../../src/stores/modules/permission-core";
 import {
   createUseTagsViewStore,
   parsePersistedTags,
@@ -95,7 +95,11 @@ describe("permission store", () => {
   test("updates route collections without Router side effects", () => {
     const constantRoutes = [{ path: "/login", meta: { title: "登录" } }];
     const dynamic = [{ path: "/system", children: [{ path: "user" }] }];
-    const store = createUsePermissionStore({ constantRoutes })();
+    const store = createUsePermissionStore({
+      constantRoutes,
+      protectedRoutes: [],
+      loadBackendRoutes: async () => [],
+    })();
     store.setRoutes(dynamic);
     store.setSidebarRouters(dynamic);
     store.setTopbarRoutes(dynamic);
@@ -104,7 +108,10 @@ describe("permission store", () => {
 
     expect(store.routes.map((route) => route.path)).toEqual(["/login", "/system"]);
     expect(store.addRoutes[0]?.children?.[0]?.path).toBe("user");
-    expect(store.sidebarRouters[0]?.path).toBe("/system");
+    expect(store.sidebarRouters.map((route) => route.path)).toEqual([
+      "/login",
+      "/system",
+    ]);
     expect(store.topbarRouters[0]?.path).toBe("/system");
     expect(store.defaultRoutes.map((route) => route.path)).toEqual([
       "/login",
@@ -119,17 +126,15 @@ describe("permission store", () => {
 });
 
 describe("store migration manifest", () => {
-  test("tracks all seven legacy stores and documents the permission deferral", async () => {
+  test("tracks all seven legacy stores as migrated", async () => {
     expect(STORE_MIGRATION_MANIFEST).toHaveLength(7);
     for (const record of STORE_MIGRATION_MANIFEST) {
       expect(await Bun.file(record.source).exists()).toBe(true);
       expect(await Bun.file(record.target).exists()).toBe(true);
     }
-    const permission = STORE_MIGRATION_MANIFEST.find(
-      (record) => record.status === "state-only",
-    );
-    expect(permission?.source).toEndWith("permission.js");
-    expect(permission?.deferred).toContain("round 12");
+    expect(
+      STORE_MIGRATION_MANIFEST.every((record) => record.status === "migrated"),
+    ).toBe(true);
   });
 
   test("keeps the declared store dependency graph acyclic", () => {

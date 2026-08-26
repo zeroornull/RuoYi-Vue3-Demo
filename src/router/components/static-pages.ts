@@ -20,10 +20,16 @@ function createStaticPage(name: string, fallbackTitle: string) {
   });
 }
 
-export const LoginPage = createStaticPage("LoginPage", "登录");
-export const RegisterPage = createStaticPage("RegisterPage", "注册");
-export const UnauthorizedPage = createStaticPage("UnauthorizedPage", "无权限");
-export const NotFoundPage = createStaticPage("NotFoundPage", "页面不存在");
-export const IndexPage = createStaticPage("IndexPage", "首页");
-export const LockPage = createStaticPage("LockPage", "锁定屏幕");
-export const ProfilePage = createStaticPage("ProfilePage", "个人中心");
+export const LoginPage = createStaticPage("Login", "登录");
+export const RegisterPage = createStaticPage("Register", "注册");
+export const UnauthorizedPage = createStaticPage("Unauthorized", "无权限");
+export const NotFoundPage = createStaticPage("NotFound", "页面不存在");
+export const IndexPage = createStaticPage("Index", "首页");
+export const LockPage = createStaticPage("Lock", "锁定屏幕");
+export const ProfilePage = createStaticPage("Profile", "个人中心");
+export const DynamicRoutePage = createStaticPage("DynamicRoutePage", "动态页面占位");
+export const InnerLinkPage = createStaticPage("InnerLinkPage", "内链占位");
+export const UnknownComponentPage = createStaticPage(
+  "UnknownComponentPage",
+  "未知组件",
+);

@@ -21,6 +21,7 @@ export type UserStoreDeps = {
   readToken: () => string | undefined;
   writeToken: (token: string) => void;
   clearToken: () => void;
+  clearAccess: () => void;
   unlockScreen: () => void;
   baseApi: string;
   sessionStorage: StoreStorage;
@@ -85,6 +86,7 @@ export function createUseUserStore(deps: UserStoreDeps) {
     }
 
     function resetSession(): void {
+      deps.clearAccess();
       deps.clearToken();
       deps.sessionStorage.remove(PASSWORD_CHARACTER_TYPE_KEY);
       token.value = null;

@@ -1,80 +1,24 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { RouteNode } from "../../types/api";
+import { getRouters } from "../../api/menu";
+import { protectedRoutes } from "../../router/protected-routes";
+import { staticRoutes } from "../../router/routes";
+import {
+  createUsePermissionStore,
+  type PermissionStoreDeps,
+} from "./permission-core";
 
-export type PermissionRoute = RouteNode;
-export type PermissionRouteStatus = "idle" | "loaded";
-
-export type PermissionStoreDeps = {
-  constantRoutes: readonly PermissionRoute[];
+const browserDeps: PermissionStoreDeps = {
+  constantRoutes: staticRoutes,
+  protectedRoutes,
+  loadBackendRoutes: async () => (await getRouters()).data,
+  reportIssues: (issues) => {
+    for (const issue of issues) {
+      console.error(
+        `[dynamic-route:${issue.code}] ${issue.routePath}: ${issue.detail}`,
+      );
+    }
+  },
 };
 
-const defaultDeps: PermissionStoreDeps = { constantRoutes: [] };
-
-function cloneRoutes(routes: readonly PermissionRoute[]): PermissionRoute[] {
-  return routes.map((route) => ({
-    ...route,
-    ...(route.meta ? { meta: { ...route.meta } } : {}),
-    ...(route.children ? { children: cloneRoutes(route.children) } : {}),
-  }));
-}
-
-export function createUsePermissionStore(
-  deps: PermissionStoreDeps = defaultDeps,
-) {
-  return defineStore("permission", () => {
-    const routes = ref<PermissionRoute[]>(cloneRoutes(deps.constantRoutes));
-    const addRoutes = ref<PermissionRoute[]>([]);
-    const defaultRoutes = ref<PermissionRoute[]>(cloneRoutes(deps.constantRoutes));
-    const topbarRouters = ref<PermissionRoute[]>([]);
-    const sidebarRouters = ref<PermissionRoute[]>(cloneRoutes(deps.constantRoutes));
-    const status = ref<PermissionRouteStatus>("idle");
-
-    function setRoutes(value: readonly PermissionRoute[]): void {
-      addRoutes.value = cloneRoutes(value);
-      routes.value = [...cloneRoutes(deps.constantRoutes), ...cloneRoutes(value)];
-      status.value = "loaded";
-    }
-
-    function setDefaultRoutes(value: readonly PermissionRoute[]): void {
-      defaultRoutes.value = [
-        ...cloneRoutes(deps.constantRoutes),
-        ...cloneRoutes(value),
-      ];
-    }
-
-    function setTopbarRoutes(value: readonly PermissionRoute[]): void {
-      topbarRouters.value = cloneRoutes(value);
-    }
-
-    function setSidebarRouters(value: readonly PermissionRoute[]): void {
-      sidebarRouters.value = cloneRoutes(value);
-    }
-
-    function resetRoutes(): void {
-      routes.value = cloneRoutes(deps.constantRoutes);
-      addRoutes.value = [];
-      defaultRoutes.value = cloneRoutes(deps.constantRoutes);
-      topbarRouters.value = [];
-      sidebarRouters.value = cloneRoutes(deps.constantRoutes);
-      status.value = "idle";
-    }
-
-    return {
-      routes,
-      addRoutes,
-      defaultRoutes,
-      topbarRouters,
-      sidebarRouters,
-      status,
-      setRoutes,
-      setDefaultRoutes,
-      setTopbarRoutes,
-      setSidebarRouters,
-      resetRoutes,
-    };
-  });
-}
-
-export const usePermissionStore = createUsePermissionStore();
+export const usePermissionStore = createUsePermissionStore(browserDeps);
 export default usePermissionStore;
+export * from "./permission-core";

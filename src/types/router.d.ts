@@ -10,6 +10,7 @@ declare module "vue-router" {
     activeMenu?: string;
     link?: string | null;
     public?: boolean;
+    componentError?: string;
   }
 }
 

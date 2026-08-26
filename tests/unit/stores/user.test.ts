@@ -66,6 +66,7 @@ function createDeps(options: {
       clearToken: () => {
         token.value = undefined;
       },
+      clearAccess: () => undefined,
       unlockScreen: () => {
         unlocks.count += 1;
       },

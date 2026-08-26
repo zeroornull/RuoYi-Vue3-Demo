@@ -5,10 +5,12 @@
     "": {
       "name": "ruoyi-vue3-bun-ts",
       "dependencies": {
+        "@element-plus/icons-vue": "2.3.2",
         "axios": "1.19.0",
         "element-plus": "2.14.5",
         "file-saver": "2.0.5",
         "js-cookie": "3.0.8",
+        "nprogress": "0.2.0",
         "pinia": "4.0.3",
         "vue": "3.5.41",
         "vue-router": "5.2.0",
@@ -17,6 +19,7 @@
         "@types/file-saver": "2.0.7",
         "@types/js-cookie": "^3.0.6",
         "@types/node": "22.20.1",
+        "@types/nprogress": "0.2.3",
         "@vitejs/plugin-vue": "6.0.8",
         "@vue/tsconfig": "0.9.1",
         "sass-embedded": "1.103.1",
@@ -132,6 +135,8 @@
     "@types/lodash-es": ["@types/lodash-es@4.17.12", "", { "dependencies": { "@types/lodash": "*" } }, "sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ=="],
 
     "@types/node": ["@types/node@22.20.1", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q=="],
+
+    "@types/nprogress": ["@types/nprogress@0.2.3", "", {}, "sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA=="],
 
     "@types/web-bluetooth": ["@types/web-bluetooth@0.0.21", "", {}, "sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA=="],
 
@@ -334,6 +339,8 @@
     "normalize-wheel-es": ["normalize-wheel-es@1.2.0", "", {}, "sha512-Wj7+EJQ8mSuXr2iWfnujrimU35R2W4FAErEyTmJoJ7ucwTn2hOUSsRehMb5RSYkxXGTM7Y9QpvPmp++w5ftoJw=="],
 
     "nostics": ["nostics@1.2.0", "", {}, "sha512-FGqEfhQjrvo1lL8KFifdTQiNwwQHJxC1jtYE1Rc54qF/jxONUNL+kC9gS1krX8Q65PgrQ5fCqH/I4NhWBvdSqg=="],
+
+    "nprogress": ["nprogress@0.2.0", "", {}, "sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA=="],
 
     "path-browserify": ["path-browserify@1.0.1", "", {}, "sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g=="],
 

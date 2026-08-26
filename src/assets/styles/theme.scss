@@ -1,0 +1,32 @@
+:root {
+  --app-primary: #409eff;
+  --app-bg: #f4f6f8;
+  --app-surface: #ffffff;
+  --app-surface-muted: #f8fafc;
+  --app-text: #1f2937;
+  --app-text-muted: #64748b;
+  --app-border: #e5e7eb;
+  --app-shadow: 0 1px 3px rgb(15 23 42 / 8%);
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 64px;
+  --sidebar-bg: #1b2a47;
+  --sidebar-text: #c7d2e3;
+  --sidebar-hover: rgb(255 255 255 / 8%);
+  --navbar-height: 50px;
+  --tags-height: 34px;
+  --header-height: var(--navbar-height);
+}
+
+html.dark {
+  --app-bg: #101318;
+  --app-surface: #181c23;
+  --app-surface-muted: #20252e;
+  --app-text: #e5e7eb;
+  --app-text-muted: #94a3b8;
+  --app-border: #303744;
+  --app-shadow: 0 1px 3px rgb(0 0 0 / 24%);
+  --sidebar-bg: #12161d;
+  --sidebar-text: #cbd5e1;
+  --sidebar-hover: rgb(255 255 255 / 7%);
+  color-scheme: dark;
+}
