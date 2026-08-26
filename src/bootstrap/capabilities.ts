@@ -53,7 +53,7 @@ export const globalCapabilityPlan = [
     name: "Pinia",
     kind: "plugin",
     deleteRound: 10,
-    note: "Not installed this round. Slot reserved after Element Plus.",
+    note: "Installed in round 10 through src/stores after Element Plus and before Router.",
   },
   {
     name: "Vue Router",

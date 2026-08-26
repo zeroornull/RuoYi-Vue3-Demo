@@ -24,6 +24,7 @@ export type UserInfoResponse = {
   user: SystemUser;
   roles: string[];
   permissions: string[];
+  pwdChrtype?: string;
   isDefaultModifyPwd?: boolean;
   isPasswordExpired?: boolean;
 };

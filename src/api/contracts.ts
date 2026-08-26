@@ -311,12 +311,14 @@ export function parseUserInfoResponse(value: unknown): UserInfoResponse {
   const { source, code, msg } = codeMessage(value, "getInfo");
   const defaultPwd = optionalBoolean(source, "isDefaultModifyPwd");
   const expired = optionalBoolean(source, "isPasswordExpired");
+  const pwdChrtype = optionalString(source, "pwdChrtype");
   return {
     code,
     ...(msg === undefined ? {} : { msg }),
     user: parseSystemUser(source.user, "getInfo.user"),
     roles: stringArray(source.roles, "getInfo.roles"),
     permissions: stringArray(source.permissions, "getInfo.permissions"),
+    ...(pwdChrtype === undefined ? {} : { pwdChrtype }),
     ...(defaultPwd === undefined ? {} : { isDefaultModifyPwd: defaultPwd }),
     ...(expired === undefined ? {} : { isPasswordExpired: expired }),
   };
