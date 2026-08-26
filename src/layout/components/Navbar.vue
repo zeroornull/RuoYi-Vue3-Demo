@@ -3,6 +3,8 @@ import { computed } from "vue";
 import { ElMessageBox } from "element-plus";
 import { useRoute, useRouter } from "vue-router";
 import { appEnv } from "../../config/env";
+import HeaderSearch from "../../components/HeaderSearch/index.vue";
+import Screenfull from "../../components/Screenfull/index.vue";
 import SvgIcon from "../../components/SvgIcon.vue";
 import { ROUTE_NAMES } from "../../router/types";
 import { useAppStore, type AppSize } from "../../stores/modules/app";
@@ -83,6 +85,8 @@ async function logout(): Promise<void> {
     </nav>
 
     <div class="navbar__actions">
+      <HeaderSearch class="navbar__icon-button navbar__desktop-action" />
+      <Screenfull class="navbar__icon-button navbar__desktop-action" />
       <button class="navbar__icon-button navbar__desktop-action" type="button" aria-label="切换主题" @click="settingsStore.toggleTheme">
         <SvgIcon :name="settingsStore.isDark ? 'sunny' : 'moon'" :size="18" />
       </button>

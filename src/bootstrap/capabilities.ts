@@ -77,6 +77,6 @@ export const globalCapabilityPlan = [
     name: "DictTag / Pagination / FileUpload / ImageUpload / ImagePreview / RightToolbar / Editor / $modal / v-copyText",
     kind: "globalComponent",
     deleteRound: 14,
-    note: "Shared components. Do not register them until those modules exist.",
+    note: "DictTag/Pagination/FileUpload/ImageUpload/ImagePreview/RightToolbar/Editor are globally registered. Crontab/TreePanel/IconSelect/ExcelImportDialog/HeaderSearch/Screenfull/ParentView are explicit imports. $modal/v-copyText remain deferred.",
   },
 ] as const satisfies readonly GlobalCapability[];

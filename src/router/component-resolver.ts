@@ -65,6 +65,8 @@ const loadUnknownComponent: LazyRouteComponent = () =>
   import("./components/static-pages").then(
     (module) => module.UnknownComponentPage,
   );
+const loadParentView: LazyRouteComponent = () =>
+  import("../components/ParentView/index.vue");
 
 export function resolveBackendComponent(options: {
   component: string | null | undefined;
@@ -73,8 +75,11 @@ export function resolveBackendComponent(options: {
   hasRedirect: boolean;
 }): ComponentResolution {
   const component = options.component;
-  if (component === "Layout" || component === "ParentView") {
+  if (component === "Layout") {
     return { component: RouterShell };
+  }
+  if (component === "ParentView") {
+    return { component: loadParentView };
   }
   if (component === "InnerLink" || options.link) {
     return { component: loadInnerLink };

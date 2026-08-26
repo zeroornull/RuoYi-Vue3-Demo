@@ -19,7 +19,10 @@ import {
   Moon,
   MoreFilled,
   Operation,
+  Rank,
   RefreshRight,
+  Right,
+  Search,
   Setting,
   Share,
   Sunny,
@@ -42,6 +45,8 @@ export const elementIconRegistry: Readonly<Record<string, Component>> = {
   cpu: Cpu,
   dashboard: HomeFilled,
   document: Document,
+  enter: Right,
+  "exit-fullscreen": Rank,
   fold: Fold,
   fullscreen: FullScreen,
   grid: Grid,
@@ -56,6 +61,7 @@ export const elementIconRegistry: Readonly<Record<string, Component>> = {
   operation: Operation,
   refresh: RefreshRight,
   redis: Coin,
+  search: Search,
   server: Cpu,
   setting: Setting,
   share: Share,
@@ -79,4 +85,11 @@ export function resolveElementIcon(name: string): Component | null {
 
 export function resolveCustomIcon(name: string): string | null {
   return customIconRegistry[name] ?? null;
+}
+
+export function listSelectableIcons(): string[] {
+  return [
+    ...Object.keys(elementIconRegistry),
+    ...Object.keys(customIconRegistry),
+  ];
 }
