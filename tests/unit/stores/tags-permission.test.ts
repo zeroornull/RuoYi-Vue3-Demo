@@ -107,10 +107,13 @@ describe("permission store", () => {
 });
 
 describe("store migration manifest", () => {
-  test("tracks all seven legacy stores as migrated", async () => {
+  test("tracks all seven stores as migrated", async () => {
     expect(STORE_MIGRATION_MANIFEST).toHaveLength(7);
+    const ids = new Set<string>();
     for (const record of STORE_MIGRATION_MANIFEST) {
-      expect(await Bun.file(record.source).exists()).toBe(true);
+      expect(record.id.length).toBeGreaterThan(0);
+      expect(ids.has(record.id)).toBe(false);
+      ids.add(record.id);
       expect(await Bun.file(record.target).exists()).toBe(true);
     }
     expect(STORE_MIGRATION_MANIFEST.every((record) => record.status === "migrated")).toBe(true);

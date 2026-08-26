@@ -10,7 +10,14 @@ const ROUND6_REQUIRED = ["element-plus"] as const;
 
 const ROUND8_REQUIRED = ["axios", "js-cookie", "file-saver"] as const;
 
-const ROUND6_FORBIDDEN = ["vue-router", "pinia", "@element-plus/icons-vue"] as const;
+const APP_REQUIRED = [
+  "vue-router",
+  "pinia",
+  "@element-plus/icons-vue",
+  "echarts",
+  "nprogress",
+  "vuedraggable",
+] as const;
 
 type PackageJson = {
   private?: boolean;
@@ -92,9 +99,9 @@ for (const name of ROUND8_REQUIRED) {
   }
 }
 
-for (const name of ROUND6_FORBIDDEN) {
-  if (name in installed) {
-    errors.push(`round 6 forbids dependency ${name}`);
+for (const name of APP_REQUIRED) {
+  if (!(name in installed)) {
+    errors.push(`app requires dependency ${name}`);
   }
 }
 

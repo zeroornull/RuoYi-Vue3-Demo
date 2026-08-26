@@ -1,15 +1,15 @@
 # 迁移轮次进度
 
 > 快照日期：2026-08-26
-> 当前 HEAD：`cb50b8e`（第 11 轮已入库）
-> 下一轮：第 19 轮 — 质量、依赖收敛与切换（19.a—19.c 已完成，下一子批次 19.d 迁移债）
+> 当前 HEAD：`8008e67`（file-saver 适配器已入库）
+> 下一轮：无。第 0—19 轮已完成，进入常规维护。
 > 状态只能使用：`未开始`、`进行中`、`已完成`、`阻塞`。
 
 ## 1. 当前快照
 
-第 **0—18** 轮已经做完。第 **0—11** 轮已入库；第 **12—19.c** 同在工作区，尚未单独提交。19.c 审阅许可证与过期包，并把 `file-saver` / `nprogress` 隔在适配器后。
+第 **0—19** 轮已经做完。已入库到 `8008e67`。工作区还叠着 19.d（去掉 `legacy/` 路径依赖）和 19.e（干净安装、README、回退）。迁移债只剩三条外部解除条件。
 
-仓库已经不是空壳：根目录可 `dev` / `typecheck` / 三环境 `build`，有 Element Plus、类型化 HTTP/API、7 个 Pinia store、Vue Router 5 权限闭环、响应式 Layout、共享组件、认证业务页，系统管理 CRUD，监控域全套页面，以及工具域 Swagger / 代码生成 / 表单构建（含 beautify 快照）。
+仓库可 `dev` / `typecheck` / `lint` / `format:check` / 三环境 `build`，有 Element Plus、类型化 HTTP/API、7 个 Pinia store、Vue Router 5 权限闭环、系统管理 CRUD、监控域、工具域，以及 ESLint / Prettier / Vitest 门禁。
 
 | 项               | 现状                                                                                                                                               |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -22,7 +22,7 @@
 | Layout           | 是。桌面/移动端、侧栏、顶栏、TagsView、设置、keep-alive、iframe、图标、菜单搜索、全屏                                                              |
 | 共享组件         | 是。DictTag/Pagination/上传/编辑器/Crontab/TreePanel 等已迁；仅少量全局注册                                                                        |
 | 登录/CRUD 界面？ | 登录/注册/锁屏/个人中心已迁；16.a—16.d 系统管理已迁；17.a—17.c 监控域已迁；18.a—18.e 工具域已迁                                                    |
-| 测试             | bun `tests/unit`+system+monitor+tools+codegen **197** 条 + Vitest `tests/vue` **7** 条 + integration **11** 条 + contracts **4** 条，共 **219** 条 |
+| 测试             | bun `tests/unit`+system+monitor+tools+codegen **198** 条 + Vitest `tests/vue` **7** 条 + integration **11** 条 + contracts **4** 条，共 **220** 条 |
 | CI               | `.github/workflows/bun-baseline.yml`，`workflow_dispatch`；含 typecheck / lint / format:check / unit tests / 三环境 build                          |
 
 ### 本地复核
@@ -38,6 +38,7 @@ bun run test -- tests/unit/layout tests/integration/navigation-shell tests/unit/
 bun run typecheck
 bun run lint
 bun run format:check
+bun run check
 bun run build:stage
 bun run build:prod
 bun run dev                   # http://127.0.0.1:5173/ （开发默认本地 Mock，无 8080 后端）
@@ -46,38 +47,38 @@ bun run dev:backend           # 关闭 Mock，代理到 localhost:8080
 
 ### 下一轮先做什么
 
-打开 [第 19 轮：质量、依赖收敛与切换](./rounds/19-quality-dependency-cutover.md)。19.a—19.c 已完成。下一子批次是 19.d（迁移债与 `legacy/` 引用）。
+第 0—19 轮已完成。之后按常规小步升级依赖，不要再做大爆炸迁移。日常入口见根 [README.md](../README.md)。
 
 ## 2. 轮次总表
 
-| 轮次 | 主题                         | 状态   | Git                         | 验证摘要                                                                                                     |
-| ---: | ---------------------------- | ------ | --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-|    0 | 旧项目归档与基线             | 已完成 | `f0ce9ad`                   | `legacy/` 本机快照；手册入库                                                                                 |
-|    1 | Bun 基础                     | 已完成 | `f0ce9ad`                   | `packageManager: bun@1.4.0`；零依赖时无 lockfile                                                             |
-|    2 | Vue + Vite 最小骨架          | 已完成 | `e539f97`                   | `vue@3.5.41` 与 compiler-sfc 同 patch；HMR 已验                                                              |
-|    3 | TypeScript 语言实验          | 已完成 | `e539f97`                   | `learning/ts-lab/`；`bun run lab:ts`                                                                         |
-|    4 | 严格 TS 工程配置             | 已完成 | `a315108`                   | app/node 分界；`strictImportMetaEnv`                                                                         |
-|    5 | Vite、环境与插件             | 已完成 | `a9d270a`                   | 三 mode 前缀正确；proxy 502；未复制旧插件                                                                    |
-|    6 | 应用装配                     | 已完成 | `a9d270a`                   | `element-plus@2.14.5`；中文分页「共 100 条」                                                                 |
-|    7 | 共享类型与工具               | 已完成 | `e15ba29`                   | 纯工具 + Bun test                                                                                            |
-|    8 | HTTP 边界                    | 已完成 | `69d32be`                   | axios 拦截器、`config.ruoyi`、401/重复提交/blob/下载                                                         |
-|    9 | API 合约                     | 已完成 | `fb339c6`                   | 19/19 旧 API；4 类响应；4 个脱敏样本；47 tests；三环境 build                                                 |
-|   10 | Pinia                        | 已完成 | `c90359a`                   | 7/7 store；16 store tests；59 unit / 63 all；三环境 build                                                    |
-|   11 | 静态 Router                  | 已完成 | `cb50b8e`                   | Router 5.2.0；10 router tests；69 unit / 73 all；三环境 build                                                |
-|   12 | 动态路由与权限               | 已完成 | **工作区未提交**            | 15 new router/integration tests；80 unit / 89 all；三环境 build                                              |
-|   13 | Layout、主题、TagsView、图标 | 已完成 | **与第 12 轮同在工作区**    | 8 layout unit + 3 shell integration；88 unit / 100 all；视觉基线                                             |
-|   14 | 通用组件与表单               | 已完成 | **与第 12—13 轮同在工作区** | 22 shared-component tests；110 unit / 122 all；typecheck + stage build                                       |
-|   15 | 认证、个人中心与锁屏         | 已完成 | **与第 12—14 轮同在工作区** | 13 new auth tests；120 unit / 135 all；登录页浏览器验证                                                      |
-|   16 | 系统管理域                   | 已完成 | **与第 12—15 轮同在工作区** | 16.a—16.d 完成（161 unit+system / typecheck / stage）；浏览器验角色树与分配用户                              |
-|   17 | 监控域                       | 已完成 | **与第 12—16 轮同在工作区** | 17.a—17.c 完成（173 unit+system+monitor / typecheck / stage）；ECharts 单 chunk；浏览器验 cache/server/druid |
-|   18 | 工具域与第三方               | 已完成 | **与第 12—17 轮同在工作区** | 18.a—18.e 完成（195 unit+system+monitor+tools+codegen / typecheck / stage）；beautify 1.15.4≡2.0.3           |
-|   19 | 质量、依赖收敛与切换         | 进行中 | 叠加在第 12—18 轮工作区     | 19.a—19.c 完成（许可证审阅 + save-file/nprogress 适配器；Vitest 7 + bun 197）；19.d 未开始                   |
+| 轮次 | 主题                         | 状态   | Git                          | 验证摘要                                                                                                     |
+| ---: | ---------------------------- | ------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
+|    0 | 旧项目归档与基线             | 已完成 | `f0ce9ad`                    | `legacy/` 本机快照；手册入库                                                                                 |
+|    1 | Bun 基础                     | 已完成 | `f0ce9ad`                    | `packageManager: bun@1.4.0`；零依赖时无 lockfile                                                             |
+|    2 | Vue + Vite 最小骨架          | 已完成 | `e539f97`                    | `vue@3.5.41` 与 compiler-sfc 同 patch；HMR 已验                                                              |
+|    3 | TypeScript 语言实验          | 已完成 | `e539f97`                    | `learning/ts-lab/`；`bun run lab:ts`                                                                         |
+|    4 | 严格 TS 工程配置             | 已完成 | `a315108`                    | app/node 分界；`strictImportMetaEnv`                                                                         |
+|    5 | Vite、环境与插件             | 已完成 | `a9d270a`                    | 三 mode 前缀正确；proxy 502；未复制旧插件                                                                    |
+|    6 | 应用装配                     | 已完成 | `a9d270a`                    | `element-plus@2.14.5`；中文分页「共 100 条」                                                                 |
+|    7 | 共享类型与工具               | 已完成 | `e15ba29`                    | 纯工具 + Bun test                                                                                            |
+|    8 | HTTP 边界                    | 已完成 | `69d32be`                    | axios 拦截器、`config.ruoyi`、401/重复提交/blob/下载                                                         |
+|    9 | API 合约                     | 已完成 | `fb339c6`                    | 19/19 旧 API；4 类响应；4 个脱敏样本；47 tests；三环境 build                                                 |
+|   10 | Pinia                        | 已完成 | `c90359a`                    | 7/7 store；16 store tests；59 unit / 63 all；三环境 build                                                    |
+|   11 | 静态 Router                  | 已完成 | `cb50b8e`                    | Router 5.2.0；10 router tests；69 unit / 73 all；三环境 build                                                |
+|   12 | 动态路由与权限               | 已完成 | `3b370ea`                    | 15 new router/integration tests；80 unit / 89 all；三环境 build                                              |
+|   13 | Layout、主题、TagsView、图标 | 已完成 | **与第 12 轮同在工作区**     | 8 layout unit + 3 shell integration；88 unit / 100 all；视觉基线                                             |
+|   14 | 通用组件与表单               | 已完成 | **与第 12—13 轮同在工作区**  | 22 shared-component tests；110 unit / 122 all；typecheck + stage build                                       |
+|   15 | 认证、个人中心与锁屏         | 已完成 | **与第 12—14 轮同在工作区**  | 13 new auth tests；120 unit / 135 all；登录页浏览器验证                                                      |
+|   16 | 系统管理域                   | 已完成 | **与第 12—15 轮同在工作区**  | 16.a—16.d 完成（161 unit+system / typecheck / stage）；浏览器验角色树与分配用户                              |
+|   17 | 监控域                       | 已完成 | **与第 12—16 轮同在工作区**  | 17.a—17.c 完成（173 unit+system+monitor / typecheck / stage）；ECharts 单 chunk；浏览器验 cache/server/druid |
+|   18 | 工具域与第三方               | 已完成 | **与第 12—17 轮同在工作区**  | 18.a—18.e 完成（195 unit+system+monitor+tools+codegen / typecheck / stage）；beautify 1.15.4≡2.0.3           |
+|   19 | 质量、依赖收敛与切换         | 已完成 | `8008e67` + 工作区 19.d/19.e | 干净冻结安装；三环境 build；Vitest 7 + bun 198；README/回退不依赖 legacy/                                    |
 
 Git 没有严格「一轮一提交」：2 与 3 同在 `e539f97`，5 与 6 同在 `a9d270a`。
 
-## 3. 第 12—19.c 轮未入库内容
+## 3. 相对 `8008e67` 未入库内容
 
-工作区相对 `cb50b8e` 包含已完成的第 12—18 轮和第 19.a—19.c 子批次：
+工作区还包含第 19.d—19.e（清单去掉 `legacy/` 路径、干净安装记录、README）：
 
 ```text
 src/router/                     # 后端 DTO、纯转换、组件白名单、访问筛选、注册表、单飞 guard、NProgress
@@ -98,6 +99,8 @@ tests/tools/                    # 18.a Swagger + 18.b/18.c 代码生成 + 18.d �
 tests/codegen/                  # 18.e js-beautify 2.x 快照
 tests/vue/                      # 19.b Vitest + Vue Test Utils 组件入口
 src/utils/save-file.ts          # 19.c file-saver 适配器
+src/api/migration-manifest.ts   # 19.d 不再指向本机 legacy/ 路径
+src/stores/migration-manifest.ts
 tests/integration/auth-profile/ # 登录失败、锁屏、profile patch
 tests/integration/              # auth-routing + navigation-shell
 docs/visual-baselines/          # 第 13 轮桌面/移动端 PNG
@@ -193,7 +196,7 @@ tests/integration/        auth-routing 权限闭环 + navigation-shell
 阶段 C  基础设施 + API       第 6—9 轮   完成
 阶段 D  状态 / 路由 / 权限   第 10—12 轮  完成
 阶段 E  组件与业务页         第 13—18 轮  完成
-阶段 F  质量与切换           第 19 轮     做到第 19.c；19.d 未开始
+阶段 F  质量与切换           第 19 轮     完成
 ```
 
 ## 8. 更新规则

@@ -4,11 +4,14 @@ import { encodeIdCollection, encodePathSegment } from "../../../src/api/shared";
 import { swaggerUiUrl } from "../../../src/api/tool/swagger";
 
 describe("API migration coverage", () => {
-  test("maps all 19 legacy API files to typed targets", async () => {
+  test("maps all 19 API modules to typed targets", async () => {
     expect(API_MIGRATION_MANIFEST).toHaveLength(19);
+    const ids = new Set<string>();
     for (const record of API_MIGRATION_MANIFEST) {
       expect(record.status).toBe("migrated");
-      expect(await Bun.file(record.source).exists()).toBe(true);
+      expect(record.id.length).toBeGreaterThan(0);
+      expect(ids.has(record.id)).toBe(false);
+      ids.add(record.id);
       expect(await Bun.file(record.target).exists()).toBe(true);
     }
   });

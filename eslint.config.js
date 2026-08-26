@@ -13,6 +13,7 @@ export default tseslint.config(
       "coverage/**",
       "docs/visual-baselines/**",
       "tests/codegen/fixtures/**",
+      ".bun-cache/**",
     ],
   },
   eslint.configs.recommended,
