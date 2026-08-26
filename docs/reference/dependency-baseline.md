@@ -98,7 +98,7 @@ npm view vuedraggable dist-tags peerDependencies --json
 | `@vueup/vue-quill` | 1.2.0 | latest 1.5.5 | 单独迁移 Editor；验证内容、工具栏、只读与图片行为 |
 | `echarts` | 5.6.0 | latest 6.1.0 | 主版本升级；先迁移一个图表样例，再迁移监控页 |
 | `fuse.js` | 7.1.0 | latest 7.5.0 | 通常可升级，仍要验证搜索排序 |
-| `js-beautify` | 1.15.4 | latest 2.0.3 | 只影响代码生成器，放到页面迁移后段 |
+| `js-beautify` | 1.15.4 | 2.0.3 | 18.e 已迁；typed 适配器隔离，默认样本与 1.15.4 相同 |
 | `js-cookie` | 3.0.5 | latest 3.0.8 | 建立 cookie key 类型和序列化边界 |
 | `jsencrypt` | 3.3.2 | latest 3.5.4 | 登录加密需和后端公钥格式做集成验证 |
 | `clipboard` | 2.0.11 | latest 2.0.11 | 版本长期未变；评估原生 Clipboard API，但不要夹带替换 |

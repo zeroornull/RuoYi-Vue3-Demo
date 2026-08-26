@@ -144,4 +144,9 @@ export const migratedViewLoaders: Record<string, LazyRouteComponent> = {
     "代码生成",
     () => import("../views/tool/gen/index.vue"),
   ),
+  "tool/build/index": loadVuePage(
+    "Build",
+    "表单构建",
+    () => import("../views/tool/build/index.vue"),
+  ),
 };

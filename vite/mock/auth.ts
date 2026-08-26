@@ -261,6 +261,12 @@ function routers(): MockResponse {
         meta: { title: "系统工具", icon: "tool", noCache: false, link: null },
         children: [
           {
+            name: "Build",
+            path: "build",
+            component: "tool/build/index",
+            meta: { title: "表单构建", icon: "build", noCache: false },
+          },
+          {
             name: "Gen",
             path: "gen",
             component: "tool/gen/index",

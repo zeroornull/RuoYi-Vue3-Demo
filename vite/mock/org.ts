@@ -94,6 +94,7 @@ function seedMenus(): MenuRow[] {
     menu("206", "2", "服务监控", 7, "server", "monitor/server/index", "Server", "monitor:server:list", "server", "C"),
     menu("207", "2", "数据监控", 8, "druid", "monitor/druid/index", "Druid", "monitor:druid:list", "druid", "C"),
     menu("3", "0", "系统工具", 3, "tool", "", "Tool", "", "tool", "M"),
+    menu("114", "3", "表单构建", 1, "build", "tool/build/index", "Build", "tool:build:list", "build", "C"),
     menu("115", "3", "代码生成", 2, "gen", "tool/gen/index", "Gen", "tool:gen:list", "code", "C"),
     menu("116", "3", "系统接口", 3, "swagger", "tool/swagger/index", "Swagger", "tool:swagger:list", "swagger", "C"),
   ];

@@ -31,6 +31,7 @@ const migrated = [
   "monitor/druid/index",
   "tool/swagger/index",
   "tool/gen/index",
+  "tool/build/index",
 ] as const;
 
 describe("16.a migrated views", () => {

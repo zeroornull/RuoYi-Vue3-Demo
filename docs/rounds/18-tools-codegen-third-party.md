@@ -110,13 +110,26 @@ bun run build:stage
 - Mock：PUT `/tool/gen`、GET preview、`batchGenCode` zip、`genCode` 自定义路径。
 - 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor tests/tools`（184）；`bun run build:stage`（`editTable-*.js` 16.95 kB）。浏览器：预览 `domain.java`/`mapper.xml`/`index.vue`；编辑改表描述为「用户信息」并提交；`GET /tool/gen/batchGenCode?tables=sys_user` 200；回归 Swagger UI。
 
+### 18.d 表单构建器（工作区，未单独提交）
+
+- 页面：`src/views/tool/build/{index,DraggableItem,FieldPreview,RightPanel,CodeTypeDialog,TreeNodeDialog,IconsDialog}`。判别联合 `kind`: input/textarea/select/radio/upload/tree/row，每种自有字段，没有超级可选 `FormItem`。未知 kind 与嵌套过深会抛错。`vuedraggable@4.1.0` 克隆调色板到画布。导出/复制生成未 beautify 的 SFC（属 18.e）。
+- Mock：菜单 `114` 表单构建。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor tests/tools`（189）；`bun run build:stage`（`build-*.js` 208.73 kB，含 draggable）。浏览器：默认手机号；点选下拉选择；复制代码成功；树选择添加「部门」节点；清空后空画布；回归代码生成列表。
+
+### 18.e 生成结果对照 / js-beautify 2.x（工作区，未单独提交）
+
+- 适配器：`src/views/tool/build/beautify.ts`。把旧 `beautifierConf` 的字符串 `indent_size` / `wrap_line_length` / `max_preserve_newlines` 收成 number；HTML 2.x 没有 `e4x`（丢弃，不转发）；JS 仍保留 `e4x: true`。`generateVueSource` 经 `beautifyVueSfc`（走 HTML beautify，与旧 `beautifier.html(html + script + css)` 一致）。
+- 人工审阅：同一默认 SFC 与压缩 HTML/JS/CSS 样本，`js-beautify@1.15.4` 与 `2.0.3` 输出逐字节相同。`indent_scripts: "separate"` 仍会把 `import { reactive } from "vue"` 拆行，这是 1.x 行为不是 2.x 回归。审阅时发现字符串 option 写成 `:value=""admin""`，已改为单引号包裹的 JSON 字面量（`:value='"admin"'` / `:value='1'`）。
+- 依赖：`js-beautify@2.0.3`，类型 `@types/js-beautify@1.14.3`（钉死，无 caret）。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor tests/tools tests/codegen`（195）；`bun run build:stage`（`build-*.js` 310.02 kB，含 js-beautify）。浏览器：`/tool/build` 复制默认表单得到缩进 SFC（`<template>` 换行、`app-container` 两空格缩进、拆行 import）；点选下拉后再复制含 `el-select` 与 `:value='1'`；390px 仍可复制；回归 `/tool/gen` 列表 `sys_user` / `sys_role`。
+
 ## 停止条件
 
-- [ ] 工具域所有页面完成或有明确不迁移决定。（18.a—18.c 已迁；18.d—18.e 未开始）
-- [ ] draggable 使用 Vue 3 分支并经过交互验证。（属 18.d）
-- [ ] 动态 schema 使用判别联合，不是超级可选接口。（属 18.d）
-- [ ] 代码生成差异经过人工和自动双重审阅。（预览/下载已迁；beautify 快照属 18.e）
-- [ ] 第三方弱类型被窄适配器隔离。（属 18.d / 18.e）
+- [x] 工具域所有页面完成或有明确不迁移决定。（18.a—18.e 已迁；未跳过 CRUD）
+- [x] draggable 使用 Vue 3 分支并经过交互验证。
+- [x] 动态 schema 使用判别联合，不是超级可选接口。
+- [x] 代码生成差异经过人工和自动双重审阅。（1.15.4 与 2.0.3 默认样本相同；快照在 `tests/codegen/fixtures`）
+- [x] 第三方弱类型被窄适配器隔离。（`beautify.ts` 只暴露 typed options + 四个函数）
 
 ## 推荐提交
 
