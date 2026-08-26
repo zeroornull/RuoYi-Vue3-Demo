@@ -71,7 +71,7 @@ describe("dict mock CRUD", () => {
       "sys_unused",
     );
     const options = dict("GET", "/system/dict/type/optionselect");
-    expect((options.body.data as unknown[]).length).toBe(5);
+    expect((options.body.data as unknown[]).length).toBe(7);
     const values = dict("GET", "/system/dict/data/type/sys_yes_no");
     expect(
       (values.body.data as Array<{ dictValue: string }>).map((row) => row.dictValue),

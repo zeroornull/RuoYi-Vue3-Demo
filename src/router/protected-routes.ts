@@ -9,6 +9,11 @@ const loadDictDataPage = loadVuePage(
   "字典数据",
   () => import("../views/system/dict/data.vue"),
 );
+const loadAuthRolePage = loadVuePage(
+  "AuthRole",
+  "分配角色",
+  () => import("../views/system/user/authRole.vue"),
+);
 
 export const protectedRoutes: AppRouteRecordRaw[] = [
   {
@@ -21,7 +26,7 @@ export const protectedRoutes: AppRouteRecordRaw[] = [
       {
         path: "role/:userId(\\d+)",
         name: "AuthRole",
-        component: loadDynamicPage,
+        component: loadAuthRolePage,
         meta: { title: "分配角色", activeMenu: "/system/user" },
       },
     ],

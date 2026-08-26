@@ -10,6 +10,11 @@ const migrated = [
   "system/dict/index",
   "system/dict/data",
   "system/dict/detail",
+  "system/dept/index",
+  "system/menu/index",
+  "system/user/index",
+  "system/user/view",
+  "system/user/authRole",
 ] as const;
 
 describe("16.a migrated views", () => {
@@ -33,6 +38,10 @@ describe("16.a migrated views", () => {
       "src/views/system/notice/index.vue",
       "src/views/system/dict/index.vue",
       "src/views/system/dict/data.vue",
+      "src/views/system/dept/index.vue",
+      "src/views/system/menu/index.vue",
+      "src/views/system/user/index.vue",
+      "src/views/system/user/authRole.vue",
     ];
     const sources = await Promise.all(files.map((file) => Bun.file(file).text()));
     for (const source of sources) {
@@ -43,5 +52,9 @@ describe("16.a migrated views", () => {
     expect(sources[1]).toContain("system:post:remove");
     expect(sources[2]).toContain("system:notice:edit");
     expect(sources[3]).toContain("system:dict:export");
+    expect(sources[5]).toContain("system:dept:add");
+    expect(sources[6]).toContain("system:menu:edit");
+    expect(sources[7]).toContain("system:user:add");
+    expect(sources[8]).toContain("updateAuthRole");
   });
 });

@@ -90,13 +90,26 @@ bun run build:stage
 - 开发 Mock：`vite/mock/system.ts` 覆盖 list/get/add/update/delete/cache/optionselect/export/readUsers；无 token 返回 401。
 - 验证：`bun run typecheck`；`bun test tests/unit tests/system`（143）；`bun run build:stage`。
 
+### 16.b 组织结构（工作区，未单独提交）
+
+- 页面：`src/views/system/{dept,menu}`。全量树（非懒加载）；编辑时父节点排除自身及子树；Query / Create / Update / Row 分模型。
+- 树纯函数：`src/utils/tree-edit.ts`（成环、孤儿当根、排序差量、ID 一律字符串）。
+- Mock：`vite/mock/org.ts` 覆盖 list/exclude/treeselect/CRUD/sort；拒绝成环、删根、有子节点时删除。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system`（153）；`bun run build:stage`。浏览器：部门树、修改表单、菜单展开/编辑表单。
+
+### 16.c 用户（工作区，未单独提交）
+
+- 页面：`src/views/system/user/{index,view,authRole}`。列表带部门树筛选、分页、状态开关、导入导出；详情抽屉；隐藏路由 `/system/user-auth/role/:userId` 分配角色，`activeMenu=/system/user`。profile 不重复迁。
+- Mock：`vite/mock/user.ts` 覆盖 list/deptTree/CRUD/resetPwd/changeStatus/authRole/export/import；超级管理员 userId=`1` 不可删改。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system`（157）；`bun run build:stage`。浏览器：用户列表/部门树/详情抽屉/分配角色。
+
 ## 停止条件
 
-- [ ] 16.a—16.d 均有独立提交和验证证据。（16.a 已有验证证据，仍在第 12—15 轮工作区，未单独提交）
-- [ ] 核心 CRUD、树和授权行为与旧系统一致。（16.a CRUD 已迁；树/授权属 16.b—16.d）
-- [x] 16.a 查询/创建/更新/行模型没有混成一个全可选接口。
-- [x] 16.a 权限不足路径：无 token 的 `/system/*` 返回 401；按钮使用 `v-hasPermi`。
-- [x] 16.a 页面不引用 `legacy/`。
+- [ ] 16.a—16.d 均有独立提交和验证证据。（16.a—16.c 已有验证证据，仍在工作区，未单独提交）
+- [ ] 核心 CRUD、树和授权行为与旧系统一致。（16.a—16.c 已迁；角色授权属 16.d）
+- [x] 16.a—16.c 查询/创建/更新/行模型没有混成一个全可选接口。
+- [x] 16.a—16.c 权限不足路径：无 token 的 `/system/*` 返回 401；按钮使用 `v-hasPermi`。
+- [x] 16.a—16.c 页面不引用 `legacy/`。
 
 ## 推荐提交
 

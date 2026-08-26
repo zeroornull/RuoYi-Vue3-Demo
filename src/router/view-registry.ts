@@ -39,4 +39,29 @@ export const migratedViewLoaders: Record<string, LazyRouteComponent> = {
     "字典详情",
     () => import("../views/system/dict/detail.vue"),
   ),
+  "system/dept/index": loadVuePage(
+    "Dept",
+    "部门管理",
+    () => import("../views/system/dept/index.vue"),
+  ),
+  "system/menu/index": loadVuePage(
+    "Menu",
+    "菜单管理",
+    () => import("../views/system/menu/index.vue"),
+  ),
+  "system/user/index": loadVuePage(
+    "User",
+    "用户管理",
+    () => import("../views/system/user/index.vue"),
+  ),
+  "system/user/view": loadVuePage(
+    "UserView",
+    "用户详情",
+    () => import("../views/system/user/view.vue"),
+  ),
+  "system/user/authRole": loadVuePage(
+    "AuthRole",
+    "分配角色",
+    () => import("../views/system/user/authRole.vue"),
+  ),
 };

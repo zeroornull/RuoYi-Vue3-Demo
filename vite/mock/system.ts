@@ -1,4 +1,6 @@
 import type { MockJson, MockRequest, MockResponse } from "./auth.ts";
+import { dispatchOrgMock, resetMockOrgState } from "./org.ts";
+import { dispatchUserMock, resetMockUserState } from "./user.ts";
 
 const ok = (body: MockJson, status = 200): MockResponse => ({ status, body });
 const fail = (msg: string, code = 500): MockResponse => ok({ code, msg });
@@ -260,6 +262,22 @@ function seedDictTypes(): DictTypeRow[] {
       remark: "停用",
       createTime: "2026-04-01 00:00:00",
     },
+    {
+      dictId: "6",
+      dictName: "显示状态",
+      dictType: "sys_show_hide",
+      status: "0",
+      remark: "",
+      createTime: "2026-01-01 00:00:00",
+    },
+    {
+      dictId: "7",
+      dictName: "用户性别",
+      dictType: "sys_user_sex",
+      status: "0",
+      remark: "",
+      createTime: "2026-01-01 00:00:00",
+    },
   ];
 }
 
@@ -274,6 +292,11 @@ function seedDictData(): DictDataRow[] {
     dataRow("7", "sys_notice_status", "正常", "0", 1, "success", "Y"),
     dataRow("8", "sys_notice_status", "关闭", "1", 2, "danger", "N"),
     dataRow("9", "sys_unused", "旧值", "old", 1, "info", "N", "1"),
+    dataRow("10", "sys_show_hide", "显示", "0", 1, "primary", "Y"),
+    dataRow("11", "sys_show_hide", "隐藏", "1", 2, "danger", "N"),
+    dataRow("12", "sys_user_sex", "男", "0", 1, "default", "Y"),
+    dataRow("13", "sys_user_sex", "女", "1", 2, "default", "N"),
+    dataRow("14", "sys_user_sex", "未知", "2", 3, "default", "N"),
   ];
 }
 
@@ -309,6 +332,8 @@ export function resetMockSystemState(): void {
   noticeReads = seedNoticeReads();
   dictTypes = seedDictTypes();
   dictData = seedDictData();
+  resetMockOrgState();
+  resetMockUserState();
 }
 
 resetMockSystemState();
@@ -855,6 +880,8 @@ export function dispatchSystemMock(request: MockRequest): MockResponse | null {
     dispatchConfig(method, path, request) ??
     dispatchPost(method, path, request) ??
     dispatchNotice(method, path, request) ??
-    dispatchDict(method, path, request)
+    dispatchDict(method, path, request) ??
+    dispatchOrgMock(request) ??
+    dispatchUserMock(request)
   );
 }
