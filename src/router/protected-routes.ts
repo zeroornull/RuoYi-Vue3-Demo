@@ -1,8 +1,14 @@
 import { RouterShell } from "./components/router-shell";
+import { loadVuePage } from "./components/static-pages";
 import type { AppRouteRecordRaw } from "./types";
 
 const loadDynamicPage = () =>
   import("./components/static-pages").then((module) => module.DynamicRoutePage);
+const loadDictDataPage = loadVuePage(
+  "Data",
+  "字典数据",
+  () => import("../views/system/dict/data.vue"),
+);
 
 export const protectedRoutes: AppRouteRecordRaw[] = [
   {
@@ -45,7 +51,7 @@ export const protectedRoutes: AppRouteRecordRaw[] = [
       {
         path: "index/:dictId(\\d+)",
         name: "Data",
-        component: loadDynamicPage,
+        component: loadDictDataPage,
         meta: { title: "字典数据", activeMenu: "/system/dict" },
       },
     ],

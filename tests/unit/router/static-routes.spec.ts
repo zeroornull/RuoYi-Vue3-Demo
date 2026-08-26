@@ -51,7 +51,7 @@ describe("static route definitions", () => {
       "Root",
       "Index",
       "Lock",
-      "User",
+      "UserCenter",
       "Profile",
       "NotFound",
     ]);
@@ -95,8 +95,7 @@ describe("static route definitions", () => {
       await router.push(path);
       await router.isReady();
       expect(router.currentRoute.value.name).toBe(expectedName);
-      const loaded = await loadRouteLocation(router.currentRoute.value);
-      expect(loaded.matched.at(-1)?.components?.default).toBeTruthy();
+      expect(router.currentRoute.value.matched.at(-1)?.components?.default).toBeTruthy();
     }
   });
 

@@ -32,6 +32,19 @@ a {
   text-decoration: none;
 }
 
+.app-container {
+  padding: 20px;
+}
+
+.mb8 {
+  margin-bottom: 8px;
+}
+
+.link-type {
+  color: var(--el-color-primary);
+  cursor: pointer;
+}
+
 .static-route-page {
   min-height: 180px;
   padding: 24px;

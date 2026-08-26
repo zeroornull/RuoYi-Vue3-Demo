@@ -8,7 +8,7 @@ export const ROUTE_NAMES = {
   root: "Root",
   index: "Index",
   lock: "Lock",
-  user: "User",
+  user: "UserCenter",
   profile: "Profile",
   notFound: "NotFound",
 } as const;

@@ -1,5 +1,6 @@
 import type { RouteComponent } from "vue-router";
 import { RouterShell } from "./components/router-shell";
+import { migratedViewLoaders } from "./view-registry";
 
 export type LazyRouteComponent = () => Promise<RouteComponent>;
 
@@ -83,6 +84,9 @@ export function resolveBackendComponent(options: {
   }
   if (component === "InnerLink" || options.link) {
     return { component: loadInnerLink };
+  }
+  if (component && migratedViewLoaders[component]) {
+    return { component: migratedViewLoaders[component] };
   }
   if (component && SAFE_BACKEND_COMPONENTS.has(component)) {
     return { component: loadDynamicPage };

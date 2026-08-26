@@ -64,7 +64,7 @@
 
 ```bash
 bun run typecheck
-bun run test -- tests/components/auth tests/integration/auth-profile
+bun test tests/unit/auth tests/integration/auth-profile
 bun run build:stage
 ```
 
@@ -72,15 +72,28 @@ bun run build:stage
 
 ## 停止条件
 
-- [ ] 认证和 profile 页面不再使用占位实现。
-- [ ] 所有表单与上传流程有真实类型。
-- [ ] 登录/退出/锁屏与 store/router 行为一致。
-- [ ] 加密、cookie、cropper 风险已记录。
-- [ ] 失败路径有可观察反馈且可恢复。
+- [x] 认证和 profile 页面不再使用占位实现。
+- [x] 所有表单与上传流程有真实类型。
+- [x] 登录/退出/锁屏与 store/router 行为一致。
+- [x] 加密、cookie、cropper 风险已记录。
+- [x] 失败路径有可观察反馈且可恢复。
 
 ## 推荐提交
 
 ```text
 refactor: migrate typed authentication and profile flows
 ```
+
+## 本轮记录
+
+- Git/工作区：HEAD 仍为 `cb50b8e`；第 12—14 轮未提交内容保留，第 15 轮叠加在同一工作区。
+- 登录：真实表单、验证码、防重复提交（`idle/submitting/success/error`）。redirect 只接受站内相对路径，拒绝 `//` 和外链。无后端时验证码 502 不挡住表单；空验证码提交提示「请输入验证码」。
+- 记住密码：cookie 只存 `username`、RSA 密文 `password`、`rememberMe`（30 天）。明文密码不落盘。前端持有私钥，这是混淆不是保密，不能替代 HTTPS；见债务表。
+- 注册：账号长度、密码规则（chrtype 0）、确认密码；成功后 alert 再回登录。
+- 个人中心：资料/密码/头像。资料保存先 `applyProfile` 再尝试 `getInfo`；刷新失败保留本地补丁。改密成功保持登录态，由后端决定是否作废 token。头像使用 `vue-cropper@1.1.4`（Vue 3 next 线），校验类型/大小，失败可重试；成功后 `applyAvatar` 只存后端 `imgUrl`。
+- 锁屏：时钟、解锁 API、失败抖动；退出登录会先 unlock 再 logout，logout 失败仍 `resetSession` 回登录页。
+- 401/404：正式视觉页。401 为 public；404 仍是需登录的 catch-all（未登录访问未知地址会先被守卫送到登录）。
+- 路由：生产加载真实 SFC；Bun 测试无法编译 Vue SFC，因此 `loadVuePage` 在测试中回退到同名占位，keep-alive 名仍是 Login/Register/Lock/Profile。
+- 测试：新增 13 条（unit/auth + integration/auth-profile + user applyProfile）。全量 135 pass。`typecheck` 与 `build:stage` 通过。
+- 浏览器：`/login` 表单、验证码校验、`/register`、`/401`、390×844 登录布局已点验。无真实后端时开发默认走 `VITE_MOCK_API` 本地 Mock（admin/admin123）；`bun run dev:backend` 代理 `localhost:8080`。
 

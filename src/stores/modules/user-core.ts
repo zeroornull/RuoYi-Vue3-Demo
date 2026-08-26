@@ -85,6 +85,20 @@ export function createUseUserStore(deps: UserStoreDeps) {
       }
     }
 
+    function applyProfile(update: Partial<SystemUser>): void {
+      if (!profile.value) {
+        return;
+      }
+      profile.value = { ...profile.value, ...update };
+    }
+
+    function applyAvatar(imgUrl: string): void {
+      if (!profile.value) {
+        return;
+      }
+      profile.value = { ...profile.value, avatar: imgUrl };
+    }
+
     function resetSession(): void {
       deps.clearAccess();
       deps.clearToken();
@@ -169,6 +183,8 @@ export function createUseUserStore(deps: UserStoreDeps) {
       login,
       getInfo,
       logOut,
+      applyProfile,
+      applyAvatar,
       resetSession,
     };
   });

@@ -1,6 +1,9 @@
 export {};
 
 declare module "vue" {
+  interface GlobalDirectives {
+    hasPermi: import("vue").Directive<HTMLElement, readonly string[] | unknown>;
+  }
   interface GlobalComponents {
     SvgIcon: typeof import("../components/SvgIcon.vue")["default"];
     DictTag: typeof import("../components/DictTag/index.vue")["default"];

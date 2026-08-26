@@ -81,13 +81,22 @@ bun run build:stage
 
 完成全部子批次后运行系统域端到端流程。
 
+## 本轮记录
+
+### 16.a 基础配置（工作区，未单独提交）
+
+- 页面：`src/views/system/{config,post,notice,dict}`。Query / Create / Update / Row 分模型；CRUD 组合函数在 `src/composables/crud.ts`，没有做成配置驱动框架。
+- 动态路由 `system/config|post|notice|dict/*` 走 `migratedViewLoaders`；隐藏路由 `/system/dict-data/index/:dictId` 指向真实字典数据页，`activeMenu=/system/dict`。
+- 开发 Mock：`vite/mock/system.ts` 覆盖 list/get/add/update/delete/cache/optionselect/export/readUsers；无 token 返回 401。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system`（143）；`bun run build:stage`。
+
 ## 停止条件
 
-- [ ] 16.a—16.d 均有独立提交和验证证据。
-- [ ] 核心 CRUD、树和授权行为与旧系统一致。
-- [ ] 查询/创建/更新/行模型没有混成一个全可选接口。
-- [ ] 权限不足路径经过验证。
-- [ ] 系统域页面不引用 `legacy/`。
+- [ ] 16.a—16.d 均有独立提交和验证证据。（16.a 已有验证证据，仍在第 12—15 轮工作区，未单独提交）
+- [ ] 核心 CRUD、树和授权行为与旧系统一致。（16.a CRUD 已迁；树/授权属 16.b—16.d）
+- [x] 16.a 查询/创建/更新/行模型没有混成一个全可选接口。
+- [x] 16.a 权限不足路径：无 token 的 `/system/*` 返回 401；按钮使用 `v-hasPermi`。
+- [x] 16.a 页面不引用 `legacy/`。
 
 ## 推荐提交
 

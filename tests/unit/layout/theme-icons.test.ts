@@ -9,10 +9,8 @@ import {
   buildThemeVariables,
   isHexTheme,
 } from "../../../src/layout/theme";
-import {
-  IndexPage,
-  ProfilePage,
-} from "../../../src/router/components/static-pages";
+import { IndexPage } from "../../../src/router/components/static-pages";
+import { PROFILE_COMPONENT_NAME } from "../../../src/views/profile/model";
 
 describe("layout theme variables", () => {
   test("builds Element Plus light and dark primary variables", () => {
@@ -32,7 +30,7 @@ describe("layout theme variables", () => {
 describe("keep-alive component names", () => {
   test("matches component names to route names", () => {
     expect(IndexPage.name).toBe("Index");
-    expect(ProfilePage.name).toBe("Profile");
+    expect(PROFILE_COMPONENT_NAME).toBe("Profile");
   });
 });
 

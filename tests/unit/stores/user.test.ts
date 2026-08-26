@@ -171,4 +171,16 @@ describe("user store lifecycle", () => {
       "https://example.invalid/a.png",
     );
   });
+
+  test("patches profile and avatar without replacing the whole session", async () => {
+    const fixture = createDeps();
+    const store = createUseUserStore(fixture.deps)();
+    await store.getInfo();
+    store.applyProfile({ nickName: "新名字", email: "new@example.invalid" });
+    expect(store.nickName).toBe("新名字");
+    expect(store.profile?.email).toBe("new@example.invalid");
+    expect(store.token).toBeNull();
+    store.applyAvatar("/avatar/new.png");
+    expect(store.avatar).toBe("/dev-api/avatar/new.png");
+  });
 });

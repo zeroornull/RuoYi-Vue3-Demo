@@ -1,4 +1,4 @@
-import { defineComponent, h } from "vue";
+import { defineComponent, h, type Component } from "vue";
 import { useRoute } from "vue-router";
 
 function createStaticPage(name: string, fallbackTitle: string) {
@@ -20,13 +20,37 @@ function createStaticPage(name: string, fallbackTitle: string) {
   });
 }
 
-export const LoginPage = createStaticPage("Login", "登录");
-export const RegisterPage = createStaticPage("Register", "注册");
-export const UnauthorizedPage = createStaticPage("Unauthorized", "无权限");
-export const NotFoundPage = createStaticPage("NotFound", "页面不存在");
 export const IndexPage = createStaticPage("Index", "首页");
-export const LockPage = createStaticPage("Lock", "锁定屏幕");
-export const ProfilePage = createStaticPage("Profile", "个人中心");
+
+function isVueComponent(value: unknown): value is Component {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    ("setup" in value || "render" in value || "__name" in value || "name" in value)
+  );
+}
+
+export function loadVuePage(
+  name: string,
+  fallbackTitle: string,
+  importer: () => Promise<unknown>,
+): () => Promise<Component> {
+  const fallback = createStaticPage(name, fallbackTitle);
+  return async () => {
+    try {
+      const loaded = await importer();
+      if (typeof loaded === "object" && loaded !== null && "default" in loaded) {
+        const page = (loaded as { default: unknown }).default;
+        if (isVueComponent(page)) {
+          return page;
+        }
+      }
+    } catch {
+      // Bun tests cannot compile Vue SFCs; keep a named stub for navigation.
+    }
+    return fallback;
+  };
+}
 export const DynamicRoutePage = createStaticPage("DynamicRoutePage", "动态页面占位");
 export const InnerLinkPage = createStaticPage("InnerLinkPage", "内链占位");
 export const UnknownComponentPage = createStaticPage(

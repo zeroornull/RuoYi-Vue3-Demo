@@ -23,7 +23,7 @@ export const globalCapabilityPlan = [
     name: "useDict",
     kind: "globalProperty",
     deleteRound: 7,
-    note: "Label lookup is in src/utils/dict-label.ts. The store/API composable waits for rounds 9–10.",
+    note: "Label lookup is in src/utils/dict-label.ts. Page dictionaries use src/composables/useDict.ts and the Pinia dict store.",
   },
   {
     name: "parseTime / resetForm / handleTree / addDateRange / selectDictLabel(s)",
@@ -65,7 +65,7 @@ export const globalCapabilityPlan = [
     name: "$auth / v-hasPermi / v-hasRole / permission.js",
     kind: "sideEffectImport",
     deleteRound: 12,
-    note: "Typed route access is in src/router/access.ts; directives remain deferred and permission is not imported as a main.ts side effect.",
+    note: "v-hasPermi is installed from src/bootstrap/has-permi.ts. v-hasRole and $auth remain deferred. Route access stays in src/router/access.ts.",
   },
   {
     name: "$tab / svg-icon / elementIcons",

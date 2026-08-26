@@ -1,13 +1,12 @@
 import type { RouteLocationNormalizedGeneric } from "vue-router";
 import { RouterShell } from "./components/router-shell";
+import { IndexPage, loadVuePage } from "./components/static-pages";
 import { buildRedirectLocation, parseProfileActiveTab } from "./params";
 import {
   assertUniqueRouteNames,
   ROUTE_NAMES,
   type AppRouteRecordRaw,
 } from "./types";
-
-const pages = () => import("./components/static-pages");
 
 export const staticRoutes: AppRouteRecordRaw[] = [
   {
@@ -19,21 +18,21 @@ export const staticRoutes: AppRouteRecordRaw[] = [
   {
     path: "/login",
     name: ROUTE_NAMES.login,
-    component: () => pages().then((module) => module.LoginPage),
+    component: loadVuePage("Login", "登录", () => import("../views/login/index.vue")),
     hidden: true,
     meta: { title: "登录", public: true },
   },
   {
     path: "/register",
     name: ROUTE_NAMES.register,
-    component: () => pages().then((module) => module.RegisterPage),
+    component: loadVuePage("Register", "注册", () => import("../views/register/index.vue")),
     hidden: true,
     meta: { title: "注册", public: true },
   },
   {
     path: "/401",
     name: ROUTE_NAMES.unauthorized,
-    component: () => pages().then((module) => module.UnauthorizedPage),
+    component: loadVuePage("Unauthorized", "无权限", () => import("../views/error/401.vue")),
     hidden: true,
     meta: { title: "无权限", public: true },
   },
@@ -46,7 +45,7 @@ export const staticRoutes: AppRouteRecordRaw[] = [
       {
         path: "index",
         name: ROUTE_NAMES.index,
-        component: () => pages().then((module) => module.IndexPage),
+        component: IndexPage,
         meta: {
           title: "首页",
           icon: "dashboard",
@@ -60,7 +59,7 @@ export const staticRoutes: AppRouteRecordRaw[] = [
   {
     path: "/lock",
     name: ROUTE_NAMES.lock,
-    component: () => pages().then((module) => module.LockPage),
+    component: loadVuePage("Lock", "锁定屏幕", () => import("../views/lock/index.vue")),
     hidden: true,
     meta: { title: "锁定屏幕", noCache: true },
   },
@@ -73,7 +72,7 @@ export const staticRoutes: AppRouteRecordRaw[] = [
       {
         path: "profile/:activeTab?",
         name: ROUTE_NAMES.profile,
-        component: () => pages().then((module) => module.ProfilePage),
+        component: loadVuePage("Profile", "个人中心", () => import("../views/profile/index.vue")),
         props: (route: RouteLocationNormalizedGeneric) => ({
           activeTab: parseProfileActiveTab(route.params.activeTab),
         }),
@@ -89,7 +88,7 @@ export const staticRoutes: AppRouteRecordRaw[] = [
   {
     path: "/:pathMatch(.*)*",
     name: ROUTE_NAMES.notFound,
-    component: () => pages().then((module) => module.NotFoundPage),
+    component: loadVuePage("NotFound", "页面不存在", () => import("../views/error/404.vue")),
     hidden: true,
     meta: { title: "页面不存在", noCache: true },
   },

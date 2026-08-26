@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import { defineConfig, loadEnv } from "vite";
 import { charsetRemoval } from "./vite/charset-removal.ts";
 import { requireBuildEnv } from "./vite/env.ts";
+import { mockBackendPlugin } from "./vite/mock-backend.ts";
 
 const rootDir = fileURLToPath(new URL(".", import.meta.url));
 const srcDir = fileURLToPath(new URL("./src", import.meta.url));
@@ -11,10 +12,11 @@ const backendOrigin = "http://localhost:8080";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
   requireBuildEnv(env, mode);
+  const useMock = mode === "development" && env.VITE_MOCK_API === "true";
 
   return {
     base: "/",
-    plugins: [vue()],
+    plugins: [vue(), mockBackendPlugin(useMock)],
     resolve: {
       alias: {
         "@": srcDir,
@@ -40,17 +42,19 @@ export default defineConfig(({ mode }) => {
       host: true,
       open: false,
       strictPort: true,
-      proxy: {
-        "/dev-api": {
-          target: backendOrigin,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/dev-api/, ""),
-        },
-        "^/v3/api-docs/": {
-          target: backendOrigin,
-          changeOrigin: true,
-        },
-      },
+      proxy: useMock
+        ? {}
+        : {
+            "/dev-api": {
+              target: backendOrigin,
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/dev-api/, ""),
+            },
+            "^/v3/api-docs/": {
+              target: backendOrigin,
+              changeOrigin: true,
+            },
+          },
     },
     css: {
       postcss: {
