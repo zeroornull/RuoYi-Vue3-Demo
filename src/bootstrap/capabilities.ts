@@ -59,7 +59,7 @@ export const globalCapabilityPlan = [
     name: "Vue Router",
     kind: "plugin",
     deleteRound: 11,
-    note: "Not installed this round. Slot reserved after Pinia.",
+    note: "Installed in round 11 after Pinia; only typed static routes are active.",
   },
   {
     name: "$auth / v-hasPermi / v-hasRole / permission.js",

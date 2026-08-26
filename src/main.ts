@@ -5,6 +5,7 @@ import { installDirectives } from "./bootstrap/directives";
 import { installElementPlus } from "./bootstrap/element-plus";
 import { installGlobalComponents } from "./bootstrap/global-components";
 import { installGlobalProperties } from "./bootstrap/global-properties";
+import { installRouter } from "./router";
 import { installStores } from "./stores";
 import "./config/env";
 import "./assets/styles/index.scss";
@@ -13,6 +14,7 @@ const app = createApp(App);
 
 installElementPlus(app);
 installStores(app);
+installRouter(app);
 app.use(appTitlePlugin);
 installGlobalProperties(app);
 installGlobalComponents(app);
