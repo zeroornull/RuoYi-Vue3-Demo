@@ -1,16 +1,9 @@
-import {
-  getInfo as getInfoApi,
-  login as loginApi,
-  logout as logoutApi,
-} from "../../api/login";
+import { getInfo as getInfoApi, login as loginApi, logout as logoutApi } from "../../api/login";
 import { appEnv } from "../../config/env";
 import { getToken, removeToken, setToken } from "../../http/token";
 import { browserSessionStore } from "../persistence";
 import { clearAccessState } from "../access-cleanup";
-import {
-  createUseUserStore,
-  type UserStoreDeps,
-} from "./user-core";
+import { createUseUserStore, type UserStoreDeps } from "./user-core";
 import { useLockStore } from "./lock";
 
 const browserDeps: UserStoreDeps = {

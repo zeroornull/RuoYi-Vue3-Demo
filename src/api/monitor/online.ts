@@ -8,7 +8,5 @@ export function list(query: OnlineQuery): Promise<OnlinePageResponse> {
 }
 
 export function forceLogout(tokenId: string): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/monitor/online/${encodePathSegment(tokenId)}`,
-  );
+  return http.delete<EmptyResponse>(`/monitor/online/${encodePathSegment(tokenId)}`);
 }

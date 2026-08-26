@@ -69,25 +69,16 @@ export function createWebStore(storage: Storage): CacheStore {
   };
 }
 
-export function isRepeatSubmitRecord(
-  value: unknown,
-): value is RepeatSubmitRecord {
+export function isRepeatSubmitRecord(value: unknown): value is RepeatSubmitRecord {
   return (
-    isRecord(value) &&
-    typeof value.url === "string" &&
-    typeof value.data === "string" &&
-    typeof value.time === "number"
+    isRecord(value) && typeof value.url === "string" && typeof value.data === "string" && typeof value.time === "number"
   );
 }
 
 export const sessionCache = createJsonCache(
-  typeof sessionStorage === "undefined"
-    ? createMemoryStore()
-    : createWebStore(sessionStorage),
+  typeof sessionStorage === "undefined" ? createMemoryStore() : createWebStore(sessionStorage),
 );
 
 export const localCache = createJsonCache(
-  typeof localStorage === "undefined"
-    ? createMemoryStore()
-    : createWebStore(localStorage),
+  typeof localStorage === "undefined" ? createMemoryStore() : createWebStore(localStorage),
 );

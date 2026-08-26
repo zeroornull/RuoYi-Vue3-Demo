@@ -63,9 +63,7 @@ function changeRadioValue(value: string): void {
     average02.value = Number(step);
     radioValue.value = 3;
   } else {
-    checkboxList.value = [
-      ...new Set(value.split(",").map((item) => Number(item))),
-    ];
+    checkboxList.value = [...new Set(value.split(",").map((item) => Number(item)))];
     radioValue.value = 4;
   }
 }
@@ -92,7 +90,10 @@ function onRadioChange(): void {
   }
 }
 
-watch(() => props.cron[props.field], (value) => changeRadioValue(value));
+watch(
+  () => props.cron[props.field],
+  (value) => changeRadioValue(value),
+);
 watch([radioValue, cycleTotal, averageTotal, checkboxString], () => onRadioChange());
 </script>
 

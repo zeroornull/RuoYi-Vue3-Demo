@@ -9,10 +9,7 @@ export function emptySelection<Id>(): CrudSelection<Id> {
   return { ids: [], rows: [], single: true, multiple: true };
 }
 
-export function selectionFromRows<Row, Id>(
-  rows: readonly Row[],
-  idOf: (row: Row) => Id,
-): CrudSelection<Id> {
+export function selectionFromRows<Row, Id>(rows: readonly Row[], idOf: (row: Row) => Id): CrudSelection<Id> {
   const ids = rows.map(idOf);
   return {
     ids,
@@ -33,10 +30,7 @@ export function idsForAction<Row, Id>(
   return selected;
 }
 
-export function confirmDeleteMessage(
-  entityLabel: string,
-  ids: unknown,
-): string {
+export function confirmDeleteMessage(entityLabel: string, ids: unknown): string {
   return `是否确认删除${entityLabel}编号为"${String(ids)}"的数据项？`;
 }
 
@@ -49,11 +43,7 @@ export type PageEnvelope<Row> = {
   total: number;
 };
 
-export function paginateRows<Row>(
-  rows: readonly Row[],
-  pageNum: number,
-  pageSize: number,
-): PageEnvelope<Row> {
+export function paginateRows<Row>(rows: readonly Row[], pageNum: number, pageSize: number): PageEnvelope<Row> {
   const page = pageNum < 1 ? 1 : pageNum;
   const size = pageSize < 1 ? 10 : pageSize;
   const start = (page - 1) * size;

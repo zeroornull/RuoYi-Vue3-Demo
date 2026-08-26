@@ -1,11 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  getDarkColor,
-  getLightColor,
-  hexToRgb,
-  mixHexColors,
-  rgbToHex,
-} from "../../../src/utils/theme-color";
+import { getDarkColor, getLightColor, hexToRgb, mixHexColors, rgbToHex } from "../../../src/utils/theme-color";
 
 describe("theme colors", () => {
   test("converts hex and rgb in both directions", () => {

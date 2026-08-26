@@ -24,7 +24,11 @@ function expressionChange(): void {
   isShow.value = true;
 }
 
-watch(() => props.ex, () => expressionChange(), { immediate: true });
+watch(
+  () => props.ex,
+  () => expressionChange(),
+  { immediate: true },
+);
 </script>
 
 <template>

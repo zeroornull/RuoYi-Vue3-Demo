@@ -9,10 +9,7 @@ export type AppEnv = {
   compress?: "gzip" | "brotli" | "gzip,brotli";
 };
 
-export function requireEnv(
-  value: string | undefined,
-  name: string,
-): string {
+export function requireEnv(value: string | undefined, name: string): string {
   if (!value) {
     throw new Error(`Missing environment variable: ${name}`);
   }
@@ -23,9 +20,7 @@ function isAppMode(value: string): value is AppMode {
   return (APP_MODES as readonly string[]).includes(value);
 }
 
-function parseCompress(
-  value: string | undefined,
-): AppEnv["compress"] {
+function parseCompress(value: string | undefined): AppEnv["compress"] {
   if (value === undefined || value.length === 0) {
     return undefined;
   }
@@ -41,10 +36,7 @@ export function loadAppEnv(): AppEnv {
   if (!isAppMode(appEnv)) {
     throw new Error(`Invalid VITE_APP_ENV: ${appEnv}`);
   }
-  const baseApi = requireEnv(
-    import.meta.env.VITE_APP_BASE_API,
-    "VITE_APP_BASE_API",
-  );
+  const baseApi = requireEnv(import.meta.env.VITE_APP_BASE_API, "VITE_APP_BASE_API");
   const compress = parseCompress(import.meta.env.VITE_BUILD_COMPRESS);
   const parsed: AppEnv = { title, appEnv, baseApi };
   if (compress !== undefined) {

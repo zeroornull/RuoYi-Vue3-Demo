@@ -1,9 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  formatLockDate,
-  formatLockTime,
-  unlockErrorMessage,
-} from "../../../src/views/lock/model";
+import { formatLockDate, formatLockTime, unlockErrorMessage } from "../../../src/views/lock/model";
 import {
   avatarUploadFormData,
   emptyPasswordForm,
@@ -13,10 +9,7 @@ import {
   toProfileUpdateRequest,
   validateAvatarFile,
 } from "../../../src/views/profile/model";
-import {
-  shouldHistoryBack,
-  unauthorizedBackTarget,
-} from "../../../src/views/error/model";
+import { shouldHistoryBack, unauthorizedBackTarget } from "../../../src/views/error/model";
 
 describe("lock screen clock and errors", () => {
   test("formats time/date and surfaces unlock failures", () => {
@@ -49,12 +42,8 @@ describe("profile forms and avatar", () => {
   });
 
   test("rejects non-image and oversized avatars and builds FormData", () => {
-    expect(validateAvatarFile({ type: "application/pdf", size: 10 })?.code).toBe(
-      "type",
-    );
-    expect(
-      validateAvatarFile({ type: "image/png", size: 6 * 1024 * 1024 })?.code,
-    ).toBe("size");
+    expect(validateAvatarFile({ type: "application/pdf", size: 10 })?.code).toBe("type");
+    expect(validateAvatarFile({ type: "image/png", size: 6 * 1024 * 1024 })?.code).toBe("size");
     expect(validateAvatarFile({ type: "image/jpeg", size: 1024 })).toBeNull();
     const data = avatarUploadFormData(new Blob(["x"]), "face.png");
     expect(data.get("avatarfile")).toBeInstanceOf(Blob);

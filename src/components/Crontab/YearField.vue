@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import {
-  classifyCronToken,
-  clampCronNumber,
-  cronList,
-  cronRange,
-  cronStep,
-  type CrontabValue,
-} from "./model";
+import { classifyCronToken, clampCronNumber, cronList, cronRange, cronStep, type CrontabValue } from "./model";
 
 const props = defineProps<{
   cron: CrontabValue;
@@ -85,7 +78,10 @@ function onRadioChange(): void {
   }
 }
 
-watch(() => props.cron.year, (value) => changeRadioValue(value));
+watch(
+  () => props.cron.year,
+  (value) => changeRadioValue(value),
+);
 watch([radioValue, cycleTotal, averageTotal, checkboxString], () => onRadioChange());
 </script>
 
@@ -116,12 +112,7 @@ watch([radioValue, cycleTotal, averageTotal, checkboxString], () => onRadioChang
       <el-radio v-model="radioValue" :value="5">
         指定
         <el-select v-model="checkboxList" clearable placeholder="可多选" multiple :multiple-limit="8">
-          <el-option
-            v-for="item in 9"
-            :key="item"
-            :value="item - 1 + fullYear"
-            :label="item - 1 + fullYear"
-          />
+          <el-option v-for="item in 9" :key="item" :value="item - 1 + fullYear" :label="item - 1 + fullYear" />
         </el-select>
       </el-radio>
     </el-form-item>

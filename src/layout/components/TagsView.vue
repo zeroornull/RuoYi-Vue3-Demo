@@ -4,15 +4,8 @@ import { useRoute, useRouter, type LocationQueryRaw, type RouteLocationRaw } fro
 import SvgIcon from "../../components/SvgIcon.vue";
 import { usePermissionStore } from "../../stores/modules/permission";
 import { useSettingsStore } from "../../stores/modules/settings";
-import {
-  useTagsViewStore,
-  type TagView,
-} from "../../stores/modules/tags-view";
-import {
-  collectAffixTags,
-  fallbackAfterClose,
-  routeToTagView,
-} from "../model";
+import { useTagsViewStore, type TagView } from "../../stores/modules/tags-view";
+import { collectAffixTags, fallbackAfterClose, routeToTagView } from "../model";
 
 type TagsCommand = "refresh" | "close" | "closeOthers" | "closeLeft" | "closeRight" | "closeAll";
 
@@ -24,9 +17,7 @@ const tagsStore = useTagsViewStore();
 const scrollRef = ref<HTMLDivElement | null>(null);
 
 const visitedViews = computed(() => tagsStore.visitedViews);
-const activeTag = computed(() =>
-  visitedViews.value.find((tag) => tag.path === route.path),
-);
+const activeTag = computed(() => visitedViews.value.find((tag) => tag.path === route.path));
 
 function isActive(tag: TagView): boolean {
   return tag.path === route.path;
@@ -41,9 +32,7 @@ function syncCurrentRoute(): void {
     tagsStore.addView(tag);
   }
   void nextTick(() => {
-    const active = scrollRef.value?.querySelector<HTMLElement>(
-      `[data-tag-path="${CSS.escape(tag.path)}"]`,
-    );
+    const active = scrollRef.value?.querySelector<HTMLElement>(`[data-tag-path="${CSS.escape(tag.path)}"]`);
     active?.scrollIntoView({ inline: "nearest", block: "nearest" });
   });
 }
@@ -65,9 +54,7 @@ function tagLocation(tag: TagView): RouteLocationRaw {
   if (!tag.query) return { path: tag.path };
   const query: LocationQueryRaw = {};
   for (const [key, item] of Object.entries(tag.query)) {
-    query[key] = Array.isArray(item)
-      ? item.map((entry) => entry ?? "")
-      : item;
+    query[key] = Array.isArray(item) ? item.map((entry) => entry ?? "") : item;
   }
   return { path: tag.path, query };
 }
@@ -76,9 +63,7 @@ function closeTag(tag: TagView): void {
   const wasActive = isActive(tag);
   const result = tagsStore.delView(tag);
   if (wasActive) {
-    navigateAfterClose(
-      result.visitedViews.map((item) => item.fullPath ?? item.path),
-    );
+    navigateAfterClose(result.visitedViews.map((item) => item.fullPath ?? item.path));
   }
 }
 
@@ -104,9 +89,7 @@ function closeRight(tag: TagView): void {
 function closeAll(): void {
   const result = tagsStore.delAllViews();
   if (!result.visitedViews.some((item) => item.path === route.path)) {
-    navigateAfterClose(
-      result.visitedViews.map((item) => item.fullPath ?? item.path),
-    );
+    navigateAfterClose(result.visitedViews.map((item) => item.fullPath ?? item.path));
   }
 }
 
@@ -146,7 +129,11 @@ onMounted(initializeTags);
         :to="tagLocation(tag)"
         class="tags-view__item"
         :class="{ 'is-active': isActive(tag) }"
-        :style="isActive(tag) && settingsStore.tagsViewStyle === 'card' ? { backgroundColor: settingsStore.theme, borderColor: settingsStore.theme } : undefined"
+        :style="
+          isActive(tag) && settingsStore.tagsViewStyle === 'card'
+            ? { backgroundColor: settingsStore.theme, borderColor: settingsStore.theme }
+            : undefined
+        "
         @click.middle.prevent="!tag.meta.affix && closeTag(tag)"
       >
         <SvgIcon v-if="settingsStore.tagsIcon && tag.meta.icon" :name="tag.meta.icon" :size="13" />

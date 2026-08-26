@@ -8,18 +8,9 @@ import {
   emptyDictTypeForm,
   emptyDictTypeQuery,
 } from "../../src/views/system/dict/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
-function dict(
-  method: string,
-  path: string,
-  body?: unknown,
-  query?: Record<string, string>,
-) {
+function dict(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
     method,
     path,
@@ -67,15 +58,11 @@ describe("dict Query/Create/Update/Row models", () => {
 describe("dict mock CRUD", () => {
   test("lists types, option-selects and returns dict values by type", () => {
     const listed = dict("GET", "/system/dict/type/list", undefined, { status: "1" });
-    expect((listed.body.rows as Array<{ dictType: string }>)[0]?.dictType).toBe(
-      "sys_unused",
-    );
+    expect((listed.body.rows as Array<{ dictType: string }>)[0]?.dictType).toBe("sys_unused");
     const options = dict("GET", "/system/dict/type/optionselect");
     expect((options.body.data as unknown[]).length).toBe(11);
     const values = dict("GET", "/system/dict/data/type/sys_yes_no");
-    expect(
-      (values.body.data as Array<{ dictValue: string }>).map((row) => row.dictValue),
-    ).toEqual(["Y", "N"]);
+    expect((values.body.data as Array<{ dictValue: string }>).map((row) => row.dictValue)).toEqual(["Y", "N"]);
   });
 
   test("creates type/data, navigates by dictId and batch-deletes", () => {
@@ -96,10 +83,9 @@ describe("dict mock CRUD", () => {
       dictType: "sys_job_misfire",
     });
     const typeRow = (created.body.rows as Array<{ dictId: string }>)[0];
-    expect(
-      (dict("GET", `/system/dict/type/${typeRow?.dictId}`).body.data as { dictType: string })
-        .dictType,
-    ).toBe("sys_job_misfire");
+    expect((dict("GET", `/system/dict/type/${typeRow?.dictId}`).body.data as { dictType: string }).dictType).toBe(
+      "sys_job_misfire",
+    );
     expect(
       dict("POST", "/system/dict/data", {
         dictType: "sys_job_misfire",
@@ -113,17 +99,12 @@ describe("dict mock CRUD", () => {
     });
     expect(dataList.body.total).toBe(1);
     expect(dict("DELETE", "/system/dict/type/5").body.code).toBe(200);
-    expect(
-      dict("GET", "/system/dict/data/list", undefined, { dictType: "sys_unused" }).body
-        .total,
-    ).toBe(0);
+    expect(dict("GET", "/system/dict/data/list", undefined, { dictType: "sys_unused" }).body.total).toBe(0);
     expect(dict("DELETE", "/system/dict/type/refreshCache").body.code).toBe(200);
   });
 
   test("dict-data hidden route keeps activeMenu on the type list", () => {
-    const dataRoute = protectedRoutes
-      .find((route) => route.path === "/system/dict-data")
-      ?.children?.[0];
+    const dataRoute = protectedRoutes.find((route) => route.path === "/system/dict-data")?.children?.[0];
     expect(dataRoute?.name).toBe("Data");
     expect(dataRoute?.meta?.activeMenu).toBe("/system/dict");
     expect(dataRoute?.path).toBe("index/:dictId(\\d+)");

@@ -10,18 +10,9 @@ import {
   passwordPromptError,
   userToForm,
 } from "../../src/views/system/user/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
-function user(
-  method: string,
-  path: string,
-  body?: unknown,
-  query?: Record<string, string>,
-) {
+function user(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
     method,
     path,
@@ -105,18 +96,13 @@ describe("user mock CRUD", () => {
     expect(page1.body.total).toBe(12);
     expect((page1.body.rows as unknown[]).length).toBe(10);
     const under105 = user("GET", "/system/user/list", undefined, { deptId: "105" });
-    const names = (under105.body.rows as Array<{ userName: string }>).map(
-      (row) => row.userName,
-    );
+    const names = (under105.body.rows as Array<{ userName: string }>).map((row) => row.userName);
     expect(names).toContain("ry");
     expect(names).not.toContain("admin");
-    expect(user("DELETE", "/system/user/1").body.msg).toBe(
+    expect(user("DELETE", "/system/user/1").body.msg).toBe("不允许操作超级管理员用户");
+    expect(user("PUT", "/system/user/changeStatus", { userId: "1", status: "1" }).body.msg).toBe(
       "不允许操作超级管理员用户",
     );
-    expect(
-      user("PUT", "/system/user/changeStatus", { userId: "1", status: "1" }).body
-        .msg,
-    ).toBe("不允许操作超级管理员用户");
   });
 
   test("creates, updates, resets password and assigns roles", () => {
@@ -150,14 +136,9 @@ describe("user mock CRUD", () => {
         postIds: ["2"],
       }).body.code,
     ).toBe(200);
-    expect(
-      user("PUT", "/system/user/resetPwd", { userId: "2", password: "newpass1" })
-        .body.code,
-    ).toBe(200);
+    expect(user("PUT", "/system/user/resetPwd", { userId: "2", password: "newpass1" }).body.code).toBe(200);
     const auth = user("GET", "/system/user/authRole/2");
-    expect(assignedRoleIds(auth.body.roles as Array<{ roleId: string; flag?: boolean }>)).toEqual(
-      ["2"],
-    );
+    expect(assignedRoleIds(auth.body.roles as Array<{ roleId: string; flag?: boolean }>)).toEqual(["2"]);
     expect(
       user("PUT", "/system/user/authRole", undefined, {
         userId: "2",
@@ -170,9 +151,7 @@ describe("user mock CRUD", () => {
   });
 
   test("auth-role hidden route keeps activeMenu on the user list", () => {
-    const authRoute = protectedRoutes
-      .find((route) => route.path === "/system/user-auth")
-      ?.children?.[0];
+    const authRoute = protectedRoutes.find((route) => route.path === "/system/user-auth")?.children?.[0];
     expect(authRoute?.name).toBe("AuthRole");
     expect(authRoute?.meta?.activeMenu).toBe("/system/user");
     expect(authRoute?.path).toBe("role/:userId(\\d+)");

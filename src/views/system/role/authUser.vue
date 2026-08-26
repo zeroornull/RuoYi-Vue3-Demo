@@ -4,20 +4,11 @@ import { useRoute, useRouter } from "vue-router";
 import type { FormInstance } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { CircleClose, Close, Plus, Refresh, Search } from "@element-plus/icons-vue";
-import {
-  allocatedUserList,
-  authUserCancel,
-  authUserCancelAll,
-} from "../../../api/system/role";
+import { allocatedUserList, authUserCancel, authUserCancelAll } from "../../../api/system/role";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
 import { useDict } from "../../../composables/useDict";
-import {
-  emptySelection,
-  firstPage,
-  replaceObject,
-  selectionFromRows,
-} from "../../../composables/crud";
+import { emptySelection, firstPage, replaceObject, selectionFromRows } from "../../../composables/crud";
 import { parseSingleRouteParam } from "../../../router/params";
 import { useTagsViewStore } from "../../../stores/modules/tags-view";
 import { parseTime } from "../../../utils/parse-time";
@@ -126,7 +117,9 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:role:add']" type="primary" plain :icon="Plus" @click="selectRef?.show()">添加用户</el-button>
+        <el-button v-hasPermi="['system:role:add']" type="primary" plain :icon="Plus" @click="selectRef?.show()"
+          >添加用户</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -136,7 +129,8 @@ onMounted(() => {
           :icon="CircleClose"
           :disabled="selection.multiple"
           @click="cancelAuthUserAll"
-        >批量取消授权</el-button>
+          >批量取消授权</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain :icon="Close" @click="handleClose">关闭</el-button>
@@ -163,7 +157,14 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
-          <el-button v-hasPermi="['system:role:remove']" link type="primary" :icon="CircleClose" @click="cancelAuthUser(row)">取消授权</el-button>
+          <el-button
+            v-hasPermi="['system:role:remove']"
+            link
+            type="primary"
+            :icon="CircleClose"
+            @click="cancelAuthUser(row)"
+            >取消授权</el-button
+          >
         </template>
       </el-table-column>
     </el-table>

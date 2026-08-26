@@ -1,11 +1,4 @@
-import type {
-  ApiDateTime,
-  BaseEntity,
-  DateRangeQuery,
-  EnabledStatus,
-  EntityId,
-  PageQuery,
-} from "./common";
+import type { ApiDateTime, BaseEntity, DateRangeQuery, EnabledStatus, EntityId, PageQuery } from "./common";
 import type { PageResponse } from "../http";
 
 export type OnlineQuery = {

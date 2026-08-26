@@ -7,14 +7,14 @@
 
 ## 1. Bun 在本仓库承担什么
 
-| 能力 | 本仓库是否采用 | 说明 |
-| --- | --- | --- |
-| 包管理器 | 是 | `bun install`、`bun.lock`、`packageManager` |
-| 脚本入口 | 是 | `bun run <script>` |
-| 仓库脚本 runtime | 是 | `scripts/` 由 Bun 直接执行 TypeScript/JS |
-| 浏览器应用 runtime | 否 | 前端代码跑在浏览器，禁止使用 `Bun.*` |
-| Vite CLI runtime | 第 2 轮起采用 | 使用 `bunx --bun vite`，避免 Vite shebang 落到 Node |
-| 测试运行器 | 本轮不决定 | 后续可用 `bun test` 或 Vitest；不在第 1 轮引入 |
+| 能力               | 本仓库是否采用 | 说明                                                |
+| ------------------ | -------------- | --------------------------------------------------- |
+| 包管理器           | 是             | `bun install`、`bun.lock`、`packageManager`         |
+| 脚本入口           | 是             | `bun run <script>`                                  |
+| 仓库脚本 runtime   | 是             | `scripts/` 由 Bun 直接执行 TypeScript/JS            |
+| 浏览器应用 runtime | 否             | 前端代码跑在浏览器，禁止使用 `Bun.*`                |
+| Vite CLI runtime   | 第 2 轮起采用  | 使用 `bunx --bun vite`，避免 Vite shebang 落到 Node |
+| 测试运行器         | 本轮不决定     | 后续可用 `bun test` 或 Vitest；不在第 1 轮引入      |
 
 `package.json` 同时固定：
 
@@ -40,11 +40,11 @@
 
 ## 2. `bun run`、`bunx`、`bunx --bun`
 
-| 命令 | 作用 |
-| --- | --- |
+| 命令               | 作用                                                                            |
+| ------------------ | ------------------------------------------------------------------------------- |
 | `bun run <script>` | 执行 `package.json` scripts，或直接跑仓库里的文件；本仓库脚本默认是 Bun runtime |
-| `bunx <pkg>` | 类似 `npx`，按可执行文件 shebang 启动，常见 CLI 的 shebang 是 Node |
-| `bunx --bun <pkg>` | 覆盖 shebang，强制用 Bun 跑该 CLI |
+| `bunx <pkg>`       | 类似 `npx`，按可执行文件 shebang 启动，常见 CLI 的 shebang 是 Node              |
+| `bunx --bun <pkg>` | 覆盖 shebang，强制用 Bun 跑该 CLI                                               |
 
 第 2 轮安装 Vite 后，脚本必须写成 `bunx --bun vite`，而不是假设 `bunx vite` 一定跑在 Bun 上。
 

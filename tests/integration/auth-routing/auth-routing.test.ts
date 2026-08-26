@@ -89,8 +89,7 @@ function createFixture(options: FixtureOptions = {}) {
         isAuthenticated: () => user.isAuthenticated,
         isLocked: () => false,
         setTitle: () => undefined,
-        isAccessReady: () =>
-          user.rolesLoaded && permission.status === "loaded",
+        isAccessReady: () => user.rolesLoaded && permission.status === "loaded",
         ensureAccess: bootstrap.ensureAccess,
         onAccessError: () => user.resetSession(),
       };
@@ -159,9 +158,7 @@ describe("authentication and dynamic routing loop", () => {
     await fixture.user.logOut();
     expect(fixture.calls.logout).toBe(1);
     expect(fixture.router.hasRoute("DynamicUsers")).toBe(false);
-    expect(fixture.router.resolve("/dynamic-users").name).toBe(
-      ROUTE_NAMES.notFound,
-    );
+    expect(fixture.router.resolve("/dynamic-users").name).toBe(ROUTE_NAMES.notFound);
     expect(fixture.permission.status).toBe("idle");
   });
 });

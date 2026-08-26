@@ -63,11 +63,8 @@ const loadDynamicPage: LazyRouteComponent = () =>
 const loadInnerLink: LazyRouteComponent = () =>
   import("./components/static-pages").then((module) => module.InnerLinkPage);
 const loadUnknownComponent: LazyRouteComponent = () =>
-  import("./components/static-pages").then(
-    (module) => module.UnknownComponentPage,
-  );
-const loadParentView: LazyRouteComponent = () =>
-  import("../components/ParentView/index.vue");
+  import("./components/static-pages").then((module) => module.UnknownComponentPage);
+const loadParentView: LazyRouteComponent = () => import("../components/ParentView/index.vue");
 
 export function resolveBackendComponent(options: {
   component: string | null | undefined;

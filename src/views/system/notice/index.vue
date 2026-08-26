@@ -20,20 +20,12 @@ import {
 } from "../../../composables/crud";
 import { parseTime } from "../../../utils/parse-time";
 import type { Notice, NoticeUpsertRequest } from "../../../types/api/system";
-import {
-  NOTICE_PAGE_NAME,
-  emptyNoticeForm,
-  emptyNoticeQuery,
-  noticeToForm,
-} from "./model";
+import { NOTICE_PAGE_NAME, emptyNoticeForm, emptyNoticeQuery, noticeToForm } from "./model";
 import ReadUsers from "./ReadUsers.vue";
 
 defineOptions({ name: NOTICE_PAGE_NAME });
 
-const { sys_notice_status, sys_notice_type } = useDict(
-  "sys_notice_status",
-  "sys_notice_type",
-);
+const { sys_notice_status, sys_notice_type } = useDict("sys_notice_status", "sys_notice_type");
 const queryRef = ref<FormInstance>();
 const noticeRef = ref<FormInstance>();
 const readUsersRef = ref<InstanceType<typeof ReadUsers>>();
@@ -149,17 +141,39 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:notice:add']" type="primary" plain :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button v-hasPermi="['system:notice:add']" type="primary" plain :icon="Plus" @click="handleAdd"
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:notice:edit']" type="success" plain :icon="Edit" :disabled="selection.single" @click="handleUpdate()">修改</el-button>
+        <el-button
+          v-hasPermi="['system:notice:edit']"
+          type="success"
+          plain
+          :icon="Edit"
+          :disabled="selection.single"
+          @click="handleUpdate()"
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:notice:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete()">删除</el-button>
+        <el-button
+          v-hasPermi="['system:notice:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete()"
+          >删除</el-button
+        >
       </el-col>
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
-    <el-table v-loading="loading" :data="list" @selection-change="(rows: Notice[]) => (selection = selectionFromRows(rows, (row) => row.noticeId))">
+    <el-table
+      v-loading="loading"
+      :data="list"
+      @selection-change="(rows: Notice[]) => (selection = selectionFromRows(rows, (row) => row.noticeId))"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="noticeId" width="100" />
       <el-table-column label="公告标题" align="center" show-overflow-tooltip>
@@ -179,13 +193,30 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
-          <el-button v-hasPermi="['system:notice:list']" link type="primary" :icon="User" @click="readUsersRef?.open(row)">阅读用户</el-button>
-          <el-button v-hasPermi="['system:notice:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)">修改</el-button>
-          <el-button v-hasPermi="['system:notice:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)">删除</el-button>
+          <el-button
+            v-hasPermi="['system:notice:list']"
+            link
+            type="primary"
+            :icon="User"
+            @click="readUsersRef?.open(row)"
+            >阅读用户</el-button
+          >
+          <el-button v-hasPermi="['system:notice:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)"
+            >修改</el-button
+          >
+          <el-button v-hasPermi="['system:notice:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    <Pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
+    <Pagination
+      v-show="total > 0"
+      :total="total"
+      v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize"
+      @pagination="getList"
+    />
     <el-dialog v-model="open" :title="title" width="780px" append-to-body>
       <el-form ref="noticeRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="公告标题" prop="noticeTitle">
@@ -198,7 +229,9 @@ onMounted(() => {
         </el-form-item>
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="dict in sys_notice_status" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+            <el-radio v-for="dict in sys_notice_status" :key="dict.value" :value="dict.value">{{
+              dict.label
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="内容">

@@ -115,4 +115,3 @@ bun run build:stage
 ```text
 refactor: migrate typed monitoring and scheduler views
 ```
-

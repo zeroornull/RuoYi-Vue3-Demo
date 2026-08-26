@@ -27,11 +27,7 @@ describe("tags view store", () => {
       name: "Notice",
       meta: { title: "公告", noCache: true },
     });
-    expect(store.visitedViews.map((view) => view.path)).toEqual([
-      "/index",
-      "/user",
-      "/notice",
-    ]);
+    expect(store.visitedViews.map((view) => view.path)).toEqual(["/index", "/user", "/notice"]);
     expect(store.cachedViews).toEqual(["User"]);
 
     const persisted = parsePersistedTags(storage.get(TAGS_VIEW_PERSIST_KEY));
@@ -49,9 +45,7 @@ describe("tags view store", () => {
       TAGS_VIEW_PERSIST_KEY,
       JSON.stringify({
         version: 1,
-        visitedViews: [
-          { path: "/job", name: "Job", title: "任务", meta: {} },
-        ],
+        visitedViews: [{ path: "/job", name: "Job", title: "任务", meta: {} }],
       }),
     );
     const store = createUseTagsViewStore({
@@ -79,15 +73,8 @@ describe("tags view store", () => {
     store.addView({ path: "/a", name: "A", meta: {} });
     store.addView({ path: "/b", name: "B", meta: {} });
     store.addView({ path: "/c", name: "C", meta: {} });
-    expect(store.delRightTags({ path: "/b" }).map((view) => view.path)).toEqual([
-      "/index",
-      "/a",
-      "/b",
-    ]);
-    expect(store.delLeftTags({ path: "/b" }).map((view) => view.path)).toEqual([
-      "/index",
-      "/b",
-    ]);
+    expect(store.delRightTags({ path: "/b" }).map((view) => view.path)).toEqual(["/index", "/a", "/b"]);
+    expect(store.delLeftTags({ path: "/b" }).map((view) => view.path)).toEqual(["/index", "/b"]);
   });
 });
 
@@ -108,15 +95,9 @@ describe("permission store", () => {
 
     expect(store.routes.map((route) => route.path)).toEqual(["/login", "/system"]);
     expect(store.addRoutes[0]?.children?.[0]?.path).toBe("user");
-    expect(store.sidebarRouters.map((route) => route.path)).toEqual([
-      "/login",
-      "/system",
-    ]);
+    expect(store.sidebarRouters.map((route) => route.path)).toEqual(["/login", "/system"]);
     expect(store.topbarRouters[0]?.path).toBe("/system");
-    expect(store.defaultRoutes.map((route) => route.path)).toEqual([
-      "/login",
-      "/system",
-    ]);
+    expect(store.defaultRoutes.map((route) => route.path)).toEqual(["/login", "/system"]);
     expect(store.status).toBe("loaded");
 
     store.resetRoutes();
@@ -132,9 +113,7 @@ describe("store migration manifest", () => {
       expect(await Bun.file(record.source).exists()).toBe(true);
       expect(await Bun.file(record.target).exists()).toBe(true);
     }
-    expect(
-      STORE_MIGRATION_MANIFEST.every((record) => record.status === "migrated"),
-    ).toBe(true);
+    expect(STORE_MIGRATION_MANIFEST.every((record) => record.status === "migrated")).toBe(true);
   });
 
   test("keeps the declared store dependency graph acyclic", () => {

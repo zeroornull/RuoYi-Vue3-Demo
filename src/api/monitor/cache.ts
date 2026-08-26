@@ -12,30 +12,21 @@ export function listCacheName(): Promise<ApiResponse<CacheEntry[]>> {
 }
 
 export function listCacheKey(cacheName: string): Promise<ApiResponse<string[]>> {
-  return http.get<ApiResponse<string[]>>(
-    `/monitor/cache/getKeys/${encodePathSegment(cacheName)}`,
-  );
+  return http.get<ApiResponse<string[]>>(`/monitor/cache/getKeys/${encodePathSegment(cacheName)}`);
 }
 
-export function getCacheValue(
-  cacheName: string,
-  cacheKey: string,
-): Promise<ApiResponse<CacheEntry>> {
+export function getCacheValue(cacheName: string, cacheKey: string): Promise<ApiResponse<CacheEntry>> {
   return http.get<ApiResponse<CacheEntry>>(
     `/monitor/cache/getValue/${encodePathSegment(cacheName)}/${encodePathSegment(cacheKey)}`,
   );
 }
 
 export function clearCacheName(cacheName: string): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/monitor/cache/clearCacheName/${encodePathSegment(cacheName)}`,
-  );
+  return http.delete<EmptyResponse>(`/monitor/cache/clearCacheName/${encodePathSegment(cacheName)}`);
 }
 
 export function clearCacheKey(cacheKey: string): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/monitor/cache/clearCacheKey/${encodePathSegment(cacheKey)}`,
-  );
+  return http.delete<EmptyResponse>(`/monitor/cache/clearCacheKey/${encodePathSegment(cacheKey)}`);
 }
 
 export function clearCacheAll(): Promise<EmptyResponse> {

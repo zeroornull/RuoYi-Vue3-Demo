@@ -100,8 +100,5 @@ export function resolveCustomIcon(name: string): string | null {
 }
 
 export function listSelectableIcons(): string[] {
-  return [
-    ...Object.keys(elementIconRegistry),
-    ...Object.keys(customIconRegistry),
-  ];
+  return [...Object.keys(elementIconRegistry), ...Object.keys(customIconRegistry)];
 }

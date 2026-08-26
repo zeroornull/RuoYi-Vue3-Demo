@@ -10,18 +10,9 @@ import {
   jobToForm,
   misfirePolicyLabel,
 } from "../../src/views/monitor/job/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
-function job(
-  method: string,
-  path: string,
-  body?: unknown,
-  query?: Record<string, string>,
-) {
+function job(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
     method,
     path,
@@ -86,9 +77,7 @@ describe("job Query/Create/Update/Row models", () => {
 describe("job mock CRUD, run and logs", () => {
   test("lists jobs, rejects empty create, updates status and runs once", () => {
     expect(job("GET", "/monitor/job/list").body.total).toBe(3);
-    expect(
-      job("GET", "/monitor/job/list", undefined, { status: "1" }).body.total,
-    ).toBe(1);
+    expect(job("GET", "/monitor/job/list", undefined, { status: "1" }).body.total).toBe(1);
     expect(
       job("POST", "/monitor/job", {
         jobName: "",
@@ -105,27 +94,16 @@ describe("job mock CRUD, run and logs", () => {
       }).body.code,
     ).toBe(200);
     expect(job("GET", "/monitor/job/list").body.total).toBe(4);
-    expect(
-      job("PUT", "/monitor/job/changeStatus", { jobId: "2", status: "0" }).body.code,
-    ).toBe(200);
-    expect((job("GET", "/monitor/job/2").body.data as { status: string }).status).toBe(
-      "0",
-    );
-    expect(job("PUT", "/monitor/job/run", { jobId: "1", jobGroup: "DEFAULT" }).body.code).toBe(
-      200,
-    );
-    expect(
-      job("GET", "/monitor/jobLog/list", undefined, { jobName: "系统默认（无参）" }).body
-        .total,
-    ).toBe(3);
+    expect(job("PUT", "/monitor/job/changeStatus", { jobId: "2", status: "0" }).body.code).toBe(200);
+    expect((job("GET", "/monitor/job/2").body.data as { status: string }).status).toBe("0");
+    expect(job("PUT", "/monitor/job/run", { jobId: "1", jobGroup: "DEFAULT" }).body.code).toBe(200);
+    expect(job("GET", "/monitor/jobLog/list", undefined, { jobName: "系统默认（无参）" }).body.total).toBe(3);
     expect(job("DELETE", "/monitor/job/4").body.code).toBe(200);
   });
 
   test("exposes failed log stacks, deletes and cleans job logs", () => {
     const failed = job("GET", "/monitor/jobLog/list", undefined, { status: "1" });
-    const row = (
-      failed.body.rows as Array<{ exceptionInfo: string; jobName: string }>
-    )[0];
+    const row = (failed.body.rows as Array<{ exceptionInfo: string; jobName: string }>)[0];
     expect(row?.jobName).toBe("系统默认（有参）");
     expect(row?.exceptionInfo).toContain("RuntimeException");
     expect(job("DELETE", "/monitor/jobLog/1").body.code).toBe(200);
@@ -136,9 +114,7 @@ describe("job mock CRUD, run and logs", () => {
   });
 
   test("job-log hidden route keeps activeMenu on the job list", () => {
-    const logRoute = protectedRoutes
-      .find((route) => route.path === "/monitor/job-log")
-      ?.children?.[0];
+    const logRoute = protectedRoutes.find((route) => route.path === "/monitor/job-log")?.children?.[0];
     expect(logRoute?.name).toBe("JobLog");
     expect(logRoute?.meta?.activeMenu).toBe("/monitor/job");
     expect(logRoute?.path).toBe("index/:jobId(\\d+)");

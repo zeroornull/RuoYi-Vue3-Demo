@@ -13,22 +13,12 @@ import { download } from "../../../http";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
 import { useDict } from "../../../composables/useDict";
-import {
-  emptySelection,
-  firstPage,
-  idsForAction,
-  replaceObject,
-  selectionFromRows,
-} from "../../../composables/crud";
+import { emptySelection, firstPage, idsForAction, replaceObject, selectionFromRows } from "../../../composables/crud";
 import { addDateRange } from "../../../utils/params";
 import { parseTime } from "../../../utils/parse-time";
 import type { LoginInfoLog } from "../../../types/api/monitor";
 import { tableSortToQuery, type TableSortEvent } from "../log-query";
-import {
-  LOGININFOR_DEFAULT_SORT,
-  LOGININFOR_PAGE_NAME,
-  emptyLoginInfoQuery,
-} from "./model";
+import { LOGININFOR_DEFAULT_SORT, LOGININFOR_PAGE_NAME, emptyLoginInfoQuery } from "./model";
 
 defineOptions({ name: LOGININFOR_PAGE_NAME });
 
@@ -144,16 +134,41 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:logininfor:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete">删除</el-button>
+        <el-button
+          v-hasPermi="['monitor:logininfor:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete"
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:logininfor:remove']" type="danger" plain :icon="Delete" @click="handleClean">清空</el-button>
+        <el-button v-hasPermi="['monitor:logininfor:remove']" type="danger" plain :icon="Delete" @click="handleClean"
+          >清空</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:logininfor:unlock']" type="primary" plain :icon="Unlock" :disabled="selection.single" @click="handleUnlock">解锁</el-button>
+        <el-button
+          v-hasPermi="['monitor:logininfor:unlock']"
+          type="primary"
+          plain
+          :icon="Unlock"
+          :disabled="selection.single"
+          @click="handleUnlock"
+          >解锁</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:logininfor:export']" type="warning" plain :icon="Download" @click="handleExport">导出</el-button>
+        <el-button
+          v-hasPermi="['monitor:logininfor:export']"
+          type="warning"
+          plain
+          :icon="Download"
+          @click="handleExport"
+          >导出</el-button
+        >
       </el-col>
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
@@ -167,7 +182,14 @@ onMounted(() => {
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="访问编号" align="center" prop="infoId" />
-      <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
+      <el-table-column
+        label="用户名称"
+        align="center"
+        prop="userName"
+        :show-overflow-tooltip="true"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      />
       <el-table-column label="地址" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
       <el-table-column label="登录地点" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
       <el-table-column label="操作系统" align="center" prop="os" :show-overflow-tooltip="true" />
@@ -178,7 +200,14 @@ onMounted(() => {
         </template>
       </el-table-column>
       <el-table-column label="描述" align="center" prop="msg" :show-overflow-tooltip="true" />
-      <el-table-column label="访问时间" align="center" prop="loginTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
+      <el-table-column
+        label="访问时间"
+        align="center"
+        prop="loginTime"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+        width="180"
+      >
         <template #default="{ row }">{{ parseTime(row.loginTime) }}</template>
       </el-table-column>
     </el-table>

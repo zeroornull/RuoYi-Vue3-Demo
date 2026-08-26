@@ -29,11 +29,7 @@ export class BackendRouteValidationError extends Error {
   }
 }
 
-function optionalString(
-  source: Record<string, unknown>,
-  key: string,
-  path: string,
-): string | undefined {
+function optionalString(source: Record<string, unknown>, key: string, path: string): string | undefined {
   const value = source[key];
   if (value === undefined) return undefined;
   if (typeof value !== "string") {
@@ -42,11 +38,7 @@ function optionalString(
   return value;
 }
 
-function optionalNullableString(
-  source: Record<string, unknown>,
-  key: string,
-  path: string,
-): string | null | undefined {
+function optionalNullableString(source: Record<string, unknown>, key: string, path: string): string | null | undefined {
   const value = source[key];
   if (value === undefined || value === null) return value;
   if (typeof value !== "string") {
@@ -55,11 +47,7 @@ function optionalNullableString(
   return value;
 }
 
-function optionalBoolean(
-  source: Record<string, unknown>,
-  key: string,
-  path: string,
-): boolean | undefined {
+function optionalBoolean(source: Record<string, unknown>, key: string, path: string): boolean | undefined {
   const value = source[key];
   if (value === undefined) return undefined;
   if (typeof value !== "boolean") {
@@ -110,9 +98,7 @@ export function parseBackendRoute(value: unknown, path: string): BackendRouteDto
     if (!Array.isArray(value.children)) {
       throw new BackendRouteValidationError(`${path}.children`, "array");
     }
-    children = value.children.map((child, index) =>
-      parseBackendRoute(child, `${path}.children[${index}]`),
-    );
+    children = value.children.map((child, index) => parseBackendRoute(child, `${path}.children[${index}]`));
   }
   return {
     path: value.path.trim(),

@@ -46,7 +46,12 @@ defineProps<{
       {{ option.label }}
     </el-radio>
   </el-radio-group>
-  <el-upload v-else-if="element.kind === 'upload'" :action="element.action" :accept="element.accept" :disabled="element.disabled">
+  <el-upload
+    v-else-if="element.kind === 'upload'"
+    :action="element.action"
+    :accept="element.accept"
+    :disabled="element.disabled"
+  >
     <el-button type="primary">{{ element.buttonText }}</el-button>
   </el-upload>
   <el-tree

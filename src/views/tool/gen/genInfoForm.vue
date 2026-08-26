@@ -5,11 +5,7 @@ import { QuestionFilled } from "@element-plus/icons-vue";
 import { treeselect } from "../../../api/system/menu";
 import type { TreeSelectNode } from "../../../types/api/common";
 import type { GeneratorTable } from "../../../types/api/tool";
-import {
-  clearCategoryExtras,
-  subTableColumns,
-  type GenEditForm,
-} from "./model";
+import { clearCategoryExtras, subTableColumns, type GenEditForm } from "./model";
 
 const props = defineProps<{
   info: GenEditForm;

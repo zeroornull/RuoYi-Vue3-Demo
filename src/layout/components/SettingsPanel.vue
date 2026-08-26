@@ -19,8 +19,7 @@ function checked(event: Event): boolean {
 }
 
 function value(event: Event): string {
-  return event.target instanceof HTMLInputElement ||
-    event.target instanceof HTMLSelectElement
+  return event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement
     ? event.target.value
     : "";
 }
@@ -100,13 +99,52 @@ defineExpose({ openSetting });
         </select>
       </label>
 
-      <label class="settings-panel__row"><span>暗色模式</span><input type="checkbox" :checked="settingsStore.isDark" @change="settingsStore.changeSetting({ key: 'isDark', value: checked($event) })" /></label>
-      <label class="settings-panel__row"><span>显示 TagsView</span><input type="checkbox" :checked="settingsStore.tagsView" @change="settingsStore.changeSetting({ key: 'tagsView', value: checked($event) })" /></label>
-      <label class="settings-panel__row"><span>持久化 TagsView</span><input type="checkbox" :checked="settingsStore.tagsViewPersist" @change="toggleTagsPersist" /></label>
-      <label class="settings-panel__row"><span>显示标签图标</span><input type="checkbox" :checked="settingsStore.tagsIcon" @change="settingsStore.changeSetting({ key: 'tagsIcon', value: checked($event) })" /></label>
-      <label class="settings-panel__row"><span>固定头部</span><input type="checkbox" :checked="settingsStore.fixedHeader" @change="settingsStore.changeSetting({ key: 'fixedHeader', value: checked($event) })" /></label>
-      <label class="settings-panel__row"><span>显示 Logo</span><input type="checkbox" :checked="settingsStore.sidebarLogo" @change="settingsStore.changeSetting({ key: 'sidebarLogo', value: checked($event) })" /></label>
-      <label class="settings-panel__row"><span>显示页脚</span><input type="checkbox" :checked="settingsStore.footerVisible" @change="settingsStore.changeSetting({ key: 'footerVisible', value: checked($event) })" /></label>
+      <label class="settings-panel__row"
+        ><span>暗色模式</span
+        ><input
+          type="checkbox"
+          :checked="settingsStore.isDark"
+          @change="settingsStore.changeSetting({ key: 'isDark', value: checked($event) })"
+      /></label>
+      <label class="settings-panel__row"
+        ><span>显示 TagsView</span
+        ><input
+          type="checkbox"
+          :checked="settingsStore.tagsView"
+          @change="settingsStore.changeSetting({ key: 'tagsView', value: checked($event) })"
+      /></label>
+      <label class="settings-panel__row"
+        ><span>持久化 TagsView</span
+        ><input type="checkbox" :checked="settingsStore.tagsViewPersist" @change="toggleTagsPersist"
+      /></label>
+      <label class="settings-panel__row"
+        ><span>显示标签图标</span
+        ><input
+          type="checkbox"
+          :checked="settingsStore.tagsIcon"
+          @change="settingsStore.changeSetting({ key: 'tagsIcon', value: checked($event) })"
+      /></label>
+      <label class="settings-panel__row"
+        ><span>固定头部</span
+        ><input
+          type="checkbox"
+          :checked="settingsStore.fixedHeader"
+          @change="settingsStore.changeSetting({ key: 'fixedHeader', value: checked($event) })"
+      /></label>
+      <label class="settings-panel__row"
+        ><span>显示 Logo</span
+        ><input
+          type="checkbox"
+          :checked="settingsStore.sidebarLogo"
+          @change="settingsStore.changeSetting({ key: 'sidebarLogo', value: checked($event) })"
+      /></label>
+      <label class="settings-panel__row"
+        ><span>显示页脚</span
+        ><input
+          type="checkbox"
+          :checked="settingsStore.footerVisible"
+          @change="settingsStore.changeSetting({ key: 'footerVisible', value: checked($event) })"
+      /></label>
 
       <button type="button" class="settings-panel__reset" @click="reset">恢复默认设置</button>
     </div>

@@ -3,9 +3,7 @@ export type TypedFormInstance = {
   resetFields: () => void;
 };
 
-export async function submitForm(
-  form: TypedFormInstance | null | undefined,
-): Promise<boolean> {
+export async function submitForm(form: TypedFormInstance | null | undefined): Promise<boolean> {
   if (!form) {
     return false;
   }
@@ -17,8 +15,6 @@ export async function submitForm(
   }
 }
 
-export function resetForm(
-  form: TypedFormInstance | null | undefined,
-): void {
+export function resetForm(form: TypedFormInstance | null | undefined): void {
   form?.resetFields();
 }

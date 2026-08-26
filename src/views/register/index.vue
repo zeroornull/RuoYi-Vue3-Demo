@@ -115,12 +115,7 @@ onMounted(() => {
 
 <template>
   <div class="register">
-    <el-form
-      ref="registerRef"
-      :model="registerForm"
-      :rules="registerRules"
-      class="register-form"
-    >
+    <el-form ref="registerRef" :model="registerForm" :rules="registerRules" class="register-form">
       <h3 class="title">{{ appEnv.title }}</h3>
       <el-form-item prop="username">
         <el-input v-model="registerForm.username" size="large" placeholder="账号">

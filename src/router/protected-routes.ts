@@ -2,31 +2,11 @@ import { RouterShell } from "./components/router-shell";
 import { loadVuePage } from "./components/static-pages";
 import type { AppRouteRecordRaw } from "./types";
 
-const loadDictDataPage = loadVuePage(
-  "Data",
-  "字典数据",
-  () => import("../views/system/dict/data.vue"),
-);
-const loadAuthRolePage = loadVuePage(
-  "AuthRole",
-  "分配角色",
-  () => import("../views/system/user/authRole.vue"),
-);
-const loadAuthUserPage = loadVuePage(
-  "AuthUser",
-  "分配用户",
-  () => import("../views/system/role/authUser.vue"),
-);
-const loadJobLogPage = loadVuePage(
-  "JobLog",
-  "调度日志",
-  () => import("../views/monitor/job/log.vue"),
-);
-const loadGenEditPage = loadVuePage(
-  "GenEdit",
-  "修改生成配置",
-  () => import("../views/tool/gen/editTable.vue"),
-);
+const loadDictDataPage = loadVuePage("Data", "字典数据", () => import("../views/system/dict/data.vue"));
+const loadAuthRolePage = loadVuePage("AuthRole", "分配角色", () => import("../views/system/user/authRole.vue"));
+const loadAuthUserPage = loadVuePage("AuthUser", "分配用户", () => import("../views/system/role/authUser.vue"));
+const loadJobLogPage = loadVuePage("JobLog", "调度日志", () => import("../views/monitor/job/log.vue"));
+const loadGenEditPage = loadVuePage("GenEdit", "修改生成配置", () => import("../views/tool/gen/editTable.vue"));
 
 export const protectedRoutes: AppRouteRecordRaw[] = [
   {

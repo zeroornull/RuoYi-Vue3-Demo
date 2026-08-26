@@ -92,10 +92,7 @@ export type UserUpsertRequest = {
   remark?: string | null;
 };
 
-export type UserProfileUpdateRequest = Pick<
-  UserUpsertRequest,
-  "nickName" | "email" | "phonenumber" | "sex"
->;
+export type UserProfileUpdateRequest = Pick<UserUpsertRequest, "nickName" | "email" | "phonenumber" | "sex">;
 
 export type UserFormResponse = EmptyResponse & {
   data?: SystemUser;
@@ -158,10 +155,10 @@ export type Menu = BaseEntity & {
   children?: Menu[];
 };
 
-export type MenuUpsertRequest = Omit<
-  Menu,
-  keyof BaseEntity | "children" | "menuId"
-> & { menuId?: EntityId; remark?: string | null };
+export type MenuUpsertRequest = Omit<Menu, keyof BaseEntity | "children" | "menuId"> & {
+  menuId?: EntityId;
+  remark?: string | null;
+};
 export type SortRequest = { ids: string; orderNums: string };
 export type RoleMenuTreeResponse = EmptyResponse & {
   checkedKeys: EntityId[];

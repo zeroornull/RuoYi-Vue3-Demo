@@ -2,11 +2,7 @@ import type { RouteLocationNormalizedGeneric } from "vue-router";
 import { RouterShell } from "./components/router-shell";
 import { IndexPage, loadVuePage } from "./components/static-pages";
 import { buildRedirectLocation, parseProfileActiveTab } from "./params";
-import {
-  assertUniqueRouteNames,
-  ROUTE_NAMES,
-  type AppRouteRecordRaw,
-} from "./types";
+import { assertUniqueRouteNames, ROUTE_NAMES, type AppRouteRecordRaw } from "./types";
 
 export const staticRoutes: AppRouteRecordRaw[] = [
   {

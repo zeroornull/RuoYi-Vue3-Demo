@@ -27,16 +27,8 @@ const memoryChart = createBoundChart();
 const info = computed(() => cache.value.info);
 
 function renderCharts(): void {
-  commandChart.render(
-    commandEl.value,
-    settings.isDark,
-    commandPieOption(cache.value.commandStats),
-  );
-  memoryChart.render(
-    memoryEl.value,
-    settings.isDark,
-    memoryGaugeOption(info.value.used_memory_human),
-  );
+  commandChart.render(commandEl.value, settings.isDark, commandPieOption(cache.value.commandStats));
+  memoryChart.render(memoryEl.value, settings.isDark, memoryGaugeOption(info.value.used_memory_human));
 }
 
 async function getList(): Promise<void> {
@@ -80,7 +72,9 @@ onUnmounted(() => {
           <template #header>
             <el-icon><Monitor /></el-icon>
             <span>基本信息</span>
-            <el-button v-hasPermi="['monitor:cache:list']" link type="primary" :icon="Refresh" @click="getList">刷新</el-button>
+            <el-button v-hasPermi="['monitor:cache:list']" link type="primary" :icon="Refresh" @click="getList"
+              >刷新</el-button
+            >
           </template>
           <el-descriptions :column="4" border>
             <el-descriptions-item label="Redis版本">{{ cacheField(info, "redis_version") }}</el-descriptions-item>
@@ -89,13 +83,21 @@ onUnmounted(() => {
             <el-descriptions-item label="客户端数">{{ cacheField(info, "connected_clients") }}</el-descriptions-item>
             <el-descriptions-item label="运行时间(天)">{{ cacheField(info, "uptime_in_days") }}</el-descriptions-item>
             <el-descriptions-item label="使用内存">{{ cacheField(info, "used_memory_human") }}</el-descriptions-item>
-            <el-descriptions-item label="使用CPU">{{ formatCpuUsage(info.used_cpu_user_children) }}</el-descriptions-item>
+            <el-descriptions-item label="使用CPU">{{
+              formatCpuUsage(info.used_cpu_user_children)
+            }}</el-descriptions-item>
             <el-descriptions-item label="内存配置">{{ cacheField(info, "maxmemory_human") }}</el-descriptions-item>
-            <el-descriptions-item label="AOF是否开启">{{ info.aof_enabled === "0" ? "否" : info.aof_enabled ? "是" : "-" }}</el-descriptions-item>
-            <el-descriptions-item label="RDB是否成功">{{ cacheField(info, "rdb_last_bgsave_status") }}</el-descriptions-item>
+            <el-descriptions-item label="AOF是否开启">{{
+              info.aof_enabled === "0" ? "否" : info.aof_enabled ? "是" : "-"
+            }}</el-descriptions-item>
+            <el-descriptions-item label="RDB是否成功">{{
+              cacheField(info, "rdb_last_bgsave_status")
+            }}</el-descriptions-item>
             <el-descriptions-item label="Key数量">{{ cache.dbSize }}</el-descriptions-item>
             <el-descriptions-item label="网络入口/出口">
-              {{ cacheField(info, "instantaneous_input_kbps") }}kps/{{ cacheField(info, "instantaneous_output_kbps") }}kps
+              {{ cacheField(info, "instantaneous_input_kbps") }}kps/{{
+                cacheField(info, "instantaneous_output_kbps")
+              }}kps
             </el-descriptions-item>
           </el-descriptions>
         </el-card>

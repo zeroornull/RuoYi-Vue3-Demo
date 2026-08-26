@@ -310,16 +310,36 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:role:add']" type="primary" plain :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button v-hasPermi="['system:role:add']" type="primary" plain :icon="Plus" @click="handleAdd"
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:role:edit']" type="success" plain :icon="Edit" :disabled="selection.single" @click="handleUpdate()">修改</el-button>
+        <el-button
+          v-hasPermi="['system:role:edit']"
+          type="success"
+          plain
+          :icon="Edit"
+          :disabled="selection.single"
+          @click="handleUpdate()"
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:role:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete()">删除</el-button>
+        <el-button
+          v-hasPermi="['system:role:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete()"
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:role:export']" type="warning" plain :icon="Download" @click="handleExport">导出</el-button>
+        <el-button v-hasPermi="['system:role:export']" type="warning" plain :icon="Download" @click="handleExport"
+          >导出</el-button
+        >
       </el-col>
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
@@ -345,16 +365,40 @@ onMounted(() => {
         <template #default="{ row }">
           <template v-if="!isProtectedRole(row.roleId)">
             <el-tooltip content="修改" placement="top">
-              <el-button v-hasPermi="['system:role:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)" />
+              <el-button
+                v-hasPermi="['system:role:edit']"
+                link
+                type="primary"
+                :icon="Edit"
+                @click="handleUpdate(row)"
+              />
             </el-tooltip>
             <el-tooltip content="删除" placement="top">
-              <el-button v-hasPermi="['system:role:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)" />
+              <el-button
+                v-hasPermi="['system:role:remove']"
+                link
+                type="primary"
+                :icon="Delete"
+                @click="handleDelete(row)"
+              />
             </el-tooltip>
             <el-tooltip content="数据权限" placement="top">
-              <el-button v-hasPermi="['system:role:edit']" link type="primary" :icon="CircleCheck" @click="handleDataScope(row)" />
+              <el-button
+                v-hasPermi="['system:role:edit']"
+                link
+                type="primary"
+                :icon="CircleCheck"
+                @click="handleDataScope(row)"
+              />
             </el-tooltip>
             <el-tooltip content="分配用户" placement="top">
-              <el-button v-hasPermi="['system:role:edit']" link type="primary" :icon="User" @click="handleAuthUser(row)" />
+              <el-button
+                v-hasPermi="['system:role:edit']"
+                link
+                type="primary"
+                :icon="User"
+                @click="handleAuthUser(row)"
+              />
             </el-tooltip>
           </template>
         </template>
@@ -388,12 +432,22 @@ onMounted(() => {
         </el-form-item>
         <el-form-item label="状态">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+            <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{
+              dict.label
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="菜单权限">
-          <el-checkbox v-model="menuExpand" @change="(value: boolean | string | number) => handleCheckedTreeExpand(value, 'menu')">展开/折叠</el-checkbox>
-          <el-checkbox v-model="menuNodeAll" @change="(value: boolean | string | number) => handleCheckedTreeNodeAll(value, 'menu')">全选/全不选</el-checkbox>
+          <el-checkbox
+            v-model="menuExpand"
+            @change="(value: boolean | string | number) => handleCheckedTreeExpand(value, 'menu')"
+            >展开/折叠</el-checkbox
+          >
+          <el-checkbox
+            v-model="menuNodeAll"
+            @change="(value: boolean | string | number) => handleCheckedTreeNodeAll(value, 'menu')"
+            >全选/全不选</el-checkbox
+          >
           <el-checkbox v-model="form.menuCheckStrictly">父子联动</el-checkbox>
           <el-tree
             ref="menuRef"
@@ -429,8 +483,16 @@ onMounted(() => {
           </el-select>
         </el-form-item>
         <el-form-item v-show="form.dataScope === '2'" label="数据权限">
-          <el-checkbox v-model="deptExpand" @change="(value: boolean | string | number) => handleCheckedTreeExpand(value, 'dept')">展开/折叠</el-checkbox>
-          <el-checkbox v-model="deptNodeAll" @change="(value: boolean | string | number) => handleCheckedTreeNodeAll(value, 'dept')">全选/全不选</el-checkbox>
+          <el-checkbox
+            v-model="deptExpand"
+            @change="(value: boolean | string | number) => handleCheckedTreeExpand(value, 'dept')"
+            >展开/折叠</el-checkbox
+          >
+          <el-checkbox
+            v-model="deptNodeAll"
+            @change="(value: boolean | string | number) => handleCheckedTreeNodeAll(value, 'dept')"
+            >全选/全不选</el-checkbox
+          >
           <el-checkbox v-model="form.deptCheckStrictly">父子联动</el-checkbox>
           <el-tree
             ref="deptRef"

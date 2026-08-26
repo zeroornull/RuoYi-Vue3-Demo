@@ -7,11 +7,7 @@ export function hexToRgb(str: string): [number, number, number] {
   if (first === undefined || second === undefined || third === undefined) {
     throw new Error(`invalid hex color: ${str}`);
   }
-  return [
-    Number.parseInt(first, 16),
-    Number.parseInt(second, 16),
-    Number.parseInt(third, 16),
-  ];
+  return [Number.parseInt(first, 16), Number.parseInt(second, 16), Number.parseInt(third, 16)];
 }
 
 export function rgbToHex(r: number, g: number, b: number): string {

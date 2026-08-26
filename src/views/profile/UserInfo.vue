@@ -9,12 +9,7 @@ import { useTagsViewStore } from "../../stores/modules/tags-view";
 import { useUserStore } from "../../stores/modules/user";
 import type { SystemUser } from "../../types/api/system";
 import { closeCurrentPage } from "./close";
-import {
-  isValidPhone,
-  profileInfoFromUser,
-  toProfileUpdateRequest,
-  type ProfileInfoForm,
-} from "./model";
+import { isValidPhone, profileInfoFromUser, toProfileUpdateRequest, type ProfileInfoForm } from "./model";
 
 const props = defineProps<{
   user: Partial<SystemUser> | null;

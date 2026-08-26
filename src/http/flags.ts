@@ -4,9 +4,7 @@ export function shouldAttachToken(config: RuoYiRequestConfig): boolean {
   return config.ruoyi?.withToken !== false;
 }
 
-export function shouldPreventDuplicateSubmit(
-  config: RuoYiRequestConfig,
-): boolean {
+export function shouldPreventDuplicateSubmit(config: RuoYiRequestConfig): boolean {
   return config.ruoyi?.preventDuplicateSubmit !== false;
 }
 

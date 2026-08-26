@@ -109,8 +109,7 @@ export function tableNameToClassName(tableName: string): string {
 
 export function parseCreateTableNames(sql: string): string[] {
   const names: string[] = [];
-  const pattern =
-    /create\s+table\s+(?:if\s+not\s+exists\s+)?[`"]?([a-zA-Z_][\w]*)[`"]?/gi;
+  const pattern = /create\s+table\s+(?:if\s+not\s+exists\s+)?[`"]?([a-zA-Z_][\w]*)[`"]?/gi;
   for (const match of sql.matchAll(pattern)) {
     const name = match[1];
     if (name) {
@@ -124,15 +123,7 @@ export function genEditPath(tableId: string): string {
   return `/tool/gen-edit/index/${tableId}`;
 }
 
-export const JAVA_TYPE_OPTIONS = [
-  "Long",
-  "String",
-  "Integer",
-  "Double",
-  "BigDecimal",
-  "Date",
-  "Boolean",
-] as const;
+export const JAVA_TYPE_OPTIONS = ["Long", "String", "Integer", "Double", "BigDecimal", "Date", "Boolean"] as const;
 
 export const QUERY_TYPE_OPTIONS: ReadonlyArray<{
   label: string;
@@ -244,10 +235,7 @@ export function parseGenOptions(raw: string | null | undefined): {
   }
 }
 
-export function tableInfoToForm(
-  info: GeneratorTable,
-  rows: GeneratorColumn[],
-): GenEditForm {
+export function tableInfoToForm(info: GeneratorTable, rows: GeneratorColumn[]): GenEditForm {
   const options = parseGenOptions(info.options);
   const webType = info.tplWebType;
   return {
@@ -258,10 +246,7 @@ export function tableInfoToForm(
     functionAuthor: info.functionAuthor,
     remark: info.remark ?? "",
     tplCategory: info.tplCategory,
-    tplWebType:
-      webType === "element-ui" || webType === "element-plus-typescript"
-        ? webType
-        : "element-plus",
+    tplWebType: webType === "element-ui" || webType === "element-plus-typescript" ? webType : "element-plus",
     packageName: info.packageName,
     moduleName: info.moduleName,
     businessName: info.businessName,
@@ -335,19 +320,12 @@ export function clearCategoryExtras(form: GenEditForm, category: GenEditForm["tp
   }
 }
 
-export function subTableColumns(
-  tables: readonly GeneratorTable[],
-  tableName: string,
-): GeneratorColumn[] {
+export function subTableColumns(tables: readonly GeneratorTable[], tableName: string): GeneratorColumn[] {
   const match = tables.find((item) => item.tableName === tableName);
   return match?.columns ?? [];
 }
 
-export function reorderColumns(
-  columns: readonly GeneratorColumn[],
-  from: number,
-  to: number,
-): GeneratorColumn[] {
+export function reorderColumns(columns: readonly GeneratorColumn[], from: number, to: number): GeneratorColumn[] {
   const next = [...columns];
   if (from < 0 || to < 0 || from >= next.length || to >= next.length) {
     return next.map((row, index) => ({ ...row, sort: index + 1 }));

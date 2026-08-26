@@ -24,9 +24,7 @@ const permissionStore = usePermissionStore();
 const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 
-const breadcrumbs = computed(() =>
-  route.matched.filter((item) => item.meta.title).map((item) => item.meta.title),
-);
+const breadcrumbs = computed(() => route.matched.filter((item) => item.meta.title).map((item) => item.meta.title));
 const topRoutes = computed(() => visibleMenuRoutes(permissionStore.topbarRouters));
 
 function toggleSidebar(): void {
@@ -74,12 +72,7 @@ async function logout(): Promise<void> {
 
     <nav v-else class="navbar__topnav" aria-label="顶部导航">
       <strong v-if="settingsStore.navType === 3" class="navbar__app-title">{{ appEnv.title }}</strong>
-      <router-link
-        v-for="item in topRoutes.slice(0, 6)"
-        :key="item.path"
-        :to="item.path"
-        class="navbar__topnav-link"
-      >
+      <router-link v-for="item in topRoutes.slice(0, 6)" :key="item.path" :to="item.path" class="navbar__topnav-link">
         {{ item.meta?.title || item.name || item.path }}
       </router-link>
     </nav>
@@ -87,7 +80,12 @@ async function logout(): Promise<void> {
     <div class="navbar__actions">
       <HeaderSearch class="navbar__icon-button navbar__desktop-action" />
       <Screenfull class="navbar__icon-button navbar__desktop-action" />
-      <button class="navbar__icon-button navbar__desktop-action" type="button" aria-label="切换主题" @click="settingsStore.toggleTheme">
+      <button
+        class="navbar__icon-button navbar__desktop-action"
+        type="button"
+        aria-label="切换主题"
+        @click="settingsStore.toggleTheme"
+      >
         <SvgIcon :name="settingsStore.isDark ? 'sunny' : 'moon'" :size="18" />
       </button>
       <button class="navbar__icon-button navbar__desktop-action" type="button" aria-label="切换尺寸" @click="cycleSize">
@@ -106,7 +104,7 @@ async function logout(): Promise<void> {
           <span v-else class="navbar__avatar navbar__avatar--fallback">
             <SvgIcon name="custom-user" :size="22" />
           </span>
-          <span class="navbar__nickname">{{ userStore.nickName || userStore.name || '用户' }}</span>
+          <span class="navbar__nickname">{{ userStore.nickName || userStore.name || "用户" }}</span>
           <SvgIcon name="arrow-down" :size="13" />
         </button>
         <template #dropdown>

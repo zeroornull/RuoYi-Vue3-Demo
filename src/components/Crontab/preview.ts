@@ -31,7 +31,7 @@ function getAverageArr(rule: string, limit: number): number[] {
 
 function getCycleArr(rule: string, limit: number, fromZero: boolean): number[] {
   const [rawMin, rawMax] = rule.split("-");
-  let min = Number(rawMin);
+  const min = Number(rawMin);
   let max = Number(rawMax);
   if (min > max) {
     max += limit;
@@ -81,12 +81,7 @@ function getIndex(values: readonly number[], current: number): number {
   return 0;
 }
 
-function fieldValues(
-  rule: string | undefined,
-  min: number,
-  max: number,
-  fromZero: boolean,
-): number[] {
+function fieldValues(rule: string | undefined, min: number, max: number, fromZero: boolean): number[] {
   const fallback = getOrderArr(min, max);
   if (rule === undefined || rule === "*" || rule === "?") {
     return fallback;
@@ -108,7 +103,10 @@ type DayRule =
   | { kind: "assWeek"; week: number; weekday: number }
   | { kind: "lastWeek"; weekday: number };
 
-function parseDayRule(dayRule: string, weekRule: string | undefined): {
+function parseDayRule(
+  dayRule: string,
+  weekRule: string | undefined,
+): {
   days: number[];
   rule: DayRule;
 } {
@@ -153,12 +151,7 @@ function parseDayRule(dayRule: string, weekRule: string | undefined): {
   return { days, rule };
 }
 
-function applyDayRule(
-  year: number,
-  month: string,
-  day: number,
-  rule: DayRule,
-): number | null {
+function applyDayRule(year: number, month: string, day: number, rule: DayRule): number | null {
   let resolved = day;
   let formatted = pad(resolved);
   const stamp = () => `${year}-${month}-${formatted} 00:00:00`;
@@ -194,9 +187,7 @@ function applyDayRule(
   } else if (rule.kind === "assWeek") {
     const week = quartzWeek(new Date(`${year}-${month}-${resolved} 00:00:00`));
     resolved =
-      rule.weekday >= week
-        ? (rule.week - 1) * 7 + rule.weekday - week + 1
-        : rule.week * 7 + rule.weekday - week + 1;
+      rule.weekday >= week ? (rule.week - 1) * 7 + rule.weekday - week + 1 : rule.week * 7 + rule.weekday - week + 1;
   } else if (rule.kind === "lastWeek") {
     const week = quartzWeek(new Date(stamp()));
     if (rule.weekday < week) {
@@ -208,11 +199,7 @@ function applyDayRule(
   return resolved;
 }
 
-export function previewCronRuns(
-  expression: string,
-  now = new Date(),
-  limit = 5,
-): string[] {
+export function previewCronRuns(expression: string, now = new Date(), limit = 5): string[] {
   const rules = expression.split(" ");
   const seconds = fieldValues(rules[0], 0, 59, true);
   const minutes = fieldValues(rules[1], 0, 59, true);
@@ -238,7 +225,7 @@ export function previewCronRuns(
   let hourIndex = getIndex(hours, now.getHours());
   let dayIndex = getIndex(parsedDay.days, now.getDate());
   let monthIndex = getIndex(months, now.getMonth() + 1);
-  let yearIndex = getIndex(years, now.getFullYear());
+  const yearIndex = getIndex(years, now.getFullYear());
 
   const resetSecond = () => {
     secondIndex = 0;
@@ -341,9 +328,7 @@ export function previewCronRuns(
             for (let si = secondIndex; si < seconds.length; si += 1) {
               const secondValue = seconds[si];
               if (secondValue === undefined) continue;
-              result.push(
-                `${year}-${month}-${day} ${hour}:${minute}:${pad(secondValue)}`,
-              );
+              result.push(`${year}-${month}-${day} ${hour}:${minute}:${pad(secondValue)}`);
               if (result.length === limit) {
                 return result;
               }

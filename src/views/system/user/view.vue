@@ -15,9 +15,7 @@ const info = ref<UserDetail | null>(null);
 const postOptions = ref<Post[]>([]);
 const roleOptions = ref<Role[]>([]);
 
-const sexLabel = computed(() =>
-  dictLabel(unref(sys_user_sex), info.value?.sex, "-"),
-);
+const sexLabel = computed(() => dictLabel(unref(sys_user_sex), info.value?.sex, "-"));
 const postNames = computed(() =>
   joinOptionNames(
     postOptions.value,

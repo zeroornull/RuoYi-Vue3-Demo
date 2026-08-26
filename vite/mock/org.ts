@@ -86,11 +86,33 @@ function seedMenus(): MenuRow[] {
     menu("103", "1", "部门管理", 4, "dept", "system/dept/index", "Dept", "system:dept:list", "tree", "C"),
     menu("2", "0", "系统监控", 2, "monitor", "", "Monitor", "", "monitor", "M"),
     menu("200", "2", "在线用户", 1, "online", "monitor/online/index", "Online", "monitor:online:list", "online", "C"),
-    menu("201", "2", "登录日志", 2, "logininfor", "monitor/logininfor/index", "Logininfor", "monitor:logininfor:list", "logininfor", "C"),
+    menu(
+      "201",
+      "2",
+      "登录日志",
+      2,
+      "logininfor",
+      "monitor/logininfor/index",
+      "Logininfor",
+      "monitor:logininfor:list",
+      "logininfor",
+      "C",
+    ),
     menu("202", "2", "操作日志", 3, "operlog", "monitor/operlog/index", "Operlog", "monitor:operlog:list", "form", "C"),
     menu("203", "2", "定时任务", 4, "job", "monitor/job/index", "Job", "monitor:job:list", "job", "C"),
     menu("204", "2", "缓存监控", 5, "cache", "monitor/cache/index", "Cache", "monitor:cache:list", "redis", "C"),
-    menu("205", "2", "缓存列表", 6, "cacheList", "monitor/cache/list", "CacheList", "monitor:cache:list", "redis-list", "C"),
+    menu(
+      "205",
+      "2",
+      "缓存列表",
+      6,
+      "cacheList",
+      "monitor/cache/list",
+      "CacheList",
+      "monitor:cache:list",
+      "redis-list",
+      "C",
+    ),
     menu("206", "2", "服务监控", 7, "server", "monitor/server/index", "Server", "monitor:server:list", "server", "C"),
     menu("207", "2", "数据监控", 8, "druid", "monitor/druid/index", "Druid", "monitor:druid:list", "druid", "C"),
     menu("3", "0", "系统工具", 3, "tool", "", "Tool", "", "tool", "M"),
@@ -253,11 +275,7 @@ function ancestorsOf(parentId: string): string {
   return `${parent.ancestors},${parent.deptId}`;
 }
 
-function wouldCycle(
-  rows: readonly { id: string; parentId: string }[],
-  nodeId: string,
-  nextParentId: string,
-): boolean {
+function wouldCycle(rows: readonly { id: string; parentId: string }[], nodeId: string, nextParentId: string): boolean {
   if (nextParentId === "" || nextParentId === "0") {
     return false;
   }
@@ -299,9 +317,7 @@ export function listMockMenuTree(): Array<{
   return toMenuTreeSelect(menus);
 }
 
-function toMenuTreeSelect(
-  rows: MenuRow[],
-): Array<{ id: string; label: string; children: unknown[] }> {
+function toMenuTreeSelect(rows: MenuRow[]): Array<{ id: string; label: string; children: unknown[] }> {
   const nodes = rows.map((row) => ({
     id: row.menuId,
     label: row.menuName,
@@ -325,9 +341,7 @@ function dispatchDept(method: string, path: string, request: MockRequest): MockR
   const query = queryOf(request);
   if (method === "GET" && path === "/system/dept/list") {
     const rows = depts.filter(
-      (row) =>
-        includes(row.deptName, query.deptName) &&
-        (!query.status || row.status === query.status),
+      (row) => includes(row.deptName, query.deptName) && (!query.status || row.status === query.status),
     );
     return ok({ code: 200, msg: "查询成功", data: rows });
   }
@@ -429,9 +443,7 @@ function dispatchMenu(method: string, path: string, request: MockRequest): MockR
   const query = queryOf(request);
   if (method === "GET" && path === "/system/menu/list") {
     const rows = menus.filter(
-      (row) =>
-        includes(row.menuName, query.menuName) &&
-        (!query.status || row.status === query.status),
+      (row) => includes(row.menuName, query.menuName) && (!query.status || row.status === query.status),
     );
     return ok({ code: 200, msg: "查询成功", data: rows });
   }

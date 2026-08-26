@@ -9,12 +9,7 @@ export function isPathMatch(pattern: string, path: string): boolean {
 }
 
 export function isEmpty(value: unknown): boolean {
-  return (
-    value == null ||
-    value === "" ||
-    value === undefined ||
-    value === "undefined"
-  );
+  return value == null || value === "" || value === undefined || value === "undefined";
 }
 
 export function isHttp(url: string): boolean {

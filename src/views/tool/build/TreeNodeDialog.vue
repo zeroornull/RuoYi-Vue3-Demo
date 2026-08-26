@@ -27,7 +27,10 @@ watch(open, (visible) => {
 });
 
 async function confirm(): Promise<void> {
-  const valid = await formRef.value?.validate().then(() => true).catch(() => false);
+  const valid = await formRef.value
+    ?.validate()
+    .then(() => true)
+    .catch(() => false);
   if (!valid) {
     return;
   }

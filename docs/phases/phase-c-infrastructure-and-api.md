@@ -83,7 +83,7 @@ Axios 拦截器若最终返回业务 payload，封装 API 应让调用者拿到�
 
 ```ts
 export async function getUser(id: number): Promise<UserDetail> {
-  return http.get<UserDetail>(`/system/user/${id}`)
+  return http.get<UserDetail>(`/system/user/${id}`);
 }
 ```
 

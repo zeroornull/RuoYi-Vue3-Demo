@@ -1,9 +1,6 @@
 import type { DictMap } from "@/types/dict";
 
-export function selectDictLabel(
-  datas: DictMap,
-  value: unknown,
-): string {
+export function selectDictLabel(datas: DictMap, value: unknown): string {
   if (value === undefined) {
     return "";
   }
@@ -21,11 +18,7 @@ export function selectDictLabel(
   return matched.join("");
 }
 
-export function selectDictLabels(
-  datas: DictMap,
-  value: unknown,
-  separator?: string,
-): string {
+export function selectDictLabels(datas: DictMap, value: unknown, separator?: string): string {
   if (
     value === undefined ||
     (typeof value === "string" && value.length === 0) ||

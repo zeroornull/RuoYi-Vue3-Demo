@@ -4,11 +4,7 @@ import { echartsTheme, registerMonitorCharts } from "./register";
 export type ChartOption = Record<string, unknown>;
 
 export type BoundChart = {
-  render: (
-    el: HTMLElement | null | undefined,
-    isDark: boolean,
-    option: ChartOption,
-  ) => void;
+  render: (el: HTMLElement | null | undefined, isDark: boolean, option: ChartOption) => void;
   dispose: () => void;
 };
 
@@ -25,11 +21,7 @@ export function createBoundChart(): BoundChart {
     instance = null;
   }
 
-  function render(
-    el: HTMLElement | null | undefined,
-    isDark: boolean,
-    option: ChartOption,
-  ): void {
+  function render(el: HTMLElement | null | undefined, isDark: boolean, option: ChartOption): void {
     if (!el) {
       return;
     }

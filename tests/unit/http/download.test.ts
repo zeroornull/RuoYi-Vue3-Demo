@@ -75,21 +75,11 @@ describe("downloadForm", () => {
     expect(saved).toEqual([{ name: "a.xlsx", size: 4 }]);
     expect(loading).toBe(0);
 
-    await downloadForm(
-      { client, ui, saveAs: () => undefined },
-      "/export-json",
-      {},
-      "b.xlsx",
-    );
+    await downloadForm({ client, ui, saveAs: () => undefined }, "/export-json", {}, "b.xlsx");
     expect(errors).toContain("nope");
     expect(loading).toBe(0);
 
-    await downloadForm(
-      { client, ui, saveAs: () => undefined },
-      "/export-fail",
-      {},
-      "c.xlsx",
-    );
+    await downloadForm({ client, ui, saveAs: () => undefined }, "/export-fail", {}, "c.xlsx");
     expect(errors).toContain("下载文件出现错误，请联系管理员！");
     expect(loading).toBe(0);
   });

@@ -3,11 +3,7 @@ import type { DrawingItem, FormConf, RowItem } from "./schema";
 
 export type GenerateMode = "file" | "dialog";
 
-export function generateVueSource(
-  conf: FormConf,
-  fields: readonly DrawingItem[],
-  mode: GenerateMode,
-): string {
+export function generateVueSource(conf: FormConf, fields: readonly DrawingItem[], mode: GenerateMode): string {
   const body = fields.map((item) => fieldTemplate(item)).join("\n");
   const buttons =
     conf.formBtns && mode === "file"

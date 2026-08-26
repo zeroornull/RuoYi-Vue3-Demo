@@ -15,15 +15,11 @@ export function listConfig(query: ConfigQuery): Promise<ConfigPageResponse> {
 }
 
 export function getConfig(configId: EntityId): Promise<ApiResponse<Config>> {
-  return http.get<ApiResponse<Config>>(
-    `/system/config/${encodePathSegment(configId)}`,
-  );
+  return http.get<ApiResponse<Config>>(`/system/config/${encodePathSegment(configId)}`);
 }
 
 export function getConfigKey(configKey: string): Promise<ApiResponse<string>> {
-  return http.get<ApiResponse<string>>(
-    `/system/config/configKey/${encodePathSegment(configKey)}`,
-  );
+  return http.get<ApiResponse<string>>(`/system/config/configKey/${encodePathSegment(configKey)}`);
 }
 
 export function addConfig(data: ConfigUpsertRequest): Promise<EmptyResponse> {
@@ -35,9 +31,7 @@ export function updateConfig(data: ConfigUpsertRequest): Promise<EmptyResponse> 
 }
 
 export function delConfig(configIds: IdCollection): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/system/config/${encodeIdCollection(configIds)}`,
-  );
+  return http.delete<EmptyResponse>(`/system/config/${encodeIdCollection(configIds)}`);
 }
 
 export function refreshCache(): Promise<EmptyResponse> {

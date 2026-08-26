@@ -31,11 +31,7 @@ function includes(haystack: string, needle: string | undefined): boolean {
 
 function readString(body: Record<string, unknown>, key: string): string {
   const value = body[key];
-  return typeof value === "string"
-    ? value.trim()
-    : typeof value === "number"
-      ? String(value)
-      : "";
+  return typeof value === "string" ? value.trim() : typeof value === "number" ? String(value) : "";
 }
 
 function readIds(value: unknown): string[] {
@@ -119,34 +115,23 @@ function exportBlob(): MockResponse {
   return {
     status: 200,
     body: { code: 200, msg: "操作成功" },
-    contentType:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     raw: "mock-xlsx",
   };
 }
 
 function readScope(value: string): "1" | "2" | "3" | "4" | "5" {
-  return value === "2" || value === "3" || value === "4" || value === "5"
-    ? value
-    : "1";
+  return value === "2" || value === "3" || value === "4" || value === "5" ? value : "1";
 }
 
 type RoleWriteFields = Omit<ReturnType<typeof getMockRoles>[number], "roleId" | "createTime">;
 
-function isFailResponse(
-  value: RoleWriteFields | Partial<RoleWriteFields> | MockResponse,
-): value is MockResponse {
+function isFailResponse(value: RoleWriteFields | Partial<RoleWriteFields> | MockResponse): value is MockResponse {
   return "body" in value;
 }
 
-function roleFromBody(
-  body: Record<string, unknown>,
-  mode: "create",
-): RoleWriteFields | MockResponse;
-function roleFromBody(
-  body: Record<string, unknown>,
-  mode: "update",
-): Partial<RoleWriteFields> | MockResponse;
+function roleFromBody(body: Record<string, unknown>, mode: "create"): RoleWriteFields | MockResponse;
+function roleFromBody(body: Record<string, unknown>, mode: "update"): Partial<RoleWriteFields> | MockResponse;
 function roleFromBody(
   body: Record<string, unknown>,
   mode: "create" | "update",
@@ -322,9 +307,7 @@ export function dispatchRoleMock(request: MockRequest): MockResponse | null {
     if (isFailResponse(parsed)) {
       return parsed;
     }
-    if (
-      getMockRoles().some((item) => item.roleKey === parsed.roleKey && item.roleId !== roleId)
-    ) {
+    if (getMockRoles().some((item) => item.roleKey === parsed.roleKey && item.roleId !== roleId)) {
       return fail("角色权限已存在");
     }
     const row = updateMockRole(roleId, parsed);
@@ -336,17 +319,16 @@ export function dispatchRoleMock(request: MockRequest): MockResponse | null {
   }
   if (method === "GET") {
     const row = getMockRoles().find((item) => item.roleId === decodeURIComponent(rest));
-    return row
-      ? ok({ code: 200, msg: "操作成功", data: publicRole(row) })
-      : fail("数据不存在");
+    return row ? ok({ code: 200, msg: "操作成功", data: publicRole(row) }) : fail("数据不存在");
   }
   if (method === "DELETE") {
     if (rest === "") return fail("请选择要删除的数据");
-    const ids = rest.split(",").map((item) => decodeURIComponent(item)).filter(Boolean);
+    const ids = rest
+      .split(",")
+      .map((item) => decodeURIComponent(item))
+      .filter(Boolean);
     if (ids.includes(ADMIN_ROLE_ID)) return fail("不允许操作超级管理员角色");
-    return deleteMockRoles(ids)
-      ? ok({ code: 200, msg: "操作成功" })
-      : fail("数据不存在");
+    return deleteMockRoles(ids) ? ok({ code: 200, msg: "操作成功" }) : fail("数据不存在");
   }
   return null;
 }

@@ -25,10 +25,7 @@ export const REMEMBER_ME_PRIVATE_KEY =
   "YhovyloRYsM+IS9h/0BzlEAuO0ktMQIgSPT3aFAgJYwKpqRYKlLDVcflZFCKY7u3\n" +
   "UP8iWi1Qw0Y=";
 
-export function createRsaCipher(
-  publicKey = REMEMBER_ME_PUBLIC_KEY,
-  privateKey = REMEMBER_ME_PRIVATE_KEY,
-): TextCipher {
+export function createRsaCipher(publicKey = REMEMBER_ME_PUBLIC_KEY, privateKey = REMEMBER_ME_PRIVATE_KEY): TextCipher {
   return {
     encrypt(plain) {
       const encryptor = new JSEncrypt();

@@ -63,9 +63,7 @@ describe("login and captcha boundaries", () => {
     expect(safeLoginRedirect({ redirect: "//evil.example" })).toEqual({
       path: "/index",
     });
-    expect(
-      safeLoginRedirect({ redirect: "/user/profile?source=notice", keep: "1" }),
-    ).toEqual({
+    expect(safeLoginRedirect({ redirect: "/user/profile?source=notice", keep: "1" })).toEqual({
       path: "/user/profile",
       query: { keep: "1", source: "notice" },
     });
@@ -101,13 +99,15 @@ describe("remember-me cookies", () => {
 
 describe("register helpers", () => {
   test("trims usernames and checks password confirmation", () => {
-    expect(toLoginRequest({
-      username: "  admin  ",
-      password: "secret",
-      rememberMe: false,
-      code: "1",
-      uuid: "u",
-    }).username).toBe("admin");
+    expect(
+      toLoginRequest({
+        username: "  admin  ",
+        password: "secret",
+        rememberMe: false,
+        code: "1",
+        uuid: "u",
+      }).username,
+    ).toBe("admin");
     expect(passwordsMatch("a", "a")).toBe(true);
     expect(passwordsMatch("a", "b")).toBe(false);
     expect(registerPasswordMessage("123")).not.toBeNull();

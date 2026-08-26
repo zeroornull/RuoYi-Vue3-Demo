@@ -1,26 +1,17 @@
 import { describe, expect, test } from "bun:test";
 import { createMemoryHistory, loadRouteLocation } from "vue-router";
-import {
-  createStaticRouter,
-  resolveScrollPosition,
-} from "../../../src/router/factory";
-import {
-  buildRedirectLocation,
-  parseProfileActiveTab,
-  parseSingleRouteParam,
-} from "../../../src/router/params";
+import { createStaticRouter, resolveScrollPosition } from "../../../src/router/factory";
+import { buildRedirectLocation, parseProfileActiveTab, parseSingleRouteParam } from "../../../src/router/params";
 import { staticRoutes } from "../../../src/router/routes";
-import {
-  assertUniqueRouteNames,
-  collectRouteNames,
-  ROUTE_NAMES,
-} from "../../../src/router/types";
+import { assertUniqueRouteNames, collectRouteNames, ROUTE_NAMES } from "../../../src/router/types";
 
-function testRouter(options: {
-  authenticated?: boolean;
-  locked?: boolean;
-  base?: string;
-} = {}) {
+function testRouter(
+  options: {
+    authenticated?: boolean;
+    locked?: boolean;
+    base?: string;
+  } = {},
+) {
   const title = { value: "" };
   const state = {
     authenticated: options.authenticated ?? true,
@@ -57,10 +48,7 @@ describe("static route definitions", () => {
     ]);
     expect(() => assertUniqueRouteNames(staticRoutes)).not.toThrow();
     expect(() =>
-      assertUniqueRouteNames([
-        ...staticRoutes,
-        { path: "/duplicate", name: ROUTE_NAMES.login, redirect: "/login" },
-      ]),
+      assertUniqueRouteNames([...staticRoutes, { path: "/duplicate", name: ROUTE_NAMES.login, redirect: "/login" }]),
     ).toThrow("Duplicate route name: Login");
   });
 
@@ -69,11 +57,7 @@ describe("static route definitions", () => {
     await router.push("/does/not/exist");
     await router.isReady();
     expect(router.currentRoute.value.name).toBe(ROUTE_NAMES.notFound);
-    expect(router.currentRoute.value.params.pathMatch).toEqual([
-      "does",
-      "not",
-      "exist",
-    ]);
+    expect(router.currentRoute.value.params.pathMatch).toEqual(["does", "not", "exist"]);
   });
 
   test("resolves lazy placeholder components during navigation", async () => {
@@ -152,9 +136,7 @@ describe("static navigation guard", () => {
     await router.push("/user/profile/resetPwd?source=notice");
     await router.isReady();
     expect(router.currentRoute.value.name).toBe(ROUTE_NAMES.login);
-    expect(router.currentRoute.value.query.redirect).toBe(
-      "/user/profile/resetPwd?source=notice",
-    );
+    expect(router.currentRoute.value.query.redirect).toBe("/user/profile/resetPwd?source=notice");
     expect(title.value).toBe("登录");
   });
 
@@ -186,9 +168,7 @@ describe("scroll behavior", () => {
 describe("round 11 boundary", () => {
   test("does not request or register dynamic routes", async () => {
     const sources = await Promise.all(
-      ["routes.ts", "guard.ts", "factory.ts", "index.ts"].map((file) =>
-        Bun.file(`src/router/${file}`).text(),
-      ),
+      ["routes.ts", "guard.ts", "factory.ts", "index.ts"].map((file) => Bun.file(`src/router/${file}`).text()),
     );
     const combined = sources.join("\n");
     expect(combined).not.toContain("getRouters");

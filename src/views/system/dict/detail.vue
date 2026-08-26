@@ -15,12 +15,8 @@ const emit = defineEmits<{
 
 const loading = ref(false);
 const dataList = ref<DictData[]>([]);
-const normalCount = computed(
-  () => dataList.value.filter((item) => item.status === "0").length,
-);
-const disabledCount = computed(
-  () => dataList.value.filter((item) => item.status === "1").length,
-);
+const normalCount = computed(() => dataList.value.filter((item) => item.status === "0").length);
+const disabledCount = computed(() => dataList.value.filter((item) => item.status === "1").length);
 
 watch(
   () => [props.visible, props.row.dictType] as const,
@@ -58,7 +54,9 @@ watch(
         <span class="drawer-head-type">{{ row.dictType }}</span>
       </div>
     </template>
-    <div v-if="loading" class="drawer-empty"><el-icon class="is-loading"><Loading /></el-icon> 加载中...</div>
+    <div v-if="loading" class="drawer-empty">
+      <el-icon class="is-loading"><Loading /></el-icon> 加载中...
+    </div>
     <div v-else-if="dataList.length === 0" class="drawer-empty">
       <el-icon :size="36"><Document /></el-icon>
       <div>暂无字典数据</div>

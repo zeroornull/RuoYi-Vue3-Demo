@@ -77,11 +77,7 @@ function querySearch(value: string): void {
 }
 
 function navigateResult(direction: "up" | "down"): void {
-  activeIndex.value = nextActiveIndex(
-    activeIndex.value,
-    options.value.length,
-    direction,
-  );
+  activeIndex.value = nextActiveIndex(activeIndex.value, options.value.length, direction);
 }
 
 function selectActiveResult(): void {
@@ -91,10 +87,8 @@ function selectActiveResult(): void {
   }
 }
 
-const activeStyle = computed(() => (index: number) =>
-  index === activeIndex.value
-    ? { backgroundColor: settingsStore.theme, color: "#fff" }
-    : {},
+const activeStyle = computed(
+  () => (index: number) => (index === activeIndex.value ? { backgroundColor: settingsStore.theme, color: "#fff" } : {}),
 );
 </script>
 
@@ -103,14 +97,7 @@ const activeStyle = computed(() => (index: number) =>
     <button class="header-search__trigger" type="button" aria-label="菜单搜索" @click.stop="click">
       <SvgIcon name="search" :size="18" />
     </button>
-    <el-dialog
-      v-model="show"
-      width="600"
-      append-to-body
-      :show-close="false"
-      @close="close"
-      @opened="onDialogOpened"
-    >
+    <el-dialog v-model="show" width="600" append-to-body :show-close="false" @close="close" @opened="onDialogOpened">
       <el-input
         ref="inputRef"
         v-model="search"
@@ -151,7 +138,10 @@ const activeStyle = computed(() => (index: number) =>
           </template>
           <div v-else-if="search && options.length === 0" class="empty-state">
             <el-icon class="empty-icon"><Search /></el-icon>
-            <p class="empty-text">未找到 "<strong>{{ search }}</strong>" 相关菜单</p>
+            <p class="empty-text">
+              未找到 "<strong>{{ search }}</strong
+              >" 相关菜单
+            </p>
             <p class="empty-tip">试试其他关键词或路径</p>
           </div>
         </el-scrollbar>

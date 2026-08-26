@@ -18,10 +18,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
-export function parseApiResult<T>(
-  value: unknown,
-  parseData: (data: unknown) => T,
-): ApiResult<T> {
+export function parseApiResult<T>(value: unknown, parseData: (data: unknown) => T): ApiResult<T> {
   if (!isRecord(value) || typeof value.code !== "number") {
     return { ok: false, code: 500, msg: "invalid payload" };
   }

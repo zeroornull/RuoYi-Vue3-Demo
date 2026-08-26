@@ -1,21 +1,11 @@
 import axios, { AxiosError } from "axios";
-import type {
-  AxiosAdapter,
-  AxiosInstance,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
+import type { AxiosAdapter, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import type { RepeatSubmitRecord, RuoYiRequestConfig } from "../types/http";
 import { isRecord } from "../utils/guard";
 import { tansParams } from "../utils/params";
 import { resolveErrorMessage } from "../utils/error-code";
 import { isRepeatSubmitRecord, type JsonCache } from "./cache";
-import {
-  duplicateIntervalMs,
-  requestMethod,
-  shouldAttachToken,
-  shouldPreventDuplicateSubmit,
-} from "./flags";
+import { duplicateIntervalMs, requestMethod, shouldAttachToken, shouldPreventDuplicateSubmit } from "./flags";
 import type { HttpUi } from "./ui";
 
 const REPEAT_CACHE_KEY = "sessionObj";
@@ -37,34 +27,18 @@ export type HttpDeps = {
 export type HttpClient = {
   raw: AxiosInstance;
   get: <R>(url: string, config?: RuoYiRequestConfig) => Promise<R>;
-  post: <R>(
-    url: string,
-    data?: unknown,
-    config?: RuoYiRequestConfig,
-  ) => Promise<R>;
-  put: <R>(
-    url: string,
-    data?: unknown,
-    config?: RuoYiRequestConfig,
-  ) => Promise<R>;
-  delete: <R>(
-    url: string,
-    config?: RuoYiRequestConfig,
-  ) => Promise<R>;
+  post: <R>(url: string, data?: unknown, config?: RuoYiRequestConfig) => Promise<R>;
+  put: <R>(url: string, data?: unknown, config?: RuoYiRequestConfig) => Promise<R>;
+  delete: <R>(url: string, config?: RuoYiRequestConfig) => Promise<R>;
   request: <R>(config: RuoYiRequestConfig) => Promise<R>;
   requestBlob: (config: RuoYiRequestConfig) => Promise<Blob>;
 };
 
-function isApiEnvelope(
-  value: unknown,
-): value is { code?: number; msg?: string; data?: unknown } {
+function isApiEnvelope(value: unknown): value is { code?: number; msg?: string; data?: unknown } {
   return isRecord(value);
 }
 
-function attachAuthorization(
-  config: InternalAxiosRequestConfig,
-  token: string,
-): void {
+function attachAuthorization(config: InternalAxiosRequestConfig, token: string): void {
   if (!config.headers) {
     return;
   }
@@ -91,24 +65,16 @@ function guardRepeatSubmit(
   now: number,
   repeatLimit: number,
 ): Error | undefined {
-  if (
-    !shouldPreventDuplicateSubmit(config) ||
-    (requestMethod(config) !== "post" && requestMethod(config) !== "put")
-  ) {
+  if (!shouldPreventDuplicateSubmit(config) || (requestMethod(config) !== "post" && requestMethod(config) !== "put")) {
     return undefined;
   }
   const record: RepeatSubmitRecord = {
     url: config.url ?? "",
-    data:
-      typeof config.data === "object"
-        ? JSON.stringify(config.data)
-        : String(config.data ?? ""),
+    data: typeof config.data === "object" ? JSON.stringify(config.data) : String(config.data ?? ""),
     time: now,
   };
   if (repeatRecordSize(record) >= repeatLimit) {
-    console.warn(
-      `[${config.url}]: 请求数据大小超出允许的5M限制，无法进行防重复提交验证。`,
-    );
+    console.warn(`[${config.url}]: 请求数据大小超出允许的5M限制，无法进行防重复提交验证。`);
     return undefined;
   }
   const previous = cache.getJSON(REPEAT_CACHE_KEY);
@@ -117,11 +83,7 @@ function guardRepeatSubmit(
     return undefined;
   }
   const interval = duplicateIntervalMs(config);
-  if (
-    previous.data === record.data &&
-    record.time - previous.time < interval &&
-    previous.url === record.url
-  ) {
+  if (previous.data === record.data && record.time - previous.time < interval && previous.url === record.url) {
     const message = "数据正在处理，请勿重复提交";
     console.warn(`[${previous.url}]: ${message}`);
     return new Error(message);
@@ -162,12 +124,7 @@ export function createHttpClient(deps: HttpDeps): HttpClient {
         attachAuthorization(config, token);
       }
       applyGetParams(config);
-      const duplicate = guardRepeatSubmit(
-        config,
-        deps.cache,
-        now(),
-        deps.repeatLimit ?? REPEAT_LIMIT,
-      );
+      const duplicate = guardRepeatSubmit(config, deps.cache, now(), deps.repeatLimit ?? REPEAT_LIMIT);
       if (duplicate) {
         return Promise.reject(duplicate);
       }
@@ -184,9 +141,7 @@ export function createHttpClient(deps: HttpDeps): HttpClient {
       }
       const payload = res.data;
       const code = isApiEnvelope(payload) ? (payload.code ?? 200) : 200;
-      const msg = isApiEnvelope(payload)
-        ? resolveErrorMessage(code, payload.msg)
-        : resolveErrorMessage(code);
+      const msg = isApiEnvelope(payload) ? resolveErrorMessage(code, payload.msg) : resolveErrorMessage(code);
       if (code === 401) {
         if (!relogin.show) {
           relogin.show = true;
@@ -215,10 +170,7 @@ export function createHttpClient(deps: HttpDeps): HttpClient {
       return payload;
     }) as (res: AxiosResponse) => AxiosResponse | Promise<AxiosResponse>,
     (error: unknown) => {
-      const raw =
-        error instanceof AxiosError || error instanceof Error
-          ? error
-          : new Error(String(error));
+      const raw = error instanceof AxiosError || error instanceof Error ? error : new Error(String(error));
       console.log(`err${raw}`);
       deps.ui.error(mapNetworkError(raw));
       return Promise.reject(error);
@@ -245,10 +197,8 @@ export function createHttpClient(deps: HttpDeps): HttpClient {
     request,
     requestBlob,
     get: (url, config) => request({ ...config, method: "get", url }),
-    post: (url, data, config) =>
-      request({ ...config, method: "post", url, data }),
-    put: (url, data, config) =>
-      request({ ...config, method: "put", url, data }),
+    post: (url, data, config) => request({ ...config, method: "post", url, data }),
+    put: (url, data, config) => request({ ...config, method: "put", url, data }),
     delete: (url, config) => request({ ...config, method: "delete", url }),
   };
 }

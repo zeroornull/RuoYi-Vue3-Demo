@@ -43,10 +43,7 @@ export function readDictItems(value: unknown): DictItem[] {
   return [];
 }
 
-export function operationTypeLabel(
-  options: unknown,
-  businessType: number | undefined,
-): string {
+export function operationTypeLabel(options: unknown, businessType: number | undefined): string {
   if (businessType === undefined) {
     return "-";
   }

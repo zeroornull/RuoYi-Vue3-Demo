@@ -9,9 +9,7 @@ import IframeToggle from "./IframeToggle.vue";
 const route = useRoute();
 const settingsStore = useSettingsStore();
 const tagsStore = useTagsViewStore();
-const keepAliveNames = computed(() =>
-  normalizeKeepAliveNames(tagsStore.cachedViews),
-);
+const keepAliveNames = computed(() => normalizeKeepAliveNames(tagsStore.cachedViews));
 
 watchEffect(() => {
   if (!route.meta.link) return;
@@ -25,11 +23,7 @@ watchEffect(() => {
     <RouterView v-slot="{ Component, route: currentRoute }">
       <transition name="fade-transform" mode="out-in">
         <keep-alive :include="keepAliveNames">
-          <component
-            :is="Component"
-            v-if="!currentRoute.meta.link"
-            :key="currentRoute.path"
-          />
+          <component :is="Component" v-if="!currentRoute.meta.link" :key="currentRoute.path" />
         </keep-alive>
       </transition>
     </RouterView>

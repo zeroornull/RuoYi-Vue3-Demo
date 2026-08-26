@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { Grid } from "@element-plus/icons-vue";
-import {
-  resolveCustomIcon,
-  resolveElementIcon,
-} from "../icons/registry";
+import { resolveCustomIcon, resolveElementIcon } from "../icons/registry";
 
 const props = withDefaults(
   defineProps<{
@@ -26,12 +23,7 @@ const iconStyle = computed(() => ({
 </script>
 
 <template>
-  <span
-    class="svg-icon"
-    :style="iconStyle"
-    :aria-label="label || undefined"
-    :aria-hidden="label ? undefined : 'true'"
-  >
+  <span class="svg-icon" :style="iconStyle" :aria-label="label || undefined" :aria-hidden="label ? undefined : 'true'">
     <component :is="elementIcon" v-if="elementIcon" />
     <img v-else-if="customIcon" :src="customIcon" alt="" />
     <Grid v-else class="svg-icon__fallback" />

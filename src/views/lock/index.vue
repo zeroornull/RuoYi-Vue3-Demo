@@ -5,12 +5,7 @@ import { unlockScreen } from "../../api/login";
 import { useLockStore } from "../../stores/modules/lock";
 import { useUserStore } from "../../stores/modules/user";
 import fallbackAvatarUrl from "../../assets/images/profile.jpg";
-import {
-  fallbackAvatar,
-  formatLockDate,
-  formatLockTime,
-  unlockErrorMessage,
-} from "./model";
+import { fallbackAvatar, formatLockDate, formatLockTime, unlockErrorMessage } from "./model";
 
 defineOptions({ name: "Lock" });
 
@@ -310,10 +305,20 @@ onBeforeUnmount(() => {
 
 @keyframes shake {
   0%,
-  100% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(6px); }
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(6px);
+  }
 }
 </style>

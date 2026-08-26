@@ -8,18 +8,9 @@ import {
   isProtectedRole,
   roleToForm,
 } from "../../src/views/system/role/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
-function role(
-  method: string,
-  path: string,
-  body?: unknown,
-  query?: Record<string, string>,
-) {
+function role(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
     method,
     path,
@@ -44,13 +35,7 @@ describe("role Query/Create/Update/Row models", () => {
     expect("roleId" in emptyRoleForm()).toBe(false);
     expect(isProtectedRole("1")).toBe(true);
     expect(isProtectedRole("2")).toBe(false);
-    expect(DATA_SCOPE_OPTIONS.map((item) => item.value)).toEqual([
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-    ]);
+    expect(DATA_SCOPE_OPTIONS.map((item) => item.value)).toEqual(["1", "2", "3", "4", "5"]);
     expect(
       roleToForm({
         roleId: "2",
@@ -75,9 +60,7 @@ describe("role mock CRUD and authorization", () => {
   test("lists roles, protects admin and saves menu/dept ids", () => {
     const listed = role("GET", "/system/role/list");
     expect(listed.body.total).toBe(4);
-    expect(role("DELETE", "/system/role/1").body.msg).toBe(
-      "不允许操作超级管理员角色",
-    );
+    expect(role("DELETE", "/system/role/1").body.msg).toBe("不允许操作超级管理员角色");
     const menuTree = role("GET", "/system/menu/roleMenuTreeselect/2");
     expect(menuTree.body.checkedKeys).toEqual(["1", "100"]);
     expect(Array.isArray(menuTree.body.menus)).toBe(true);
@@ -91,13 +74,12 @@ describe("role mock CRUD and authorization", () => {
         menuCheckStrictly: true,
       }).body.code,
     ).toBe(200);
-    expect(
-      (role("GET", "/system/role/2").body.data as { menuIds: string[]; deptIds: string[] })
-        .menuIds,
-    ).toEqual(["1", "100", "1001"]);
-    expect(
-      (role("GET", "/system/role/2").body.data as { deptIds: string[] }).deptIds,
-    ).toEqual(["103"]);
+    expect((role("GET", "/system/role/2").body.data as { menuIds: string[]; deptIds: string[] }).menuIds).toEqual([
+      "1",
+      "100",
+      "1001",
+    ]);
+    expect((role("GET", "/system/role/2").body.data as { deptIds: string[] }).deptIds).toEqual(["103"]);
     const deptTree = role("GET", "/system/role/deptTree/2");
     expect(deptTree.body.checkedKeys).toEqual(["103"]);
     expect(
@@ -110,15 +92,15 @@ describe("role mock CRUD and authorization", () => {
         deptIds: ["101", "103"],
       }).body.code,
     ).toBe(200);
+    expect((role("GET", "/system/role/2").body.data as { menuIds: string[] }).menuIds).toEqual(["1", "100", "1001"]);
     expect(
-      (role("GET", "/system/role/2").body.data as { menuIds: string[] }).menuIds,
-    ).toEqual(["1", "100", "1001"]);
-    expect(role("POST", "/system/role", {
-      roleName: "测试角色",
-      roleKey: "tester",
-      roleSort: 9,
-      menuIds: ["1"],
-    }).body.code).toBe(200);
+      role("POST", "/system/role", {
+        roleName: "测试角色",
+        roleKey: "tester",
+        roleSort: 9,
+        menuIds: ["1"],
+      }).body.code,
+    ).toBe(200);
     expect(role("GET", "/system/role/list").body.total).toBe(5);
     expect(role("DELETE", "/system/role/5").body.code).toBe(200);
     expect(role("GET", "/system/role/list").body.total).toBe(4);
@@ -129,15 +111,8 @@ describe("role mock CRUD and authorization", () => {
       roleId: "2",
     });
     expect((allocated.body.total as number) > 0).toBe(true);
-    const unallocated = role(
-      "GET",
-      "/system/role/authUser/unallocatedList",
-      undefined,
-      { roleId: "2" },
-    );
-    const names = (unallocated.body.rows as Array<{ userName: string }>).map(
-      (row) => row.userName,
-    );
+    const unallocated = role("GET", "/system/role/authUser/unallocatedList", undefined, { roleId: "2" });
+    const names = (unallocated.body.rows as Array<{ userName: string }>).map((row) => row.userName);
     expect(names).toContain("admin");
     expect(
       role("PUT", "/system/role/authUser/selectAll", undefined, {
@@ -146,8 +121,11 @@ describe("role mock CRUD and authorization", () => {
       }).body.code,
     ).toBe(200);
     expect(
-      (role("GET", "/system/role/authUser/allocatedList", undefined, { roleId: "4" })
-        .body.rows as Array<{ userName: string }>)[0]?.userName,
+      (
+        role("GET", "/system/role/authUser/allocatedList", undefined, { roleId: "4" }).body.rows as Array<{
+          userName: string;
+        }>
+      )[0]?.userName,
     ).toBe("ry");
     expect(
       role("PUT", "/system/role/authUser/cancel", {
@@ -155,16 +133,11 @@ describe("role mock CRUD and authorization", () => {
         userId: "2",
       }).body.code,
     ).toBe(200);
-    expect(
-      role("GET", "/system/role/authUser/allocatedList", undefined, { roleId: "4" })
-        .body.total,
-    ).toBe(0);
+    expect(role("GET", "/system/role/authUser/allocatedList", undefined, { roleId: "4" }).body.total).toBe(0);
   });
 
   test("auth-user hidden route keeps activeMenu on the role list", () => {
-    const authRoute = protectedRoutes
-      .find((route) => route.path === "/system/role-auth")
-      ?.children?.[0];
+    const authRoute = protectedRoutes.find((route) => route.path === "/system/role-auth")?.children?.[0];
     expect(authRoute?.name).toBe("AuthUser");
     expect(authRoute?.meta?.activeMenu).toBe("/system/role");
     expect(authRoute?.path).toBe("user/:roleId(\\d+)");

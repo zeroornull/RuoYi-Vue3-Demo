@@ -1,12 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import {
-  canAccessRoute,
-  filterRoutesByAccess,
-} from "../../../src/router/access";
-import {
-  BackendRouteValidationError,
-  parseBackendRoutes,
-} from "../../../src/router/backend-dto";
+import { canAccessRoute, filterRoutesByAccess } from "../../../src/router/access";
+import { BackendRouteValidationError, parseBackendRoutes } from "../../../src/router/backend-dto";
 import { resolveBackendComponent } from "../../../src/router/component-resolver";
 import { transformBackendRoutes } from "../../../src/router/transform";
 
@@ -40,9 +34,7 @@ describe("backend route DTO boundary", () => {
   });
 
   test("allows missing name/meta but rejects missing path and malformed fields", () => {
-    expect(parseBackendRoutes([{ path: "/unnamed" }])).toEqual([
-      { path: "/unnamed" },
-    ]);
+    expect(parseBackendRoutes([{ path: "/unnamed" }])).toEqual([{ path: "/unnamed" }]);
     for (const value of [
       [{}],
       [{ path: "" }],
@@ -50,9 +42,7 @@ describe("backend route DTO boundary", () => {
       [{ path: "/a", meta: "bad" }],
       [{ path: "/a", children: {} }],
     ]) {
-      expect(() => parseBackendRoutes(value)).toThrow(
-        BackendRouteValidationError,
-      );
+      expect(() => parseBackendRoutes(value)).toThrow(BackendRouteValidationError);
     }
   });
 });
@@ -104,9 +94,7 @@ describe("backend route transformer", () => {
         detail: "Leaf route has no component",
       },
     ]);
-    expect(result.routes[1]?.meta?.componentError).toContain(
-      "missing-component",
-    );
+    expect(result.routes[1]?.meta?.componentError).toContain("missing-component");
   });
 
   test("never executes an unknown or malicious component import path", async () => {
@@ -123,9 +111,7 @@ describe("backend route transformer", () => {
     expect(resolution.component).toBeFunction();
     if (typeof resolution.component === "function") {
       const fallback = await resolution.component();
-      expect("name" in fallback ? fallback.name : undefined).toBe(
-        "UnknownComponentPage",
-      );
+      expect("name" in fallback ? fallback.name : undefined).toBe("UnknownComponentPage");
     }
   });
 

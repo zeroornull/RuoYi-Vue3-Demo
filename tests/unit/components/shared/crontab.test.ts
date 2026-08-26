@@ -25,9 +25,7 @@ describe("Crontab expression composition", () => {
       week: "?",
       year: "",
     });
-    expect(stringifyCrontab(parseCrontab("0 15 10 * * ? 2026"))).toBe(
-      "0 15 10 * * ? 2026",
-    );
+    expect(stringifyCrontab(parseCrontab("0 15 10 * * ? 2026"))).toBe("0 15 10 * * ? 2026");
   });
 
   test("builds every field combination used by the editor", () => {

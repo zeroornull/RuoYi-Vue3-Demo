@@ -2,22 +2,8 @@
 import { onMounted, reactive, ref } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {
-  Delete,
-  Download,
-  Edit,
-  Plus,
-  Refresh,
-  Search,
-} from "@element-plus/icons-vue";
-import {
-  addConfig,
-  delConfig,
-  getConfig,
-  listConfig,
-  refreshCache,
-  updateConfig,
-} from "../../../api/system/config";
+import { Delete, Download, Edit, Plus, Refresh, Search } from "@element-plus/icons-vue";
+import { addConfig, delConfig, getConfig, listConfig, refreshCache, updateConfig } from "../../../api/system/config";
 import { download } from "../../../http";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
@@ -35,12 +21,7 @@ import {
 import { addDateRange } from "../../../utils/params";
 import { parseTime } from "../../../utils/parse-time";
 import type { Config, ConfigUpsertRequest } from "../../../types/api/system";
-import {
-  CONFIG_PAGE_NAME,
-  configToForm,
-  emptyConfigForm,
-  emptyConfigQuery,
-} from "./model";
+import { CONFIG_PAGE_NAME, configToForm, emptyConfigForm, emptyConfigQuery } from "./model";
 
 defineOptions({ name: CONFIG_PAGE_NAME });
 
@@ -67,9 +48,7 @@ const rules: FormRules<ConfigUpsertRequest> = {
 async function getList(): Promise<void> {
   loading.value = true;
   try {
-    const response = await listConfig(
-      addDateRange({ ...queryParams }, dateRange.value),
-    );
+    const response = await listConfig(addDateRange({ ...queryParams }, dateRange.value));
     list.value = response.rows;
     total.value = response.total;
   } finally {
@@ -182,24 +161,50 @@ onMounted(() => {
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:config:add']" type="primary" plain :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button v-hasPermi="['system:config:add']" type="primary" plain :icon="Plus" @click="handleAdd"
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:config:edit']" type="success" plain :icon="Edit" :disabled="selection.single" @click="handleUpdate()">修改</el-button>
+        <el-button
+          v-hasPermi="['system:config:edit']"
+          type="success"
+          plain
+          :icon="Edit"
+          :disabled="selection.single"
+          @click="handleUpdate()"
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:config:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete()">删除</el-button>
+        <el-button
+          v-hasPermi="['system:config:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete()"
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:config:export']" type="warning" plain :icon="Download" @click="handleExport">导出</el-button>
+        <el-button v-hasPermi="['system:config:export']" type="warning" plain :icon="Download" @click="handleExport"
+          >导出</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:config:remove']" type="danger" plain :icon="Refresh" @click="handleRefreshCache">刷新缓存</el-button>
+        <el-button v-hasPermi="['system:config:remove']" type="danger" plain :icon="Refresh" @click="handleRefreshCache"
+          >刷新缓存</el-button
+        >
       </el-col>
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
 
-    <el-table v-loading="loading" :data="list" @selection-change="(rows: Config[]) => (selection = selectionFromRows(rows, (row) => row.configId))">
+    <el-table
+      v-loading="loading"
+      :data="list"
+      @selection-change="(rows: Config[]) => (selection = selectionFromRows(rows, (row) => row.configId))"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="参数主键" align="center" prop="configId" />
       <el-table-column label="参数名称" align="center" prop="configName" show-overflow-tooltip />
@@ -216,8 +221,12 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center" width="150">
         <template #default="{ row }">
-          <el-button v-hasPermi="['system:config:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)">修改</el-button>
-          <el-button v-hasPermi="['system:config:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)">删除</el-button>
+          <el-button v-hasPermi="['system:config:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)"
+            >修改</el-button
+          >
+          <el-button v-hasPermi="['system:config:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>

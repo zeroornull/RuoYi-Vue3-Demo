@@ -58,7 +58,10 @@ describe("upload validation", () => {
     expect(stringifyUploadValue(parsed, { stripBlob: true })).toBe("a.pdf,b.pdf");
     expect(
       stringifyUploadValue(
-        [{ name: "x", url: "blob:1", uid: 1 }, { name: "y", url: "/y.png", uid: 2 }],
+        [
+          { name: "x", url: "blob:1", uid: 1 },
+          { name: "y", url: "/y.png", uid: 2 },
+        ],
         { stripBlob: true, baseUrl: "/dev-api" },
       ),
     ).toBe("/y.png");

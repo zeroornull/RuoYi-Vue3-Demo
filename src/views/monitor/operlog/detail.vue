@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ElMessage } from "element-plus";
-import {
-  CopyDocument,
-  Download,
-  InfoFilled,
-  Sort,
-  Upload,
-  User,
-  Warning,
-} from "@element-plus/icons-vue";
+import { CopyDocument, Download, InfoFilled, Sort, Upload, User, Warning } from "@element-plus/icons-vue";
 import { useDict } from "../../../composables/useDict";
 import type { OperationLog } from "../../../types/api/monitor";
-import {
-  OPERLOG_DETAIL_PAGE_NAME,
-  formatJsonBlock,
-  isFailedOperation,
-} from "./model";
+import { OPERLOG_DETAIL_PAGE_NAME, formatJsonBlock, isFailedOperation } from "./model";
 
 defineOptions({ name: OPERLOG_DETAIL_PAGE_NAME });
 
@@ -51,18 +39,27 @@ async function copyText(value: string | null | undefined): Promise<void> {
   >
     <div v-if="form" class="detail-wrap">
       <div class="detail-card">
-        <div class="detail-card-title"><el-icon><InfoFilled /></el-icon> 基本信息</div>
+        <div class="detail-card-title">
+          <el-icon><InfoFilled /></el-icon> 基本信息
+        </div>
         <el-row class="detail-row">
           <el-col :span="12">
-            <div class="detail-item"><span class="detail-label">操作模块</span><span class="detail-value">{{ form.title }}</span></div>
+            <div class="detail-item">
+              <span class="detail-label">操作模块</span><span class="detail-value">{{ form.title }}</span>
+            </div>
           </el-col>
           <el-col :span="12">
-            <div class="detail-item"><span class="detail-label">业务类型</span><span class="detail-value"><DictTag :options="sys_oper_type" :value="form.businessType" /></span></div>
+            <div class="detail-item">
+              <span class="detail-label">业务类型</span
+              ><span class="detail-value"><DictTag :options="sys_oper_type" :value="form.businessType" /></span>
+            </div>
           </el-col>
         </el-row>
         <el-row class="detail-row">
           <el-col :span="12">
-            <div class="detail-item"><span class="detail-label">操作时间</span><span class="detail-value">{{ form.operTime }}</span></div>
+            <div class="detail-item">
+              <span class="detail-label">操作时间</span><span class="detail-value">{{ form.operTime }}</span>
+            </div>
           </el-col>
           <el-col :span="12">
             <div class="detail-item">
@@ -74,26 +71,36 @@ async function copyText(value: string | null | undefined): Promise<void> {
         </el-row>
       </div>
       <div class="detail-card">
-        <div class="detail-card-title"><el-icon><User /></el-icon> 操作人员</div>
+        <div class="detail-card-title">
+          <el-icon><User /></el-icon> 操作人员
+        </div>
         <el-row class="detail-row">
           <el-col :span="12">
-            <div class="detail-item"><span class="detail-label">操作人员</span><span class="detail-value">{{ form.operName }}</span></div>
+            <div class="detail-item">
+              <span class="detail-label">操作人员</span><span class="detail-value">{{ form.operName }}</span>
+            </div>
           </el-col>
           <el-col v-if="form.deptName" :span="12">
-            <div class="detail-item"><span class="detail-label">所属部门</span><span class="detail-value">{{ form.deptName }}</span></div>
+            <div class="detail-item">
+              <span class="detail-label">所属部门</span><span class="detail-value">{{ form.deptName }}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row class="detail-row">
           <el-col :span="24">
             <div class="detail-item">
               <span class="detail-label">操作地址</span>
-              <span class="detail-value">{{ form.operIp }}&nbsp;&nbsp;<span class="detail-location">{{ form.operLocation }}</span></span>
+              <span class="detail-value"
+                >{{ form.operIp }}&nbsp;&nbsp;<span class="detail-location">{{ form.operLocation }}</span></span
+              >
             </div>
           </el-col>
         </el-row>
       </div>
       <div class="detail-card">
-        <div class="detail-card-title"><el-icon><Sort /></el-icon> 请求信息</div>
+        <div class="detail-card-title">
+          <el-icon><Sort /></el-icon> 请求信息
+        </div>
         <el-row class="detail-row">
           <el-col :span="24">
             <div class="detail-item">
@@ -107,31 +114,41 @@ async function copyText(value: string | null | undefined): Promise<void> {
         </el-row>
         <el-row class="detail-row">
           <el-col :span="24">
-            <div class="detail-item"><span class="detail-label">操作方法</span><span class="detail-value mono">{{ form.method }}</span></div>
+            <div class="detail-item">
+              <span class="detail-label">操作方法</span><span class="detail-value mono">{{ form.method }}</span>
+            </div>
           </el-col>
         </el-row>
         <el-row class="detail-row">
           <el-col :span="12">
-            <div class="detail-item"><span class="detail-label">消耗时间</span><span class="detail-value">{{ form.costTime }} 毫秒</span></div>
+            <div class="detail-item">
+              <span class="detail-label">消耗时间</span><span class="detail-value">{{ form.costTime }} 毫秒</span>
+            </div>
           </el-col>
         </el-row>
       </div>
       <div class="detail-card">
-        <div class="detail-card-title"><el-icon><Upload /></el-icon> 请求参数</div>
+        <div class="detail-card-title">
+          <el-icon><Upload /></el-icon> 请求参数
+        </div>
         <div class="code-wrap">
           <el-button size="small" :icon="CopyDocument" @click="copyText(form.operParam)">复制</el-button>
           <pre class="code-pre">{{ formatJsonBlock(form.operParam) }}</pre>
         </div>
       </div>
       <div class="detail-card">
-        <div class="detail-card-title"><el-icon><Download /></el-icon> 返回参数</div>
+        <div class="detail-card-title">
+          <el-icon><Download /></el-icon> 返回参数
+        </div>
         <div class="code-wrap">
           <el-button size="small" :icon="CopyDocument" @click="copyText(form.jsonResult)">复制</el-button>
           <pre class="code-pre">{{ formatJsonBlock(form.jsonResult) }}</pre>
         </div>
       </div>
       <div v-if="isFailedOperation(form)" class="detail-card">
-        <div class="detail-card-title error-title"><el-icon><Warning /></el-icon> 异常信息</div>
+        <div class="detail-card-title error-title">
+          <el-icon><Warning /></el-icon> 异常信息
+        </div>
         <div class="error-msg">{{ form.errorMsg }}</div>
       </div>
     </div>

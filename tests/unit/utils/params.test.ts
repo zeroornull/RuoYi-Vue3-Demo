@@ -15,9 +15,7 @@ describe("tansParams", () => {
   });
 
   test("flattens one level of nested objects and arrays", () => {
-    expect(tansParams({ filter: { status: "0", skip: "" } })).toBe(
-      "filter%5Bstatus%5D=0&",
-    );
+    expect(tansParams({ filter: { status: "0", skip: "" } })).toBe("filter%5Bstatus%5D=0&");
     expect(tansParams({ ids: ["1", "2"] })).toBe("ids%5B0%5D=1&ids%5B1%5D=2&");
   });
 });

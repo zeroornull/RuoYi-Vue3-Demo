@@ -1,10 +1,7 @@
 import { beforeEach, describe, expect, test } from "bun:test";
 import { createPinia, setActivePinia } from "pinia";
 import { createMemoryStore } from "../../../src/http/cache";
-import {
-  createUseAppStore,
-  type AppCookieStore,
-} from "../../../src/stores/modules/app";
+import { createUseAppStore, type AppCookieStore } from "../../../src/stores/modules/app";
 import {
   createUseSettingsStore,
   DEFAULT_LAYOUT_SETTINGS,

@@ -13,10 +13,7 @@ export type BackendRouteDto = {
   children?: BackendRouteDto[];
 };
 
-export function walkRoutes(
-  routes: BackendRouteDto[],
-  visit: (route: BackendRouteDto) => void,
-): void {
+export function walkRoutes(routes: BackendRouteDto[], visit: (route: BackendRouteDto) => void): void {
   for (const route of routes) {
     visit(route);
     const children = route.children;

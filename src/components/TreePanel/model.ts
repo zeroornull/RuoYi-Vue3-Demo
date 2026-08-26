@@ -8,11 +8,7 @@ export type TreePanelNode = {
   children?: TreePanelNode[];
 };
 
-export function defaultTreeFilter(
-  value: string,
-  data: Record<string, unknown>,
-  labelKey = "label",
-): boolean {
+export function defaultTreeFilter(value: string, data: Record<string, unknown>, labelKey = "label"): boolean {
   if (!value) {
     return true;
   }
@@ -20,19 +16,11 @@ export function defaultTreeFilter(
   return typeof label === "string" && label.includes(value);
 }
 
-export function clampTreeWidth(
-  width: number,
-  minWidth: number,
-  maxWidth: number,
-): number {
+export function clampTreeWidth(width: number, minWidth: number, maxWidth: number): number {
   return Math.max(minWidth, Math.min(maxWidth, width));
 }
 
-export function readStoredWidth(
-  raw: string | null,
-  minWidth: number,
-  maxWidth: number,
-): number | null {
+export function readStoredWidth(raw: string | null, minWidth: number, maxWidth: number): number | null {
   if (raw === null || raw.length === 0) {
     return null;
   }
@@ -43,9 +31,7 @@ export function readStoredWidth(
   return width;
 }
 
-export function emptyTreeData(
-  data: readonly TreePanelNode[] | null | undefined,
-): boolean {
+export function emptyTreeData(data: readonly TreePanelNode[] | null | undefined): boolean {
   return !data || data.length === 0;
 }
 

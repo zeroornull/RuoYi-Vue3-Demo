@@ -68,27 +68,27 @@ bunx --bun tsc --showConfig -p tsconfig.node.json
 
 2026-08-25 实测：
 
-| 检查 | 结果 |
-| --- | --- |
-| `tsc --showConfig -p tsconfig.app.json` | `lib` 含 `dom`；`types` 为空；`skipLibCheck` false |
-| `tsc --showConfig -p tsconfig.node.json` | `lib` 仅 `es2023`；`types` 为 `node`；无 DOM |
-| 在 `vite.config.ts` 写 `document.title` | `TS2584 Cannot find name 'document'`，随后已还原 |
-| `bun run typecheck` | 通过（覆盖了 `@vue/tsconfig` 默认的 `skipLibCheck: true`） |
-| `bun run build` | 通过 |
-| `bun run lab:ts` | 通过 |
+| 检查                                     | 结果                                                       |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| `tsc --showConfig -p tsconfig.app.json`  | `lib` 含 `dom`；`types` 为空；`skipLibCheck` false         |
+| `tsc --showConfig -p tsconfig.node.json` | `lib` 仅 `es2023`；`types` 为 `node`；无 DOM               |
+| 在 `vite.config.ts` 写 `document.title`  | `TS2584 Cannot find name 'document'`，随后已还原           |
+| `bun run typecheck`                      | 通过（覆盖了 `@vue/tsconfig` 默认的 `skipLibCheck: true`） |
+| `bun run build`                          | 通过                                                       |
+| `bun run lab:ts`                         | 通过                                                       |
 
 ## 严格选项理由
 
-| 选项 | 为何开启 |
-| --- | --- |
-| `strict` | 空值、隐式 any、函数类型的底线 |
-| `noUncheckedIndexedAccess` | 数组/索引读取可能越界，结果是 `T \| undefined` |
-| `exactOptionalPropertyTypes` | `foo?: T` 的省略与 `{ foo: undefined }` 不是一回事 |
-| `noUnusedLocals` / `noUnusedParameters` | 防止死绑定混进迁移 diff |
-| `verbatimModuleSyntax` | 类型导入必须 `import type`，避免 Vue SFC 留下多余运行时 import |
-| `isolatedModules` | 每个文件可被 Vite 单独转译 |
-| `moduleResolution: bundler` | 与 Vite 解析规则一致 |
-| `skipLibCheck: false` | 不靠跳过第三方声明假装通过。`@vue/tsconfig` 默认是 `true`，本轮显式关掉 |
+| 选项                                    | 为何开启                                                                |
+| --------------------------------------- | ----------------------------------------------------------------------- |
+| `strict`                                | 空值、隐式 any、函数类型的底线                                          |
+| `noUncheckedIndexedAccess`              | 数组/索引读取可能越界，结果是 `T \| undefined`                          |
+| `exactOptionalPropertyTypes`            | `foo?: T` 的省略与 `{ foo: undefined }` 不是一回事                      |
+| `noUnusedLocals` / `noUnusedParameters` | 防止死绑定混进迁移 diff                                                 |
+| `verbatimModuleSyntax`                  | 类型导入必须 `import type`，避免 Vue SFC 留下多余运行时 import          |
+| `isolatedModules`                       | 每个文件可被 Vite 单独转译                                              |
+| `moduleResolution: bundler`             | 与 Vite 解析规则一致                                                    |
+| `skipLibCheck: false`                   | 不靠跳过第三方声明假装通过。`@vue/tsconfig` 默认是 `true`，本轮显式关掉 |
 
 ## 停止条件
 
@@ -136,4 +136,3 @@ src/strict/optional-env.ts
 ```text
 chore: enforce strict typescript project boundaries
 ```
-

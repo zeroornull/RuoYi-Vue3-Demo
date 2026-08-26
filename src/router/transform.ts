@@ -1,10 +1,7 @@
 import type { RouteMeta } from "vue-router";
 import type { BackendRouteDto } from "./backend-dto";
 import { resolveBackendComponent } from "./component-resolver";
-import {
-  assertUniqueRouteNames,
-  type AppRouteRecordRaw,
-} from "./types";
+import { assertUniqueRouteNames, type AppRouteRecordRaw } from "./types";
 
 export type RouteTransformIssue = {
   routePath: string;
@@ -45,9 +42,7 @@ function transformRoute(dto: BackendRouteDto): {
   }
   const meta: RouteMeta = {
     ...transformMeta(dto),
-    ...(resolution.issue
-      ? { componentError: `${resolution.issue.code}:${resolution.issue.detail}` }
-      : {}),
+    ...(resolution.issue ? { componentError: `${resolution.issue.code}:${resolution.issue.detail}` } : {}),
   };
   const common = {
     path: dto.path,
@@ -64,16 +59,12 @@ function transformRoute(dto: BackendRouteDto): {
       : {
           ...common,
           ...(hasRedirect ? { redirect: dto.redirect ?? "/index" } : {}),
-          ...(resolution.component === undefined
-            ? {}
-            : { component: resolution.component }),
+          ...(resolution.component === undefined ? {} : { component: resolution.component }),
         };
   return { route, issues };
 }
 
-export function transformBackendRoutes(
-  dtos: readonly BackendRouteDto[],
-): RouteTransformResult {
+export function transformBackendRoutes(dtos: readonly BackendRouteDto[]): RouteTransformResult {
   const results = dtos.map(transformRoute);
   const routes = results.map((result) => result.route);
   assertUniqueRouteNames(routes);

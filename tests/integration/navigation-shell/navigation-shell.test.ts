@@ -2,9 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { createPinia, setActivePinia } from "pinia";
 import { createMemoryHistory, createRouter } from "vue-router";
 import { createMemoryStore } from "../../../src/http/cache";
-import {
-  buildThemeVariables,
-} from "../../../src/layout/theme";
+import { buildThemeVariables } from "../../../src/layout/theme";
 import {
   collectAffixTags,
   normalizeKeepAliveNames,
@@ -51,19 +49,11 @@ describe("navigation shell integration", () => {
     await fixture.router.push("/user/profile/userinfo");
     addCurrentTag(fixture);
 
-    expect(fixture.tags.visitedViews.map((tag) => tag.path)).toEqual([
-      "/index",
-      "/user/profile/userinfo",
-    ]);
-    expect(normalizeKeepAliveNames(fixture.tags.cachedViews)).toEqual([
-      "Index",
-      "Profile",
-    ]);
+    expect(fixture.tags.visitedViews.map((tag) => tag.path)).toEqual(["/index", "/user/profile/userinfo"]);
+    expect(normalizeKeepAliveNames(fixture.tags.cachedViews)).toEqual(["Index", "Profile"]);
 
     fixture.tags.delAllViews();
-    expect(fixture.tags.visitedViews.map((tag) => tag.path)).toEqual([
-      "/index",
-    ]);
+    expect(fixture.tags.visitedViews.map((tag) => tag.path)).toEqual(["/index"]);
     expect(fixture.tags.cachedViews).toEqual([]);
   });
 
@@ -97,14 +87,8 @@ describe("navigation shell integration", () => {
     fixture.settings.changeSetting({ key: "isDark", value: true });
     expect(resolveLayoutDevice(1440)).toBe("desktop");
     expect(resolveLayoutDevice(390)).toBe("mobile");
-    expect(
-      buildThemeVariables(fixture.settings.theme, fixture.settings.isDark)[
-        "--app-primary"
-      ],
-    ).toBe("#ff4500");
-    expect(sanitizeIframeUrl("https://example.invalid/inside")).toBe(
-      "https://example.invalid/inside",
-    );
+    expect(buildThemeVariables(fixture.settings.theme, fixture.settings.isDark)["--app-primary"]).toBe("#ff4500");
+    expect(sanitizeIframeUrl("https://example.invalid/inside")).toBe("https://example.invalid/inside");
     expect(sanitizeIframeUrl("data:text/html,bad")).toBeNull();
   });
 });

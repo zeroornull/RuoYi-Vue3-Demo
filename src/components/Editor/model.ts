@@ -1,11 +1,5 @@
 export const EDITOR_EMPTY_HTML = "<p></p>";
-export const EDITOR_IMAGE_MIME_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/svg",
-  "image/svg+xml",
-] as const;
+export const EDITOR_IMAGE_MIME_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/svg", "image/svg+xml"] as const;
 
 export type EditorUploadMode = "url" | "base64";
 
@@ -14,10 +8,7 @@ export type EditorImageValidationError = {
   message: string;
 };
 
-export type EditorToolbarItem =
-  | string
-  | Record<string, unknown>
-  | Array<string | Record<string, unknown>>;
+export type EditorToolbarItem = string | Record<string, unknown> | Array<string | Record<string, unknown>>;
 
 export const DEFAULT_EDITOR_TOOLBAR: EditorToolbarItem[] = [
   ["bold", "italic", "underline", "strike"],
@@ -40,11 +31,7 @@ export function validateEditorImage(
   file: { type: string; size: number },
   fileSizeMb: number,
 ): EditorImageValidationError | null {
-  if (
-    !EDITOR_IMAGE_MIME_TYPES.includes(
-      file.type as (typeof EDITOR_IMAGE_MIME_TYPES)[number],
-    )
-  ) {
+  if (!EDITOR_IMAGE_MIME_TYPES.includes(file.type as (typeof EDITOR_IMAGE_MIME_TYPES)[number])) {
     return { code: "type", message: "图片格式错误!" };
   }
   if (fileSizeMb > 0 && file.size / 1024 / 1024 >= fileSizeMb) {
@@ -60,9 +47,7 @@ export function editorImageUrl(baseApi: string, fileName: string): string {
   return `${baseApi}${fileName}`;
 }
 
-export function nextEditorIndex(
-  selectionIndex: number | null | undefined,
-): number {
+export function nextEditorIndex(selectionIndex: number | null | undefined): number {
   return typeof selectionIndex === "number" ? selectionIndex : 0;
 }
 

@@ -96,4 +96,3 @@ refactor: migrate typed authentication and profile flows
 - 路由：生产加载真实 SFC；Bun 测试无法编译 Vue SFC，因此 `loadVuePage` 在测试中回退到同名占位，keep-alive 名仍是 Login/Register/Lock/Profile。
 - 测试：新增 13 条（unit/auth + integration/auth-profile + user applyProfile）。全量 135 pass。`typecheck` 与 `build:stage` 通过。
 - 浏览器：`/login` 表单、验证码校验、`/register`、`/401`、390×844 登录布局已点验。无真实后端时开发默认走 `VITE_MOCK_API` 本地 Mock（admin/admin123）；`bun run dev:backend` 代理 `localhost:8080`。
-

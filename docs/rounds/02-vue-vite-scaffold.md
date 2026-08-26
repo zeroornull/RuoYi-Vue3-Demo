@@ -55,20 +55,20 @@ bun run dev
 
 2026-08-25 实测：
 
-| 命令/检查 | 结果 |
-| --- | --- |
-| `create-vue --ts --bare` | 脚手架 `typescript@~6.0.0`、`vue@^3.5.40`、`vite@^8.1.5` |
-| 根目录安装 | `vue@3.5.41`、`vite@8.2.2`、`@vitejs/plugin-vue@6.0.8`、`typescript@6.0.3`、`vue-tsc@3.3.11`、`@vue/tsconfig@0.9.1`、`@types/node@22.20.1` |
-| `bun pm why @vue/compiler-sfc` | `@vue/compiler-sfc@3.5.41` ← `vue@3.5.41` |
-| `bun install --frozen-lockfile` | 通过，`bun.lock` 167 行 |
-| `bun run typecheck` | 通过 |
-| `bun run build` | 通过，Vite 8.2.2 production client |
-| `bun run dev` | `http://127.0.0.1:5173/` |
-| 浏览器 | 标题 `RuoYi-Vue3`，正文 `Round 2: Vue + Vite + TypeScript`，error/warn 为空 |
-| HMR | 改 `App.vue` 后 Vite 日志 `hmr update /src/App.vue`，页面变为 `HMR ok` |
-| `node_modules/.bin/vite` shebang | `#!/usr/bin/env node`，因此脚本使用 `bunx --bun vite` |
-| `bun pm untrusted` | 0 |
-| 故意 `const round: number = "2"` | `vue-tsc` 报 `TS2322`；Vite 仍编译并 HMR，控制台无类型错误 |
+| 命令/检查                        | 结果                                                                                                                                       |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `create-vue --ts --bare`         | 脚手架 `typescript@~6.0.0`、`vue@^3.5.40`、`vite@^8.1.5`                                                                                   |
+| 根目录安装                       | `vue@3.5.41`、`vite@8.2.2`、`@vitejs/plugin-vue@6.0.8`、`typescript@6.0.3`、`vue-tsc@3.3.11`、`@vue/tsconfig@0.9.1`、`@types/node@22.20.1` |
+| `bun pm why @vue/compiler-sfc`   | `@vue/compiler-sfc@3.5.41` ← `vue@3.5.41`                                                                                                  |
+| `bun install --frozen-lockfile`  | 通过，`bun.lock` 167 行                                                                                                                    |
+| `bun run typecheck`              | 通过                                                                                                                                       |
+| `bun run build`                  | 通过，Vite 8.2.2 production client                                                                                                         |
+| `bun run dev`                    | `http://127.0.0.1:5173/`                                                                                                                   |
+| 浏览器                           | 标题 `RuoYi-Vue3`，正文 `Round 2: Vue + Vite + TypeScript`，error/warn 为空                                                                |
+| HMR                              | 改 `App.vue` 后 Vite 日志 `hmr update /src/App.vue`，页面变为 `HMR ok`                                                                     |
+| `node_modules/.bin/vite` shebang | `#!/usr/bin/env node`，因此脚本使用 `bunx --bun vite`                                                                                      |
+| `bun pm untrusted`               | 0                                                                                                                                          |
+| 故意 `const round: number = "2"` | `vue-tsc` 报 `TS2322`；Vite 仍编译并 HMR，控制台无类型错误                                                                                 |
 
 ## 练习
 
@@ -122,4 +122,3 @@ bun.lock
 ```text
 chore: bootstrap minimal vue vite typescript app
 ```
-

@@ -33,16 +33,11 @@ function parseCompress(value: string | undefined): BuildCompress | undefined {
   throw new Error(`Invalid VITE_BUILD_COMPRESS: ${value}`);
 }
 
-export function requireBuildEnv(
-  env: Record<string, string>,
-  mode: string,
-): BuildEnv {
+export function requireBuildEnv(env: Record<string, string>, mode: string): BuildEnv {
   const title = required(env, "VITE_APP_TITLE");
   const appEnv = required(env, "VITE_APP_ENV");
   if (!isAppMode(appEnv)) {
-    throw new Error(
-      `VITE_APP_ENV must be development|staging|production, got ${appEnv}`,
-    );
+    throw new Error(`VITE_APP_ENV must be development|staging|production, got ${appEnv}`);
   }
   if (appEnv !== mode) {
     throw new Error(`VITE_APP_ENV=${appEnv} does not match Vite mode=${mode}`);

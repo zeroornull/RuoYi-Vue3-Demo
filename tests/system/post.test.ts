@@ -1,14 +1,6 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import {
-  emptyPostForm,
-  emptyPostQuery,
-  postToForm,
-} from "../../src/views/system/post/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { emptyPostForm, emptyPostQuery, postToForm } from "../../src/views/system/post/model";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
 function post(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
@@ -49,9 +41,7 @@ describe("post Query/Create/Update/Row models", () => {
 describe("post mock CRUD", () => {
   test("filters by status and supports enable/disable updates", () => {
     const disabled = post("GET", "/system/post/list", undefined, { status: "1" });
-    expect((disabled.body.rows as Array<{ postCode: string }>).map((row) => row.postCode)).toEqual([
-      "user",
-    ]);
+    expect((disabled.body.rows as Array<{ postCode: string }>).map((row) => row.postCode)).toEqual(["user"]);
     expect(
       post("PUT", "/system/post", {
         postId: "4",
@@ -61,15 +51,11 @@ describe("post mock CRUD", () => {
         status: "0",
       }).body.code,
     ).toBe(200);
-    expect(
-      (post("GET", "/system/post/4").body.data as { status: string }).status,
-    ).toBe("0");
+    expect((post("GET", "/system/post/4").body.data as { status: string }).status).toBe("0");
   });
 
   test("creates, rejects duplicates, batch-deletes and exports", () => {
-    expect(
-      post("POST", "/system/post", { postName: "开发", postCode: "dev" }).body.msg,
-    ).toBe("岗位顺序不能为空");
+    expect(post("POST", "/system/post", { postName: "开发", postCode: "dev" }).body.msg).toBe("岗位顺序不能为空");
     expect(
       post("POST", "/system/post", {
         postName: "开发",

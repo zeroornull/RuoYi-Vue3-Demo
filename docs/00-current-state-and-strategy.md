@@ -29,16 +29,16 @@
 
 归档时 `legacy/package.json` 的关键版本：
 
-| 依赖 | 原版本 |
-| --- | --- |
-| Vue | 3.5.26 |
-| Vite | 6.4.1 |
-| `@vitejs/plugin-vue` | 5.2.4 |
-| Vue Router | 4.6.4 |
-| Pinia | 3.0.4 |
-| Element Plus | 2.13.1 |
-| VueUse | 14.1.0 |
-| Axios | 1.13.2 |
+| 依赖                 | 原版本 |
+| -------------------- | ------ |
+| Vue                  | 3.5.26 |
+| Vite                 | 6.4.1  |
+| `@vitejs/plugin-vue` | 5.2.4  |
+| Vue Router           | 4.6.4  |
+| Pinia                | 3.0.4  |
+| Element Plus         | 2.13.1 |
+| VueUse               | 14.1.0 |
+| Axios                | 1.13.2 |
 
 完整的“当前版本、最新版本、兼容选择和特殊 dist-tag”见[依赖兼容基线](./reference/dependency-baseline.md)。
 
@@ -46,16 +46,16 @@
 
 迁移时优先识别以下边界，而不是按文件名排序：
 
-| 边界 | 旧位置 | 隐式约定 |
-| --- | --- | --- |
-| 应用装配 | `legacy/src/main.js` | 全局组件、全局方法、Element Plus locale、插件和指令注册顺序 |
-| 环境变量 | `legacy/.env.*` | `VITE_APP_TITLE`、`VITE_APP_ENV`、`VITE_APP_BASE_API`、`VITE_BUILD_COMPRESS` |
-| HTTP | `legacy/src/utils/request.js` | token、重复提交、业务状态码、blob 下载、重新登录弹窗 |
-| 路由 | `legacy/src/router/index.js` | `hidden`、`permissions`、`roles`、自定义 `meta`、后端动态路由 |
-| 权限 | `legacy/src/permission.js` | 登录白名单、进度条、动态路由加载、标题更新 |
-| 状态 | `legacy/src/store/modules/*` | 用户、菜单、标签页、锁屏、字典、设置的跨模块约定 |
-| Vite 插件 | `legacy/vite/plugins/*` | 自动导入、SVG、压缩、组件 name 扩展 |
-| 全局 API | `legacy/src/main.js` | `useDict`、`download`、`parseTime` 等挂在 `globalProperties` |
+| 边界      | 旧位置                        | 隐式约定                                                                     |
+| --------- | ----------------------------- | ---------------------------------------------------------------------------- |
+| 应用装配  | `legacy/src/main.js`          | 全局组件、全局方法、Element Plus locale、插件和指令注册顺序                  |
+| 环境变量  | `legacy/.env.*`               | `VITE_APP_TITLE`、`VITE_APP_ENV`、`VITE_APP_BASE_API`、`VITE_BUILD_COMPRESS` |
+| HTTP      | `legacy/src/utils/request.js` | token、重复提交、业务状态码、blob 下载、重新登录弹窗                         |
+| 路由      | `legacy/src/router/index.js`  | `hidden`、`permissions`、`roles`、自定义 `meta`、后端动态路由                |
+| 权限      | `legacy/src/permission.js`    | 登录白名单、进度条、动态路由加载、标题更新                                   |
+| 状态      | `legacy/src/store/modules/*`  | 用户、菜单、标签页、锁屏、字典、设置的跨模块约定                             |
+| Vite 插件 | `legacy/vite/plugins/*`       | 自动导入、SVG、压缩、组件 name 扩展                                          |
+| 全局 API  | `legacy/src/main.js`          | `useDict`、`download`、`parseTime` 等挂在 `globalProperties`                 |
 
 ### 2.4 自动导入是当前代码的重要隐式机制
 
@@ -188,4 +188,3 @@ git diff --no-index -- legacy/src/utils/request.js src/utils/request.ts
 - 所有构建模式产物可部署。
 - 依赖版本矩阵、兼容选择与暂缓升级理由已更新。
 - 新开发者只阅读根项目和 `docs/` 即可完成安装、运行与排错。
-

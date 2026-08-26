@@ -6,9 +6,7 @@ import AdminLayout from "./layout/index.vue";
 import { shouldUseAdminShell } from "./layout/model";
 
 const route = useRoute();
-const useShell = computed(() =>
-  shouldUseAdminShell({ name: route.name, meta: route.meta }),
-);
+const useShell = computed(() => shouldUseAdminShell({ name: route.name, meta: route.meta }));
 </script>
 
 <template>

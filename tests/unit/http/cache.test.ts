@@ -1,9 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  createJsonCache,
-  createMemoryStore,
-  parseCacheJson,
-} from "../../../src/http/cache";
+import { createJsonCache, createMemoryStore, parseCacheJson } from "../../../src/http/cache";
 
 describe("cache json boundary", () => {
   test("getJSON returns null for missing and invalid JSON", () => {

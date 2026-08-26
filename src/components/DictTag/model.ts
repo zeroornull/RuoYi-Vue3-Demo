@@ -7,10 +7,7 @@ export type DictTagMatch = {
   unmatched: string[];
 };
 
-function asTokens(
-  value: DictTagValue | null | undefined,
-  separator: string,
-): string[] {
+function asTokens(value: DictTagValue | null | undefined, separator: string): string[] {
   if (value === null || value === undefined || value === "") {
     return [];
   }
@@ -39,19 +36,11 @@ export function matchDictTagValues(
   separator = ",",
 ): DictTagMatch {
   const tokens = asTokens(value, separator);
-  if (
-    tokens.length === 0 ||
-    !Array.isArray(options) ||
-    options.length === 0
-  ) {
+  if (tokens.length === 0 || !Array.isArray(options) || options.length === 0) {
     return { matched: [], unmatched: [] };
   }
-  const matched = options.filter((item) =>
-    tokens.some((token) => valuesEqual(token, item.value)),
-  );
-  const unmatched = tokens.filter(
-    (token) => !options.some((item) => valuesEqual(token, item.value)),
-  );
+  const matched = options.filter((item) => tokens.some((token) => valuesEqual(token, item.value)));
+  const unmatched = tokens.filter((token) => !options.some((item) => valuesEqual(token, item.value)));
   return { matched, unmatched };
 }
 

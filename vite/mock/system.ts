@@ -415,7 +415,10 @@ function inDateRange(createTime: string, query: Record<string, string>): boolean
   return true;
 }
 
-function pageOf(rows: readonly unknown[], query: Record<string, string>): {
+function pageOf(
+  rows: readonly unknown[],
+  query: Record<string, string>,
+): {
   rows: unknown[];
   total: number;
 } {
@@ -461,15 +464,17 @@ function readNumber(body: Record<string, unknown>, key: string): number | undefi
 }
 
 function parseIds(rest: string): string[] {
-  return rest.split(",").map((item) => decodeURIComponent(item)).filter(Boolean);
+  return rest
+    .split(",")
+    .map((item) => decodeURIComponent(item))
+    .filter(Boolean);
 }
 
 function exportBlob(): MockResponse {
   return {
     status: 200,
     body: { code: 200, msg: "操作成功" },
-    contentType:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     raw: "mock-xlsx",
   };
 }
@@ -697,8 +702,7 @@ function dispatchNotice(method: string, path: string, request: MockRequest): Moc
     const rows = noticeReads.filter(
       (row) =>
         row.noticeId === query.noticeId &&
-        (includes(row.userName, query.searchValue) ||
-          includes(row.nickName, query.searchValue)),
+        (includes(row.userName, query.searchValue) || includes(row.nickName, query.searchValue)),
     );
     return listOk(rows, query);
   }
@@ -799,9 +803,7 @@ function dispatchDict(method: string, path: string, request: MockRequest): MockR
   }
   const typePath = restAfter(path, "/system/dict/data/type");
   if (method === "GET" && typePath) {
-    const rows = dictData.filter(
-      (row) => row.dictType === decodeURIComponent(typePath) && row.status === "0",
-    );
+    const rows = dictData.filter((row) => row.dictType === decodeURIComponent(typePath) && row.status === "0");
     return ok({ code: 200, msg: "操作成功", data: rows });
   }
   if (method === "POST" && path === "/system/dict/type") {

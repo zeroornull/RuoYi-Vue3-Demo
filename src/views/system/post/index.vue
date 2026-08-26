@@ -133,20 +133,49 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:post:add']" type="primary" plain :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button v-hasPermi="['system:post:add']" type="primary" plain :icon="Plus" @click="handleAdd"
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:post:edit']" type="success" plain :icon="Edit" :disabled="selection.single" @click="handleUpdate()">修改</el-button>
+        <el-button
+          v-hasPermi="['system:post:edit']"
+          type="success"
+          plain
+          :icon="Edit"
+          :disabled="selection.single"
+          @click="handleUpdate()"
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:post:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete()">删除</el-button>
+        <el-button
+          v-hasPermi="['system:post:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete()"
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:post:export']" type="warning" plain :icon="Download" @click="download('system/post/export', { ...queryParams }, `post_${Date.now()}.xlsx`)">导出</el-button>
+        <el-button
+          v-hasPermi="['system:post:export']"
+          type="warning"
+          plain
+          :icon="Download"
+          @click="download('system/post/export', { ...queryParams }, `post_${Date.now()}.xlsx`)"
+          >导出</el-button
+        >
       </el-col>
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
-    <el-table v-loading="loading" :data="list" @selection-change="(rows: Post[]) => (selection = selectionFromRows(rows, (row) => row.postId))">
+    <el-table
+      v-loading="loading"
+      :data="list"
+      @selection-change="(rows: Post[]) => (selection = selectionFromRows(rows, (row) => row.postId))"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="岗位编号" align="center" prop="postId" />
       <el-table-column label="岗位编码" align="center" prop="postCode" />
@@ -160,20 +189,38 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" width="180" align="center">
         <template #default="{ row }">
-          <el-button v-hasPermi="['system:post:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)">修改</el-button>
-          <el-button v-hasPermi="['system:post:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)">删除</el-button>
+          <el-button v-hasPermi="['system:post:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)"
+            >修改</el-button
+          >
+          <el-button v-hasPermi="['system:post:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    <Pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
+    <Pagination
+      v-show="total > 0"
+      :total="total"
+      v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize"
+      @pagination="getList"
+    />
     <el-dialog v-model="open" :title="title" width="500px" append-to-body>
       <el-form ref="postRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="岗位名称" prop="postName"><el-input v-model="form.postName" placeholder="请输入岗位名称" /></el-form-item>
-        <el-form-item label="岗位编码" prop="postCode"><el-input v-model="form.postCode" placeholder="请输入编码名称" /></el-form-item>
-        <el-form-item label="岗位顺序" prop="postSort"><el-input-number v-model="form.postSort" controls-position="right" :min="0" /></el-form-item>
+        <el-form-item label="岗位名称" prop="postName"
+          ><el-input v-model="form.postName" placeholder="请输入岗位名称"
+        /></el-form-item>
+        <el-form-item label="岗位编码" prop="postCode"
+          ><el-input v-model="form.postCode" placeholder="请输入编码名称"
+        /></el-form-item>
+        <el-form-item label="岗位顺序" prop="postSort"
+          ><el-input-number v-model="form.postSort" controls-position="right" :min="0"
+        /></el-form-item>
         <el-form-item label="岗位状态" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+            <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{
+              dict.label
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark"><el-input v-model="form.remark" type="textarea" /></el-form-item>

@@ -22,9 +22,7 @@ export function listDbTable(query: GeneratorQuery): Promise<GeneratorPageRespons
 }
 
 export function getGenTable(tableId: EntityId): Promise<ApiResponse<GeneratorTableInfo>> {
-  return http.get<ApiResponse<GeneratorTableInfo>>(
-    `/tool/gen/${encodePathSegment(tableId)}`,
-  );
+  return http.get<ApiResponse<GeneratorTableInfo>>(`/tool/gen/${encodePathSegment(tableId)}`);
 }
 
 export function updateGenTable(data: GeneratorTableUpdateRequest): Promise<EmptyResponse> {
@@ -40,9 +38,7 @@ export function createTable(data: CreateTableRequest): Promise<EmptyResponse> {
 }
 
 export function previewTable(tableId: EntityId): Promise<ApiResponse<GeneratorPreview>> {
-  return http.get<ApiResponse<GeneratorPreview>>(
-    `/tool/gen/preview/${encodePathSegment(tableId)}`,
-  );
+  return http.get<ApiResponse<GeneratorPreview>>(`/tool/gen/preview/${encodePathSegment(tableId)}`);
 }
 
 export function delTable(tableIds: IdCollection): Promise<EmptyResponse> {

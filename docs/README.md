@@ -38,21 +38,21 @@
 
 文档现在分为两层：
 
-| 层级 | 用途 | 文档 |
-| --- | --- | --- |
+| 层级     | 用途                                       | 文档                                 |
+| -------- | ------------------------------------------ | ------------------------------------ |
 | 逐轮执行 | 一次只处理一个主要变量，每轮独立验证和提交 | [第 0—19 轮路线](./rounds/README.md) |
-| 阶段参考 | 解释跨轮架构、风险和完整方法 | `docs/phases/` 下 6 篇阶段手册 |
+| 阶段参考 | 解释跨轮架构、风险和完整方法               | `docs/phases/` 下 6 篇阶段手册       |
 
 ### 阶段与轮次映射
 
-| 阶段 | 轮次 | 内容 |
-| --- | ---: | --- |
-| [阶段 A](./phases/phase-a-bun-and-scaffold.md) | 1—2 | Bun、Vue、Vite、最小 TS 骨架 |
-| [阶段 B](./phases/phase-b-typescript-and-vite.md) | 3—5 | TS 语言、严格配置、Vite 环境与插件 |
-| [阶段 C](./phases/phase-c-infrastructure-and-api.md) | 6—9 | 应用装配、共享类型、HTTP、API 合约 |
-| [阶段 D](./phases/phase-d-state-routing-permissions.md) | 10—12 | Pinia、静态 Router、动态权限闭环 |
-| [阶段 E](./phases/phase-e-components-and-pages.md) | 13—18 | Layout、组件、认证、系统、监控和工具域 |
-| [阶段 F](./phases/phase-f-quality-and-cutover.md) | 19 | 质量门禁、依赖收敛和正式切换 |
+| 阶段                                                    |  轮次 | 内容                                   |
+| ------------------------------------------------------- | ----: | -------------------------------------- |
+| [阶段 A](./phases/phase-a-bun-and-scaffold.md)          |   1—2 | Bun、Vue、Vite、最小 TS 骨架           |
+| [阶段 B](./phases/phase-b-typescript-and-vite.md)       |   3—5 | TS 语言、严格配置、Vite 环境与插件     |
+| [阶段 C](./phases/phase-c-infrastructure-and-api.md)    |   6—9 | 应用装配、共享类型、HTTP、API 合约     |
+| [阶段 D](./phases/phase-d-state-routing-permissions.md) | 10—12 | Pinia、静态 Router、动态权限闭环       |
+| [阶段 E](./phases/phase-e-components-and-pages.md)      | 13—18 | Layout、组件、认证、系统、监控和工具域 |
+| [阶段 F](./phases/phase-f-quality-and-cutover.md)       |    19 | 质量门禁、依赖收敛和正式切换           |
 
 迁移前还应阅读：
 

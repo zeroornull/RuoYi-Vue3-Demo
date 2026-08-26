@@ -86,25 +86,13 @@ onMounted(() => {
 
 <template>
   <div class="login">
-    <el-form
-      ref="loginRef"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-    >
+    <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
       <h3 class="title">{{ appEnv.title }}</h3>
       <p v-if="usingMock" class="login-mock-hint">
-        本地 Mock 后端已开启。账号 admin / admin123，验证码任意非空。接真实服务请设
-        VITE_MOCK_API=false 后重启。
+        本地 Mock 后端已开启。账号 admin / admin123，验证码任意非空。接真实服务请设 VITE_MOCK_API=false 后重启。
       </p>
       <el-form-item prop="username">
-        <el-input
-          v-model="loginForm.username"
-          type="text"
-          size="large"
-          autocomplete="username"
-          placeholder="账号"
-        >
+        <el-input v-model="loginForm.username" type="text" size="large" autocomplete="username" placeholder="账号">
           <template #prefix>
             <SvgIcon name="user" class="input-icon" :size="14" />
           </template>
@@ -144,13 +132,7 @@ onMounted(() => {
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" class="login-remember">记住密码</el-checkbox>
       <el-form-item>
-        <el-button
-          :loading="loading"
-          size="large"
-          type="primary"
-          class="login-submit"
-          @click.prevent="handleLogin"
-        >
+        <el-button :loading="loading" size="large" type="primary" class="login-submit" @click.prevent="handleLogin">
           {{ loading ? "登 录 中..." : "登 录" }}
         </el-button>
         <div v-if="registerEnabled" class="login-register">
@@ -245,8 +227,8 @@ onMounted(() => {
 }
 
 html.dark .login {
-  background-image: linear-gradient(rgb(0 0 0 / 55%), rgb(0 0 0 / 55%)),
-    url("../../assets/images/login-background.jpg");
+  background-image:
+    linear-gradient(rgb(0 0 0 / 55%), rgb(0 0 0 / 55%)), url("../../assets/images/login-background.jpg");
 
   .login-form {
     background: var(--el-bg-color-overlay) !important;

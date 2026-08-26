@@ -260,11 +260,7 @@ function includes(haystack: string, needle: string | undefined): boolean {
 
 function readString(body: Record<string, unknown>, key: string): string {
   const value = body[key];
-  return typeof value === "string"
-    ? value.trim()
-    : typeof value === "number"
-      ? String(value)
-      : "";
+  return typeof value === "string" ? value.trim() : typeof value === "number" ? String(value) : "";
 }
 
 function readIds(value: unknown): string[] {
@@ -342,7 +338,10 @@ function publicUser(row: UserRow): MockJson {
   };
 }
 
-function pageOf(rows: UserRow[], query: Record<string, string>): {
+function pageOf(
+  rows: UserRow[],
+  query: Record<string, string>,
+): {
   rows: MockJson[];
   total: number;
 } {
@@ -361,8 +360,7 @@ function exportBlob(): MockResponse {
   return {
     status: 200,
     body: { code: 200, msg: "操作成功" },
-    contentType:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     raw: "mock-xlsx",
   };
 }
@@ -408,9 +406,7 @@ export function dispatchUserMock(request: MockRequest): MockResponse | null {
     return exportBlob();
   }
   if (method === "POST" && (path === "/system/user/importData" || path === "/system/user/importTemplate")) {
-    return path === "/system/user/importTemplate"
-      ? exportBlob()
-      : ok({ code: 200, msg: "导入成功" });
+    return path === "/system/user/importTemplate" ? exportBlob() : ok({ code: 200, msg: "导入成功" });
   }
   if (method === "PUT" && path === "/system/user/resetPwd") {
     if (!isRecord(request.body)) return fail("请求参数错误");
@@ -479,10 +475,7 @@ export function dispatchUserMock(request: MockRequest): MockResponse | null {
         {
           email: readString(request.body, "email"),
           phonenumber: readString(request.body, "phonenumber"),
-          sex:
-            request.body.sex === "1" || request.body.sex === "2"
-              ? request.body.sex
-              : "0",
+          sex: request.body.sex === "1" || request.body.sex === "2" ? request.body.sex : "0",
           remark: readString(request.body, "remark"),
           password,
           createTime: now,
@@ -503,8 +496,7 @@ export function dispatchUserMock(request: MockRequest): MockResponse | null {
     row.deptId = readString(request.body, "deptId") || row.deptId;
     row.email = readString(request.body, "email");
     row.phonenumber = readString(request.body, "phonenumber");
-    row.sex =
-      request.body.sex === "1" || request.body.sex === "2" ? request.body.sex : "0";
+    row.sex = request.body.sex === "1" || request.body.sex === "2" ? request.body.sex : "0";
     row.status = readString(request.body, "status") === "1" ? "1" : "0";
     row.remark = readString(request.body, "remark");
     row.postIds = readIds(request.body.postIds);
@@ -537,7 +529,10 @@ export function dispatchUserMock(request: MockRequest): MockResponse | null {
   }
   if (method === "DELETE") {
     if (rest === "") return fail("请选择要删除的数据");
-    const ids = rest.split(",").map((item) => decodeURIComponent(item)).filter(Boolean);
+    const ids = rest
+      .split(",")
+      .map((item) => decodeURIComponent(item))
+      .filter(Boolean);
     if (ids.includes(ADMIN_ID)) return fail("不允许操作超级管理员用户");
     const before = users.length;
     users = users.filter((item) => !ids.includes(item.userId));

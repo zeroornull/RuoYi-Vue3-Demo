@@ -58,20 +58,10 @@ describe("organization tree helpers", () => {
       (row) => row.id,
       (row) => row.parentId,
     );
-    const filtered = excludeSelfAndDescendants(
-      tree,
-      "101",
-      (row) => row.id,
-      childrenOf,
-    );
+    const filtered = excludeSelfAndDescendants(tree, "101", (row) => row.id, childrenOf);
     expect(filtered.map((node) => node.id)).toEqual(["100"]);
     expect(filtered[0]?.children.map((node) => node.id)).toEqual(["102"]);
-    expect(collectDescendantIds(tree[0]!, (row) => row.id, childrenOf)).toEqual([
-      "100",
-      "101",
-      "103",
-      "102",
-    ]);
+    expect(collectDescendantIds(tree[0]!, (row) => row.id, childrenOf)).toEqual(["100", "101", "103", "102"]);
   });
 
   test("detects parent cycles and normalizes string/number ids", () => {
@@ -104,17 +94,27 @@ describe("organization tree helpers", () => {
       childrenOf,
     );
     expect(
-      collectChangedSort(tree, original, (row) => row.id, (row) => row.orderNum, childrenOf),
+      collectChangedSort(
+        tree,
+        original,
+        (row) => row.id,
+        (row) => row.orderNum,
+        childrenOf,
+      ),
     ).toBeNull();
     const child = tree[0]?.children[0];
     if (child) {
       child.orderNum = 9;
     }
     expect(
-      collectChangedSort(tree, original, (row) => row.id, (row) => row.orderNum, childrenOf),
+      collectChangedSort(
+        tree,
+        original,
+        (row) => row.id,
+        (row) => row.orderNum,
+        childrenOf,
+      ),
     ).toEqual({ ids: "2", orderNums: "9" });
-    expect(confirmDeleteName("部门", "研发部门")).toBe(
-      '是否确认删除名称为"研发部门"的部门？',
-    );
+    expect(confirmDeleteName("部门", "研发部门")).toBe('是否确认删除名称为"研发部门"的部门？');
   });
 });

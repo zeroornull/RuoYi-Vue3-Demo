@@ -9,11 +9,7 @@ import {
   operationTypeLabel,
 } from "../../src/views/monitor/operlog/model";
 import { isUserLocked } from "../../vite/mock/monitor.ts";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
 function monitor(
   method: string,
@@ -62,7 +58,7 @@ describe("monitor Query/Row models", () => {
         1,
       ).map((row) => row.tokenId),
     ).toEqual(["b"]);
-    expect(formatJsonBlock('{"code":200}')).toBe("{\n  \"code\": 200\n}");
+    expect(formatJsonBlock('{"code":200}')).toBe('{\n  "code": 200\n}');
     expect(formatJsonBlock("not-json")).toBe("not-json");
     expect(formatJsonBlock("")).toBe("（无数据）");
     expect(
@@ -81,14 +77,10 @@ describe("monitor Query/Row models", () => {
 
 describe("monitor mock online and logs", () => {
   test("rejects anonymous monitor access and force-logouts a session", () => {
-    expect(monitor("GET", "/monitor/online/list", undefined, undefined, "").body.code).toBe(
-      401,
-    );
+    expect(monitor("GET", "/monitor/online/list", undefined, undefined, "").body.code).toBe(401);
     const listed = monitor("GET", "/monitor/online/list");
     expect(listed.body.total).toBe(3);
-    expect(
-      monitor("GET", "/monitor/online/list", undefined, { userName: "ry" }).body.total,
-    ).toBe(1);
+    expect(monitor("GET", "/monitor/online/list", undefined, { userName: "ry" }).body.total).toBe(1);
     expect(monitor("DELETE", "/monitor/online/token-ry").body.code).toBe(200);
     expect(monitor("GET", "/monitor/online/list").body.total).toBe(2);
     expect(monitor("DELETE", "/monitor/online/missing").body.msg).toBe("数据不存在");
@@ -97,9 +89,7 @@ describe("monitor mock online and logs", () => {
   test("filters, sorts, deletes, unlocks and cleans login logs", () => {
     const failed = monitor("GET", "/monitor/logininfor/list", undefined, { status: "1" });
     expect((failed.body.total as number) > 0).toBe(true);
-    expect(
-      (failed.body.rows as Array<{ status: string }>).every((row) => row.status === "1"),
-    ).toBe(true);
+    expect((failed.body.rows as Array<{ status: string }>).every((row) => row.status === "1")).toBe(true);
     const sorted = monitor("GET", "/monitor/logininfor/list", undefined, {
       orderByColumn: "loginTime",
       isAsc: "asc",
@@ -120,9 +110,7 @@ describe("monitor mock online and logs", () => {
 
   test("pages operation logs, exposes failure detail and cleans the table", () => {
     const added = monitor("GET", "/monitor/operlog/list", undefined, { businessType: "1" });
-    expect(
-      (added.body.rows as Array<{ businessType: number }>).every((row) => row.businessType === 1),
-    ).toBe(true);
+    expect((added.body.rows as Array<{ businessType: number }>).every((row) => row.businessType === 1)).toBe(true);
     const failed = monitor("GET", "/monitor/operlog/list", undefined, { status: "1" });
     const row = (failed.body.rows as Array<{ errorMsg: string; jsonResult: string }>)[0];
     expect(row?.errorMsg).toBe("不允许删除内置参数");

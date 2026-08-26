@@ -1,9 +1,5 @@
 import jsBeautify from "js-beautify";
-import type {
-  CSSBeautifyOptions,
-  HTMLBeautifyOptions,
-  JSBeautifyOptions,
-} from "js-beautify";
+import type { CSSBeautifyOptions, HTMLBeautifyOptions, JSBeautifyOptions } from "js-beautify";
 
 /**
  * Maps the legacy 1.x beautifierConf (stringy indent/wrap values, HTML e4x)

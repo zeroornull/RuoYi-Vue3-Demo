@@ -1,11 +1,7 @@
 import { dispatchMonitorMock, resetMockMonitorState } from "./monitor.ts";
 import { DRUID_LOGIN_HTML } from "./runtime.ts";
 import { dispatchSystemMock, resetMockSystemState } from "./system.ts";
-import {
-  dispatchPublicToolMock,
-  dispatchToolMock,
-  resetMockToolState,
-} from "./tool.ts";
+import { dispatchPublicToolMock, dispatchToolMock, resetMockToolState } from "./tool.ts";
 
 export type MockJson = Record<string, unknown>;
 
@@ -27,12 +23,10 @@ export type MockResponse = {
 export const MOCK_TOKEN = "mock-admin-token";
 export const MOCK_USERNAME = "admin";
 export const MOCK_PASSWORD = "admin123";
-const PIXEL_GIF =
-  "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+const PIXEL_GIF = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 const ok = (body: MockJson, status = 200): MockResponse => ({ status, body });
-const fail = (msg: string, code = 500): MockResponse =>
-  ok({ code, msg });
+const fail = (msg: string, code = 500): MockResponse => ok({ code, msg });
 
 type MockUser = {
   userId: string;
@@ -344,9 +338,7 @@ export function dispatchMockRequest(request: MockRequest): MockResponse {
     return publicTool;
   }
 
-  const unauthorized = token !== MOCK_TOKEN
-    ? ok({ code: 401, msg: "认证失败，无法访问系统资源" })
-    : null;
+  const unauthorized = token !== MOCK_TOKEN ? ok({ code: 401, msg: "认证失败，无法访问系统资源" }) : null;
 
   if (method === "GET" && path === "/getInfo") {
     return unauthorized ?? info();
@@ -375,12 +367,7 @@ export function dispatchMockRequest(request: MockRequest): MockResponse {
     return ok({ code: 200, msg: "操作成功", imgUrl: "/profile.jpg" });
   }
 
-  if (
-    unauthorized &&
-    (path.startsWith("/system/") ||
-      path.startsWith("/monitor/") ||
-      path.startsWith("/tool/"))
-  ) {
+  if (unauthorized && (path.startsWith("/system/") || path.startsWith("/monitor/") || path.startsWith("/tool/"))) {
     return unauthorized;
   }
 

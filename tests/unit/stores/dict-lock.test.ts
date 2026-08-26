@@ -2,11 +2,7 @@ import { beforeEach, describe, expect, test } from "bun:test";
 import { createPinia, setActivePinia } from "pinia";
 import { createMemoryStore } from "../../../src/http/cache";
 import { useDictStore } from "../../../src/stores/modules/dict";
-import {
-  createUseLockStore,
-  LOCK_STATE_KEY,
-  parseLockState,
-} from "../../../src/stores/modules/lock";
+import { createUseLockStore, LOCK_STATE_KEY, parseLockState } from "../../../src/stores/modules/lock";
 
 beforeEach(() => {
   setActivePinia(createPinia());
@@ -16,9 +12,7 @@ describe("dict store", () => {
   test("sets, replaces, removes and clears typed dictionary values", () => {
     const store = useDictStore();
     store.setDict("sys_status", [{ label: "正常", value: "0" }]);
-    expect(store.getDict("sys_status")).toEqual([
-      { label: "正常", value: "0" },
-    ]);
+    expect(store.getDict("sys_status")).toEqual([{ label: "正常", value: "0" }]);
 
     store.setDict("sys_status", [{ label: "停用", value: "1" }]);
     expect(store.entries).toHaveLength(1);

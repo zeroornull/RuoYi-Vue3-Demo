@@ -19,12 +19,8 @@ describe("Editor html and image boundaries", () => {
   test("normalizes empty HTML and validates image type/size", () => {
     expect(normalizeEditorHtml(undefined)).toBe(EDITOR_EMPTY_HTML);
     expect(normalizeEditorHtml("<p>hi</p>")).toBe("<p>hi</p>");
-    expect(
-      validateEditorImage({ type: "application/pdf", size: 10 }, 5)?.code,
-    ).toBe("type");
-    expect(
-      validateEditorImage({ type: "image/png", size: 6 * 1024 * 1024 }, 5)?.code,
-    ).toBe("size");
+    expect(validateEditorImage({ type: "application/pdf", size: 10 }, 5)?.code).toBe("type");
+    expect(validateEditorImage({ type: "image/png", size: 6 * 1024 * 1024 }, 5)?.code).toBe("size");
     expect(validateEditorImage({ type: "image/jpeg", size: 10 }, 5)).toBeNull();
     expect(editorImageUrl("/dev-api", "/profile.png")).toBe("/dev-api/profile.png");
     expect(nextEditorIndex(undefined)).toBe(0);
@@ -62,10 +58,7 @@ describe("typed form submit", () => {
 
 describe("IconSelect and Screenfull helpers", () => {
   test("filters icon names and toggles fullscreen state", async () => {
-    expect(filterIconNames(["user", "system", "custom-user"], "user")).toEqual([
-      "user",
-      "custom-user",
-    ]);
+    expect(filterIconNames(["user", "system", "custom-user"], "user")).toEqual(["user", "custom-user"]);
     expect(fullscreenIconName(true)).toBe("exit-fullscreen");
     const doc: FullscreenDocument = {
       fullscreenElement: null,

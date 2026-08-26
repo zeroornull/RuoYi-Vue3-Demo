@@ -14,15 +14,7 @@ import {
   Refresh,
   Search,
 } from "@element-plus/icons-vue";
-import {
-  addJob,
-  changeJobStatus,
-  delJob,
-  getJob,
-  listJob,
-  runJob,
-  updateJob,
-} from "../../../api/monitor/job";
+import { addJob, changeJobStatus, delJob, getJob, listJob, runJob, updateJob } from "../../../api/monitor/job";
 import { download } from "../../../http";
 import Crontab from "../../../components/Crontab/index.vue";
 import Pagination from "../../../components/Pagination/index.vue";
@@ -216,19 +208,41 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:add']" type="primary" plain :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button v-hasPermi="['monitor:job:add']" type="primary" plain :icon="Plus" @click="handleAdd"
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:edit']" type="success" plain :icon="Edit" :disabled="selection.single" @click="handleUpdate()">修改</el-button>
+        <el-button
+          v-hasPermi="['monitor:job:edit']"
+          type="success"
+          plain
+          :icon="Edit"
+          :disabled="selection.single"
+          @click="handleUpdate()"
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete()">删除</el-button>
+        <el-button
+          v-hasPermi="['monitor:job:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete()"
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:export']" type="warning" plain :icon="Download" @click="handleExport">导出</el-button>
+        <el-button v-hasPermi="['monitor:job:export']" type="warning" plain :icon="Download" @click="handleExport"
+          >导出</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:query']" type="info" plain :icon="Operation" @click="handleJobLog()">日志</el-button>
+        <el-button v-hasPermi="['monitor:job:query']" type="info" plain :icon="Operation" @click="handleJobLog()"
+          >日志</el-button
+        >
       </el-col>
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
@@ -262,13 +276,31 @@ onMounted(() => {
             <el-button v-hasPermi="['monitor:job:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)" />
           </el-tooltip>
           <el-tooltip content="删除" placement="top">
-            <el-button v-hasPermi="['monitor:job:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)" />
+            <el-button
+              v-hasPermi="['monitor:job:remove']"
+              link
+              type="primary"
+              :icon="Delete"
+              @click="handleDelete(row)"
+            />
           </el-tooltip>
           <el-tooltip content="执行一次" placement="top">
-            <el-button v-hasPermi="['monitor:job:changeStatus']" link type="primary" :icon="CaretRight" @click="handleRun(row)" />
+            <el-button
+              v-hasPermi="['monitor:job:changeStatus']"
+              link
+              type="primary"
+              :icon="CaretRight"
+              @click="handleRun(row)"
+            />
           </el-tooltip>
           <el-tooltip content="调度日志" placement="top">
-            <el-button v-hasPermi="['monitor:job:query']" link type="primary" :icon="Operation" @click="handleJobLog(row)" />
+            <el-button
+              v-hasPermi="['monitor:job:query']"
+              link
+              type="primary"
+              :icon="Operation"
+              @click="handleJobLog(row)"
+            />
           </el-tooltip>
         </template>
       </el-table-column>
@@ -327,14 +359,18 @@ onMounted(() => {
           <el-col v-if="form.jobId" :span="24">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_job_status" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+                <el-radio v-for="dict in sys_job_status" :key="dict.value" :value="dict.value">{{
+                  dict.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="执行策略" prop="misfirePolicy">
               <el-radio-group v-model="form.misfirePolicy">
-                <el-radio-button v-for="item in MISFIRE_OPTIONS" :key="item.value" :value="item.value">{{ item.label }}</el-radio-button>
+                <el-radio-button v-for="item in MISFIRE_OPTIONS" :key="item.value" :value="item.value">{{
+                  item.label
+                }}</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-col>

@@ -1,16 +1,10 @@
 import { defineStore } from "pinia";
 import { shallowRef } from "vue";
-import {
-  filterRoutesByAccess,
-  type RouteAccess,
-} from "../../router/access";
+import { filterRoutesByAccess, type RouteAccess } from "../../router/access";
 import { parseBackendRoutes } from "../../router/backend-dto";
 import { transformBackendRoutes } from "../../router/transform";
 import type { RouteTransformIssue } from "../../router/transform";
-import {
-  assertUniqueRouteNames,
-  type AppRouteRecordRaw,
-} from "../../router/types";
+import { assertUniqueRouteNames, type AppRouteRecordRaw } from "../../router/types";
 
 export type PermissionRoute = AppRouteRecordRaw;
 export type PermissionRouteStatus = "idle" | "loading" | "loaded" | "error";
@@ -34,13 +28,9 @@ export function createUsePermissionStore(deps: PermissionStoreDeps) {
   return defineStore("permission", () => {
     const routes = shallowRef<PermissionRoute[]>(cloneRoutes(deps.constantRoutes));
     const addRoutes = shallowRef<PermissionRoute[]>([]);
-    const defaultRoutes = shallowRef<PermissionRoute[]>(
-      cloneRoutes(deps.constantRoutes),
-    );
+    const defaultRoutes = shallowRef<PermissionRoute[]>(cloneRoutes(deps.constantRoutes));
     const topbarRouters = shallowRef<PermissionRoute[]>([]);
-    const sidebarRouters = shallowRef<PermissionRoute[]>(
-      cloneRoutes(deps.constantRoutes),
-    );
+    const sidebarRouters = shallowRef<PermissionRoute[]>(cloneRoutes(deps.constantRoutes));
     const issues = shallowRef<RouteTransformIssue[]>([]);
     const status = shallowRef<PermissionRouteStatus>("idle");
 
@@ -51,10 +41,7 @@ export function createUsePermissionStore(deps: PermissionStoreDeps) {
     }
 
     function setDefaultRoutes(value: readonly PermissionRoute[]): void {
-      defaultRoutes.value = [
-        ...cloneRoutes(deps.constantRoutes),
-        ...cloneRoutes(value),
-      ];
+      defaultRoutes.value = [...cloneRoutes(deps.constantRoutes), ...cloneRoutes(value)];
     }
 
     function setTopbarRoutes(value: readonly PermissionRoute[]): void {
@@ -62,10 +49,7 @@ export function createUsePermissionStore(deps: PermissionStoreDeps) {
     }
 
     function setSidebarRouters(value: readonly PermissionRoute[]): void {
-      sidebarRouters.value = [
-        ...cloneRoutes(deps.constantRoutes),
-        ...cloneRoutes(value),
-      ];
+      sidebarRouters.value = [...cloneRoutes(deps.constantRoutes), ...cloneRoutes(value)];
     }
 
     async function generateRoutes(access: RouteAccess): Promise<PermissionRoute[]> {

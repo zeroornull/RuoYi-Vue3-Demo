@@ -20,9 +20,7 @@ describe("layout model", () => {
     expect(joinRoutePath("/system", "user")).toBe("/system/user");
     expect(joinRoutePath("/system/", "/absolute")).toBe("/absolute");
     expect(joinRoutePath("/", "index")).toBe("/index");
-    expect(joinRoutePath("/", "https://example.invalid")).toBe(
-      "https://example.invalid",
-    );
+    expect(joinRoutePath("/", "https://example.invalid")).toBe("https://example.invalid");
   });
 
   test("resolves active menu and shell boundaries", () => {
@@ -34,9 +32,7 @@ describe("layout model", () => {
     ).toBe("/system/user");
     expect(resolveActiveMenu({ path: "/index", meta: {} })).toBe("/index");
     expect(shouldUseAdminShell({ name: "Index", meta: {} })).toBe(true);
-    expect(
-      shouldUseAdminShell({ name: "Login", meta: { public: true } }),
-    ).toBe(false);
+    expect(shouldUseAdminShell({ name: "Login", meta: { public: true } })).toBe(false);
     expect(shouldUseAdminShell({ name: "Lock", meta: {} })).toBe(false);
   });
 
@@ -56,13 +52,8 @@ describe("layout model", () => {
         },
       },
     ]);
-    expect(normalizeKeepAliveNames(["Index", "", "Index", "Profile"])).toEqual([
-      "Index",
-      "Profile",
-    ]);
-    expect(fallbackAfterClose(["/index", "/user/profile"])).toBe(
-      "/user/profile",
-    );
+    expect(normalizeKeepAliveNames(["Index", "", "Index", "Profile"])).toEqual(["Index", "Profile"]);
+    expect(fallbackAfterClose(["/index", "/user/profile"])).toBe("/user/profile");
     expect(fallbackAfterClose([])).toEqual({ name: "Index" });
   });
 
@@ -84,12 +75,8 @@ describe("layout model", () => {
   });
 
   test("accepts only http(s) iframe URLs", () => {
-    expect(sanitizeIframeUrl("https://example.invalid/docs")).toBe(
-      "https://example.invalid/docs",
-    );
-    expect(sanitizeIframeUrl("http://example.invalid/a")).toBe(
-      "http://example.invalid/a",
-    );
+    expect(sanitizeIframeUrl("https://example.invalid/docs")).toBe("https://example.invalid/docs");
+    expect(sanitizeIframeUrl("http://example.invalid/a")).toBe("http://example.invalid/a");
     expect(sanitizeIframeUrl("javascript:alert(1)")).toBeNull();
     expect(sanitizeIframeUrl("/relative")).toBeNull();
   });

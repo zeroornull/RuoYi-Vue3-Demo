@@ -14,9 +14,7 @@ const appStore = useAppStore();
 const settingsStore = useSettingsStore();
 const settingsRef = ref<InstanceType<typeof SettingsPanel> | null>(null);
 
-const showSidebar = computed(
-  () => !appStore.sidebar.hide && settingsStore.navType !== 3,
-);
+const showSidebar = computed(() => !appStore.sidebar.hide && settingsStore.navType !== 3);
 const layoutClasses = computed(() => ({
   "is-mobile": appStore.device === "mobile",
   "is-collapsed": !appStore.sidebar.opened,

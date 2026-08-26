@@ -1,8 +1,4 @@
-import type {
-  Menu,
-  MenuQuery,
-  MenuUpsertRequest,
-} from "../../../types/api/system";
+import type { Menu, MenuQuery, MenuUpsertRequest } from "../../../types/api/system";
 import { nestByParent, type TreeNode } from "../../../utils/tree-edit";
 
 export const MENU_PAGE_NAME = "Menu";
@@ -61,7 +57,11 @@ export function menuToForm(row: Menu): MenuUpsertRequest {
 }
 
 export function toMenuTree(rows: readonly Menu[]): MenuTreeNode[] {
-  return nestByParent(rows, (row) => row.menuId, (row) => row.parentId);
+  return nestByParent(
+    rows,
+    (row) => row.menuId,
+    (row) => row.parentId,
+  );
 }
 
 export function withMenuRoot(children: MenuParentOption[]): MenuParentOption[] {

@@ -16,9 +16,7 @@ let sessionExpiredHandler: () => void | Promise<void> = () => {
   window.location.href = "/index";
 };
 
-export function setSessionExpiredHandler(
-  handler: () => void | Promise<void>,
-): void {
+export function setSessionExpiredHandler(handler: () => void | Promise<void>): void {
   sessionExpiredHandler = handler;
 }
 
@@ -30,11 +28,7 @@ export const http = createHttpClient({
   onSessionExpired: () => sessionExpiredHandler(),
 });
 
-export function download(
-  url: string,
-  params: Record<string, unknown>,
-  filename: string,
-): Promise<void> {
+export function download(url: string, params: Record<string, unknown>, filename: string): Promise<void> {
   return downloadForm(
     {
       client: http,

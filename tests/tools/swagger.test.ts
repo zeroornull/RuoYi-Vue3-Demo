@@ -3,11 +3,7 @@ import { swaggerUiUrl } from "../../src/api/tool/swagger";
 import { resolveBackendComponent } from "../../src/router/component-resolver";
 import { migratedViewLoaders } from "../../src/router/view-registry";
 import { swaggerPageUrl } from "../../src/views/tool/swagger/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 import { SWAGGER_UI_HTML } from "../../vite/mock/tool.ts";
 
 beforeEach(() => {
@@ -52,9 +48,7 @@ describe("swagger iframe", () => {
       name: string;
       children?: Array<{ name: string; path: string; component: string }>;
     }>;
-    const swagger = data
-      .find((item) => item.name === "Tool")
-      ?.children?.find((item) => item.name === "Swagger");
+    const swagger = data.find((item) => item.name === "Tool")?.children?.find((item) => item.name === "Swagger");
     expect(swagger?.path).toBe("swagger");
     expect(swagger?.component).toBe("tool/swagger/index");
   });

@@ -25,39 +25,39 @@
 
 ## 2. 总路线
 
-| 轮次 | 主题 | 主要变量 | 结束时应得到什么 |
-| ---: | --- | --- | --- |
-| 0 | 旧项目归档与基线 | 仓库结构 | `legacy/`、文档和可恢复基线 |
-| 1 | Bun 基础 | 包管理器 | Bun 版本策略、最小 package、lockfile 规则 |
-| 2 | Vue + Vite 最小骨架 | 框架启动 | 根目录最小 Vue TS 应用可运行 |
-| 3 | TypeScript 语言实验 | 类型语言 | 掌握 unknown、收窄、泛型、联合类型 |
-| 4 | 严格 TS 工程配置 | 编译边界 | 严格 `tsconfig`、声明文件、类型门禁 |
-| 5 | Vite 8、环境与插件 | 构建系统 | 三环境、代理、alias、插件最小集 |
-| 6 | 应用装配 | Vue 应用入口 | `main.ts`、插件和全局能力边界 |
-| 7 | 共享类型与工具 | 领域基础 | 纯工具、字典、树、时间等可靠类型 |
-| 8 | HTTP、鉴权、缓存、下载 | 网络边界 | 类型化 Axios 客户端及行为测试 |
-| 9 | API 合约 | 后端协议 | login/menu/system/monitor/tool API 类型 |
-| 10 | Pinia | 状态管理 | 7 个 store 分批迁移并测试 |
-| 11 | 静态 Router | 导航模型 | 静态路由、RouteMeta、错误页与 profile 路由 |
-| 12 | 动态路由与权限 | 安全导航 | 登录—菜单—动态路由—退出闭环 |
-| 13 | Layout、主题、标签与图标 | 应用壳 | 管理端框架和导航交互恢复 |
-| 14 | 通用组件与表单 | 组件类型 | 公共组件、上传、编辑器、Crontab 等 |
-| 15 | 认证与个人中心 | 第一业务域 | 登录、注册、锁屏、profile 完整迁移 |
-| 16 | 系统管理域 | 核心 CRUD | 用户、角色、菜单、部门、字典等 |
-| 17 | 监控域 | 监控页面 | 任务、日志、在线、缓存、服务器等 |
-| 18 | 工具域和复杂第三方 | 高复杂集成 | 代码生成、表单构建、Swagger、图表等 |
-| 19 | 质量、依赖收敛和切换 | 交付门禁 | 干净安装、测试、Lint、全构建和回退证据 |
+| 轮次 | 主题                     | 主要变量     | 结束时应得到什么                           |
+| ---: | ------------------------ | ------------ | ------------------------------------------ |
+|    0 | 旧项目归档与基线         | 仓库结构     | `legacy/`、文档和可恢复基线                |
+|    1 | Bun 基础                 | 包管理器     | Bun 版本策略、最小 package、lockfile 规则  |
+|    2 | Vue + Vite 最小骨架      | 框架启动     | 根目录最小 Vue TS 应用可运行               |
+|    3 | TypeScript 语言实验      | 类型语言     | 掌握 unknown、收窄、泛型、联合类型         |
+|    4 | 严格 TS 工程配置         | 编译边界     | 严格 `tsconfig`、声明文件、类型门禁        |
+|    5 | Vite 8、环境与插件       | 构建系统     | 三环境、代理、alias、插件最小集            |
+|    6 | 应用装配                 | Vue 应用入口 | `main.ts`、插件和全局能力边界              |
+|    7 | 共享类型与工具           | 领域基础     | 纯工具、字典、树、时间等可靠类型           |
+|    8 | HTTP、鉴权、缓存、下载   | 网络边界     | 类型化 Axios 客户端及行为测试              |
+|    9 | API 合约                 | 后端协议     | login/menu/system/monitor/tool API 类型    |
+|   10 | Pinia                    | 状态管理     | 7 个 store 分批迁移并测试                  |
+|   11 | 静态 Router              | 导航模型     | 静态路由、RouteMeta、错误页与 profile 路由 |
+|   12 | 动态路由与权限           | 安全导航     | 登录—菜单—动态路由—退出闭环                |
+|   13 | Layout、主题、标签与图标 | 应用壳       | 管理端框架和导航交互恢复                   |
+|   14 | 通用组件与表单           | 组件类型     | 公共组件、上传、编辑器、Crontab 等         |
+|   15 | 认证与个人中心           | 第一业务域   | 登录、注册、锁屏、profile 完整迁移         |
+|   16 | 系统管理域               | 核心 CRUD    | 用户、角色、菜单、部门、字典等             |
+|   17 | 监控域                   | 监控页面     | 任务、日志、在线、缓存、服务器等           |
+|   18 | 工具域和复杂第三方       | 高复杂集成   | 代码生成、表单构建、Swagger、图表等        |
+|   19 | 质量、依赖收敛和切换     | 交付门禁     | 干净安装、测试、Lint、全构建和回退证据     |
 
 ## 3. 阶段映射
 
-| 阶段手册 | 细分轮次 |
-| --- | --- |
-| [阶段 A：Bun 与骨架](../phases/phase-a-bun-and-scaffold.md) | 1—2 |
-| [阶段 B：TypeScript 与 Vite](../phases/phase-b-typescript-and-vite.md) | 3—5 |
-| [阶段 C：基础设施与 API](../phases/phase-c-infrastructure-and-api.md) | 6—9 |
-| [阶段 D：状态、路由与权限](../phases/phase-d-state-routing-permissions.md) | 10—12 |
-| [阶段 E：组件与业务页面](../phases/phase-e-components-and-pages.md) | 13—18 |
-| [阶段 F：质量与切换](../phases/phase-f-quality-and-cutover.md) | 19 |
+| 阶段手册                                                                   | 细分轮次 |
+| -------------------------------------------------------------------------- | -------- |
+| [阶段 A：Bun 与骨架](../phases/phase-a-bun-and-scaffold.md)                | 1—2      |
+| [阶段 B：TypeScript 与 Vite](../phases/phase-b-typescript-and-vite.md)     | 3—5      |
+| [阶段 C：基础设施与 API](../phases/phase-c-infrastructure-and-api.md)      | 6—9      |
+| [阶段 D：状态、路由与权限](../phases/phase-d-state-routing-permissions.md) | 10—12    |
+| [阶段 E：组件与业务页面](../phases/phase-e-components-and-pages.md)        | 13—18    |
+| [阶段 F：质量与切换](../phases/phase-f-quality-and-cutover.md)             | 19       |
 
 ## 4. 每轮固定工作流
 

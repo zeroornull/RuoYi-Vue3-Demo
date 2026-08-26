@@ -13,18 +13,12 @@ function routeKey(route: AppRouteRecordRaw): string {
 export class DynamicRouteRegistry {
   private readonly removers = new Map<string, () => void>();
 
-  sync(
-    router: Router,
-    routes: readonly AppRouteRecordRaw[],
-  ): DynamicRegistrationResult {
+  sync(router: Router, routes: readonly AppRouteRecordRaw[]): DynamicRegistrationResult {
     const added: string[] = [];
     const skipped: string[] = [];
     for (const route of routes) {
       const key = routeKey(route);
-      if (
-        this.removers.has(key) ||
-        (route.name !== undefined && router.hasRoute(route.name))
-      ) {
+      if (this.removers.has(key) || (route.name !== undefined && router.hasRoute(route.name))) {
         skipped.push(key);
         continue;
       }

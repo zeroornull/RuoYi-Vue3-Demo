@@ -7,10 +7,7 @@ export const errorCode = {
 
 export type ErrorCodeKey = keyof typeof errorCode;
 
-export function resolveErrorMessage(
-  code: string | number,
-  fallback?: string,
-): string {
+export function resolveErrorMessage(code: string | number, fallback?: string): string {
   const key = String(code);
   if (key === "401" || key === "403" || key === "404") {
     return errorCode[key];

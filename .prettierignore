@@ -1,0 +1,13 @@
+dist
+node_modules
+legacy
+coverage
+bun.lock
+package.json
+docs/visual-baselines
+tests/codegen/fixtures
+*.png
+*.jpg
+*.gif
+*.ico
+*.webp

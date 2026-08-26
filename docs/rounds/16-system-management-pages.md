@@ -126,4 +126,3 @@ refactor: migrate typed organization views
 refactor: migrate typed user management views
 refactor: migrate typed role authorization views
 ```
-

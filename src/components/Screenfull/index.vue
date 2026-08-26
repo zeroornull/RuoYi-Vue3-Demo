@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import SvgIcon from "../SvgIcon.vue";
-import {
-  fullscreenIconName,
-  isDocumentFullscreen,
-  toggleDocumentFullscreen,
-} from "./model";
+import { fullscreenIconName, isDocumentFullscreen, toggleDocumentFullscreen } from "./model";
 
 const isFullscreen = ref(false);
 

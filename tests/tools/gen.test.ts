@@ -18,18 +18,9 @@ import {
   toPreviewFiles,
   zipDownloadName,
 } from "../../src/views/tool/gen/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
-function gen(
-  method: string,
-  path: string,
-  body?: unknown,
-  query?: Record<string, string>,
-) {
+function gen(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
     method,
     path,
@@ -93,9 +84,7 @@ describe("generator Query/BasicInfo/Row models", () => {
 
 describe("generator mock list, import and create", () => {
   test("rejects anonymous generator access and lists seeded tables", () => {
-    expect(dispatchMockRequest({ method: "GET", path: "/tool/gen/list" }).body.code).toBe(
-      401,
-    );
+    expect(dispatchMockRequest({ method: "GET", path: "/tool/gen/list" }).body.code).toBe(401);
     const listed = gen("GET", "/tool/gen/list", undefined, {
       pageNum: "1",
       pageSize: "10",
@@ -109,16 +98,12 @@ describe("generator mock list, import and create", () => {
 
   test("filters by name, comment and date range", () => {
     const named = gen("GET", "/tool/gen/list", undefined, { tableName: "user" });
-    expect((named.body.rows as Array<{ tableName: string }>).map((row) => row.tableName)).toEqual([
-      "sys_user",
-    ]);
+    expect((named.body.rows as Array<{ tableName: string }>).map((row) => row.tableName)).toEqual(["sys_user"]);
     const ranged = gen("GET", "/tool/gen/list", undefined, {
       "params[beginTime]": "2026-02-01",
       "params[endTime]": "2026-02-28",
     });
-    expect((ranged.body.rows as Array<{ tableName: string }>).map((row) => row.tableName)).toEqual([
-      "sys_role",
-    ]);
+    expect((ranged.body.rows as Array<{ tableName: string }>).map((row) => row.tableName)).toEqual(["sys_role"]);
   });
 
   test("imports a database table, then hides it from db list", () => {
@@ -126,9 +111,7 @@ describe("generator mock list, import and create", () => {
     const dbNames = (db.body.rows as Array<{ tableName: string }>).map((row) => row.tableName);
     expect(dbNames).toContain("sys_notice");
     expect(dbNames).not.toContain("sys_user");
-    expect(gen("POST", "/tool/gen/importTable", undefined, { tables: "" }).body.msg).toBe(
-      "请选择要导入的表",
-    );
+    expect(gen("POST", "/tool/gen/importTable", undefined, { tables: "" }).body.msg).toBe("请选择要导入的表");
     const imported = gen("POST", "/tool/gen/importTable", undefined, {
       tables: "sys_notice",
       tplWebType: "element-plus",
@@ -145,15 +128,11 @@ describe("generator mock list, import and create", () => {
     expect(info.info.className).toBe("SysNotice");
     expect(info.rows.length).toBeGreaterThan(0);
     const dbAfter = gen("GET", "/tool/gen/db/list");
-    expect(
-      (dbAfter.body.rows as Array<{ tableName: string }>).map((row) => row.tableName),
-    ).not.toContain("sys_notice");
+    expect((dbAfter.body.rows as Array<{ tableName: string }>).map((row) => row.tableName)).not.toContain("sys_notice");
   });
 
   test("creates tables from SQL, syncs, deletes and keeps gen-edit activeMenu", () => {
-    expect(gen("POST", "/tool/gen/createTable", undefined, { sql: "select 1" }).body.msg).toBe(
-      "请输入建表语句",
-    );
+    expect(gen("POST", "/tool/gen/createTable", undefined, { sql: "select 1" }).body.msg).toBe("请输入建表语句");
     const created = gen("POST", "/tool/gen/createTable", undefined, {
       sql: "CREATE TABLE sys_demo (id bigint);",
       tplWebType: "element-plus",
@@ -166,17 +145,17 @@ describe("generator mock list, import and create", () => {
     expect(synced.body.msg).toBe("同步成功");
     expect(gen("DELETE", `/tool/gen/${row?.tableId ?? ""}`).body.msg).toBe("删除成功");
     expect(gen("GET", "/tool/gen/list", undefined, { tableName: "sys_demo" }).body.total).toBe(0);
-    const editRoute = protectedRoutes
-      .find((route) => route.path === "/tool/gen-edit")
-      ?.children?.[0];
+    const editRoute = protectedRoutes.find((route) => route.path === "/tool/gen-edit")?.children?.[0];
     expect(editRoute?.name).toBe("GenEdit");
     expect(editRoute?.meta?.activeMenu).toBe("/tool/gen");
-    expect(resolveBackendComponent({
-      component: "tool/gen/index",
-      hasChildren: false,
-      link: undefined,
-      hasRedirect: false,
-    }).component).toBe(migratedViewLoaders["tool/gen/index"]);
+    expect(
+      resolveBackendComponent({
+        component: "tool/gen/index",
+        hasChildren: false,
+        link: undefined,
+        hasRedirect: false,
+      }).component,
+    ).toBe(migratedViewLoaders["tool/gen/index"]);
   });
 });
 
@@ -231,9 +210,7 @@ describe("generator edit, preview and download", () => {
     expect(previewTabLabel("vm/java/domain.java.vm")).toBe("domain.java");
     expect(zipDownloadName(["sys_user"])).toBe("sys_user.zip");
     expect(zipDownloadName(["sys_user", "sys_role"])).toBe("ruoyi.zip");
-    expect(toPreviewFiles({ "vm/java/domain.java.vm": "class X {}" })[0]?.label).toBe(
-      "domain.java",
-    );
+    expect(toPreviewFiles({ "vm/java/domain.java.vm": "class X {}" })[0]?.label).toBe("domain.java");
   });
 
   test("updates configuration, previews files and downloads a zip", () => {
@@ -298,4 +275,3 @@ describe("generator edit, preview and download", () => {
     expect(gen("PUT", "/tool/gen", { tableId: "1", tableName: "" }).body.msg).toBe("请输入表名称");
   });
 });
-

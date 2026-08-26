@@ -97,8 +97,8 @@ bun run build
 迁移文件时写：
 
 ```ts
-import { computed, ref } from 'vue'
-import { defineStore } from 'pinia'
+import { computed, ref } from "vue";
+import { defineStore } from "pinia";
 ```
 
 优点：
@@ -138,7 +138,7 @@ src/types/
 
 ```md
 | 位置 | 临时处理 | 原因 | 删除轮次 | 验证方式 |
-| --- | --- | --- | --- | --- |
+| ---- | -------- | ---- | -------- | -------- |
 ```
 
 规则：

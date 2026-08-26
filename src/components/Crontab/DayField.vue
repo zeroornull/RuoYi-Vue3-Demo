@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import {
-  classifyCronToken,
-  clampCronNumber,
-  cronList,
-  cronRange,
-  cronStep,
-  type CrontabValue,
-} from "./model";
+import { classifyCronToken, clampCronNumber, cronList, cronRange, cronStep, type CrontabValue } from "./model";
 
 const props = defineProps<{
   cron: CrontabValue;
@@ -104,11 +97,11 @@ function onRadioChange(): void {
   }
 }
 
-watch(() => props.cron.day, (value) => changeRadioValue(value));
 watch(
-  [radioValue, cycleTotal, averageTotal, workdayTotal, checkboxString],
-  () => onRadioChange(),
+  () => props.cron.day,
+  (value) => changeRadioValue(value),
 );
+watch([radioValue, cycleTotal, averageTotal, workdayTotal, checkboxString], () => onRadioChange());
 </script>
 
 <template>

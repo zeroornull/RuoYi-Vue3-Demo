@@ -62,9 +62,7 @@ function clearCron(): void {
 
 onMounted(() => {
   hidden.value = [...props.hideComponent];
-  crontabValueObj.value = props.expression
-    ? parseCrontab(props.expression)
-    : { ...DEFAULT_CRONTAB };
+  crontabValueObj.value = props.expression ? parseCrontab(props.expression) : { ...DEFAULT_CRONTAB };
 });
 </script>
 

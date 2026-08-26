@@ -117,11 +117,7 @@ export function writeRememberMe(
   }
 }
 
-export function readRememberMe(
-  cookies: CookieJar,
-  cipher: TextCipher,
-  fallback = emptyLoginForm(),
-): LoginFormModel {
+export function readRememberMe(cookies: CookieJar, cipher: TextCipher, fallback = emptyLoginForm()): LoginFormModel {
   const username = cookies.get(REMEMBER_COOKIE.username);
   const encrypted = cookies.get(REMEMBER_COOKIE.password);
   const rememberMe = cookies.get(REMEMBER_COOKIE.rememberMe);
@@ -139,20 +135,15 @@ export function readRememberMe(
 export function safeLoginRedirect(query: LocationQuery): RouteLocationRaw {
   const redirect = query.redirect;
   const path =
-    typeof redirect === "string" &&
-    redirect.startsWith("/") &&
-    !redirect.startsWith("//") &&
-    !redirect.includes("://")
-      ? redirect.split("?")[0] ?? "/index"
+    typeof redirect === "string" && redirect.startsWith("/") && !redirect.startsWith("//") && !redirect.includes("://")
+      ? (redirect.split("?")[0] ?? "/index")
       : "/index";
   const rest: Record<string, string | string[]> = {};
   for (const [key, value] of Object.entries(query)) {
     if (key === "redirect" || value === undefined || value === null) {
       continue;
     }
-    rest[key] = Array.isArray(value)
-      ? value.filter((item): item is string => item !== null)
-      : value;
+    rest[key] = Array.isArray(value) ? value.filter((item): item is string => item !== null) : value;
   }
   const search = typeof redirect === "string" ? redirect.split("?")[1] : undefined;
   if (search) {

@@ -16,14 +16,14 @@
 
 ```ts
 interface ImportMetaEnv {
-  readonly VITE_APP_TITLE: string
-  readonly VITE_APP_ENV: 'development' | 'staging' | 'production'
-  readonly VITE_APP_BASE_API: string
-  readonly VITE_BUILD_COMPRESS?: 'gzip' | 'brotli' | 'gzip,brotli'
+  readonly VITE_APP_TITLE: string;
+  readonly VITE_APP_ENV: "development" | "staging" | "production";
+  readonly VITE_APP_BASE_API: string;
+  readonly VITE_BUILD_COMPRESS?: "gzip" | "brotli" | "gzip,brotli";
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv
+  readonly env: ImportMetaEnv;
 }
 ```
 
@@ -31,8 +31,8 @@ interface ImportMeta {
 
 ```ts
 export function requireEnv(value: string | undefined, name: string): string {
-  if (!value) throw new Error(`Missing environment variable: ${name}`)
-  return value
+  if (!value) throw new Error(`Missing environment variable: ${name}`);
+  return value;
 }
 ```
 
@@ -42,21 +42,21 @@ export function requireEnv(value: string | undefined, name: string): string {
 
 ```ts
 export interface ApiResponse<T> {
-  code: number
-  msg?: string
-  data: T
+  code: number;
+  msg?: string;
+  data: T;
 }
 
 export interface PageResponse<T> {
-  code: number
-  msg?: string
-  rows: T[]
-  total: number
+  code: number;
+  msg?: string;
+  rows: T[];
+  total: number;
 }
 
 export interface EmptyResponse {
-  code: number
-  msg?: string
+  code: number;
+  msg?: string;
 }
 ```
 
@@ -72,16 +72,16 @@ export interface EmptyResponse {
 推荐目标形态：
 
 ```ts
-import type { AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from "axios";
 
 export interface RuoYiRequestOptions {
-  withToken?: boolean
-  preventDuplicateSubmit?: boolean
-  duplicateIntervalMs?: number
+  withToken?: boolean;
+  preventDuplicateSubmit?: boolean;
+  duplicateIntervalMs?: number;
 }
 
 export interface RuoYiRequestConfig<D = unknown> extends AxiosRequestConfig<D> {
-  ruoyi?: RuoYiRequestOptions
+  ruoyi?: RuoYiRequestOptions;
 }
 ```
 
@@ -92,46 +92,46 @@ export interface RuoYiRequestConfig<D = unknown> extends AxiosRequestConfig<D> {
 旧路由在 Vue Router 标准字段外增加了权限与显示属性。建议扩展 meta，并为应用路由建立递归类型：
 
 ```ts
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from "vue-router";
 
-declare module 'vue-router' {
+declare module "vue-router" {
   interface RouteMeta {
-    title?: string
-    icon?: string
-    noCache?: boolean
-    affix?: boolean
-    breadcrumb?: boolean
-    activeMenu?: string
-    link?: string
+    title?: string;
+    icon?: string;
+    noCache?: boolean;
+    affix?: boolean;
+    breadcrumb?: boolean;
+    activeMenu?: string;
+    link?: string;
   }
 }
 
 export type AppRouteRecordRaw = RouteRecordRaw & {
-  hidden?: boolean
-  alwaysShow?: boolean
-  roles?: string[]
-  permissions?: string[]
-  children?: AppRouteRecordRaw[]
-}
+  hidden?: boolean;
+  alwaysShow?: boolean;
+  roles?: string[];
+  permissions?: string[];
+  children?: AppRouteRecordRaw[];
+};
 ```
 
 后端返回的路由不是可信的 `RouteRecordRaw`。应先定义 DTO，再通过纯函数转换：
 
 ```ts
 export interface BackendRouteDto {
-  name?: string
-  path: string
-  hidden?: boolean
-  redirect?: string
-  component?: string
-  alwaysShow?: boolean
+  name?: string;
+  path: string;
+  hidden?: boolean;
+  redirect?: string;
+  component?: string;
+  alwaysShow?: boolean;
   meta?: {
-    title?: string
-    icon?: string
-    noCache?: boolean
-    link?: string
-  }
-  children?: BackendRouteDto[]
+    title?: string;
+    icon?: string;
+    noCache?: boolean;
+    link?: string;
+  };
+  children?: BackendRouteDto[];
 }
 ```
 
@@ -143,21 +143,21 @@ export interface BackendRouteDto {
 
 ```ts
 interface UserProfile {
-  id: number
-  name: string
-  avatar?: string
+  id: number;
+  name: string;
+  avatar?: string;
 }
 
-export const useUserStore = defineStore('user', () => {
-  const token = ref<string | null>(null)
-  const profile = ref<UserProfile | null>(null)
-  const roles = ref<string[]>([])
-  const permissions = ref<string[]>([])
+export const useUserStore = defineStore("user", () => {
+  const token = ref<string | null>(null);
+  const profile = ref<UserProfile | null>(null);
+  const roles = ref<string[]>([]);
+  const permissions = ref<string[]>([]);
 
-  const isLoggedIn = computed(() => Boolean(token.value))
+  const isLoggedIn = computed(() => Boolean(token.value));
 
-  return { token, profile, roles, permissions, isLoggedIn }
-})
+  return { token, profile, roles, permissions, isLoggedIn };
+});
 ```
 
 不要为避免空值检查把 `profile` 初始化成伪造的完整对象。
@@ -169,18 +169,18 @@ export const useUserStore = defineStore('user', () => {
 ```vue
 <script setup lang="ts">
 interface Props {
-  modelValue: string
-  disabled?: boolean
+  modelValue: string;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   disabled: false,
-})
+});
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
-  change: [value: string]
-}>()
+  "update:modelValue": [value: string];
+  change: [value: string];
+}>();
 </script>
 ```
 
@@ -189,18 +189,18 @@ const emit = defineEmits<{
 Element Plus 组件实例应使用其公开类型，例如 `FormInstance`、`UploadInstance`，而不是 `InstanceType<any>`。
 
 ```ts
-import type { FormInstance } from 'element-plus'
+import type { FormInstance } from "element-plus";
 
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 ```
 
 ### DOM 事件
 
 ```ts
 function onInput(event: Event) {
-  const target = event.target
-  if (!(target instanceof HTMLInputElement)) return
-  value.value = target.value
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  value.value = target.value;
 }
 ```
 
@@ -209,10 +209,10 @@ function onInput(event: Event) {
 旧 `main.js` 向 `app.config.globalProperties` 挂载多个工具。短期保留时，需要模块增强：
 
 ```ts
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
-    parseTime: typeof import('@/utils/ruoyi').parseTime
-    download: typeof import('@/utils/request').download
+    parseTime: typeof import("@/utils/ruoyi").parseTime;
+    download: typeof import("@/utils/request").download;
   }
 }
 ```
@@ -224,17 +224,16 @@ declare module '@vue/runtime-core' {
 以下做法不能作为迁移完成条件：
 
 ```ts
-const data: any = response
-const user = response as User
+const data: any = response;
+const user = response as User;
 // @ts-ignore
 ```
 
 允许的临时形式必须带边界与删除条件：
 
 ```ts
-const payload: unknown = response
-const user = parseUser(payload) // 运行时验证或明确的转换边界
+const payload: unknown = response;
+const user = parseUser(payload); // 运行时验证或明确的转换边界
 ```
 
 `skipLibCheck` 只在确认是第三方声明缺陷、已记录 issue 且无法局部隔离时临时启用；本手册默认关闭。
-

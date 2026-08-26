@@ -10,11 +10,7 @@ import { parseTime } from "../../../utils/parse-time";
 import { parseSingleRouteParam } from "../../../router/params";
 import { closeCurrentPage } from "../../profile/close";
 import type { SystemUser } from "../../../types/api/system";
-import {
-  AUTH_ROLE_PAGE_NAME,
-  assignedRoleIds,
-  type AuthRoleRow,
-} from "./model";
+import { AUTH_ROLE_PAGE_NAME, assignedRoleIds, type AuthRoleRow } from "./model";
 
 defineOptions({ name: AUTH_ROLE_PAGE_NAME });
 
@@ -30,8 +26,7 @@ const roleIds = ref<string[]>([]);
 const roles = ref<AuthRoleRow[]>([]);
 const form = ref<Pick<SystemUser, "userId" | "userName" | "nickName"> | null>(null);
 
-const pagedRoles = () =>
-  roles.value.slice((pageNum.value - 1) * pageSize.value, pageNum.value * pageSize.value);
+const pagedRoles = () => roles.value.slice((pageNum.value - 1) * pageSize.value, pageNum.value * pageSize.value);
 
 function clickRow(row: AuthRoleRow): void {
   if (row.status === "0") {

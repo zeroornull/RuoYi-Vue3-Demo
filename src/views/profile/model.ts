@@ -22,9 +22,7 @@ export type AvatarValidationError = {
   message: string;
 };
 
-export function profileInfoFromUser(
-  user: Partial<SystemUser> | null | undefined,
-): ProfileInfoForm {
+export function profileInfoFromUser(user: Partial<SystemUser> | null | undefined): ProfileInfoForm {
   const sex = user?.sex;
   return {
     nickName: user?.nickName ?? "",
@@ -34,9 +32,7 @@ export function profileInfoFromUser(
   };
 }
 
-export function toProfileUpdateRequest(
-  form: ProfileInfoForm,
-): UserProfileUpdateRequest {
+export function toProfileUpdateRequest(form: ProfileInfoForm): UserProfileUpdateRequest {
   return {
     nickName: form.nickName,
     phonenumber: form.phonenumber,
@@ -49,18 +45,12 @@ export function emptyPasswordForm(): ProfilePasswordForm {
   return { oldPassword: "", newPassword: "", confirmPassword: "" };
 }
 
-export function profilePasswordError(
-  password: string,
-  chrType: string,
-): string | null {
+export function profilePasswordError(password: string, chrType: string): string | null {
   const result = checkPassword(password, chrType);
   return result.ok ? null : result.message;
 }
 
-export function validateAvatarFile(
-  file: { type: string; size: number },
-  maxMb = 5,
-): AvatarValidationError | null {
+export function validateAvatarFile(file: { type: string; size: number }, maxMb = 5): AvatarValidationError | null {
   if (!file.type.startsWith("image/")) {
     return {
       code: "type",

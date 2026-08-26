@@ -5,10 +5,7 @@ import { createMemoryStore } from "../../../src/http/cache";
 import { staticRoutes } from "../../../src/router/routes";
 import { ROUTE_NAMES } from "../../../src/router/types";
 import { createUseLockStore } from "../../../src/stores/modules/lock";
-import {
-  createUseUserStore,
-  type UserStoreDeps,
-} from "../../../src/stores/modules/user-core";
+import { createUseUserStore, type UserStoreDeps } from "../../../src/stores/modules/user-core";
 import type { LoginRequest, UserInfoResponse } from "../../../src/types/api";
 import { nextAuthStatus } from "../../../src/views/auth/model";
 
@@ -33,14 +30,14 @@ function info(): UserInfoResponse {
   };
 }
 
-function userDeps(options: {
-  login?: UserStoreDeps["login"];
-} = {}): UserStoreDeps {
+function userDeps(
+  options: {
+    login?: UserStoreDeps["login"];
+  } = {},
+): UserStoreDeps {
   const token = { value: undefined as string | undefined };
   return {
-    login:
-      options.login ??
-      (async (_data: LoginRequest) => ({ code: 200, token: "token-1" })),
+    login: options.login ?? (async (_data: LoginRequest) => ({ code: 200, token: "token-1" })),
     getInfo: async () => info(),
     logout: async () => ({ code: 200 }),
     readToken: () => token.value,

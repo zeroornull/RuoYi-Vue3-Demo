@@ -10,8 +10,7 @@ function tableNameToClassName(tableName: string): string {
 
 function parseCreateTableNames(sql: string): string[] {
   const names: string[] = [];
-  const pattern =
-    /create\s+table\s+(?:if\s+not\s+exists\s+)?[`"]?([a-zA-Z_][\w]*)[`"]?/gi;
+  const pattern = /create\s+table\s+(?:if\s+not\s+exists\s+)?[`"]?([a-zA-Z_][\w]*)[`"]?/gi;
   for (const match of sql.matchAll(pattern)) {
     const name = match[1];
     if (name) {
@@ -26,7 +25,7 @@ const fail = (msg: string, code = 500): MockResponse => ok({ code, msg });
 const now = "2026-08-26 12:00:00";
 
 export const SWAGGER_UI_HTML =
-  "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"utf-8\"><title>Swagger UI</title></head><body><h1>Swagger UI</h1><p>本地 Mock OpenAPI</p><ul><li>GET /getInfo</li><li>GET /monitor/cache</li></ul></body></html>";
+  '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Swagger UI</title></head><body><h1>Swagger UI</h1><p>本地 Mock OpenAPI</p><ul><li>GET /getInfo</li><li>GET /monitor/cache</li></ul></body></html>';
 
 type GenColumnRow = {
   columnId: string;
@@ -320,11 +319,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function readString(body: Record<string, unknown>, key: string): string {
   const value = body[key];
-  return typeof value === "string"
-    ? value
-    : typeof value === "number"
-      ? String(value)
-      : "";
+  return typeof value === "string" ? value : typeof value === "number" ? String(value) : "";
 }
 
 function defaultColumns(tableId: string, tableName: string): GenColumnRow[] {
@@ -416,15 +411,7 @@ export function dispatchToolMock(request: MockRequest): MockResponse | null {
         return fail(`表 ${tableName} 不存在`);
       }
       const tableId = String(nextTableId++);
-      tables.push(
-        makeTable(
-          tableId,
-          db.tableName,
-          db.tableComment,
-          now,
-          defaultColumns(tableId, db.tableName),
-        ),
-      );
+      tables.push(makeTable(tableId, db.tableName, db.tableComment, now, defaultColumns(tableId, db.tableName)));
     }
     return ok({ code: 200, msg: "导入成功" });
   }
@@ -439,9 +426,7 @@ export function dispatchToolMock(request: MockRequest): MockResponse | null {
         return fail(`表 ${tableName} 已存在`);
       }
       const tableId = String(nextTableId++);
-      tables.push(
-        makeTable(tableId, tableName, tableName, now, defaultColumns(tableId, tableName)),
-      );
+      tables.push(makeTable(tableId, tableName, tableName, now, defaultColumns(tableId, tableName)));
     }
     return ok({ code: 200, msg: "创建表结构成功" });
   }
@@ -516,10 +501,7 @@ export function dispatchToolMock(request: MockRequest): MockResponse | null {
     const category = readString(request.body, "tplCategory");
     row.tplCategory = category === "tree" || category === "sub" ? category : "crud";
     const webType = readString(request.body, "tplWebType");
-    row.tplWebType =
-      webType === "element-ui" || webType === "element-plus-typescript"
-        ? webType
-        : "element-plus";
+    row.tplWebType = webType === "element-ui" || webType === "element-plus-typescript" ? webType : "element-plus";
     row.packageName = packageName;
     row.moduleName = readString(request.body, "moduleName") || row.moduleName;
     row.businessName = readString(request.body, "businessName") || row.businessName;
@@ -590,9 +572,7 @@ export function dispatchToolMock(request: MockRequest): MockResponse | null {
     const ids = new Set(parseIds(genRest));
     const before = tables.length;
     tables = tables.filter((row) => !ids.has(row.tableId));
-    return tables.length !== before
-      ? ok({ code: 200, msg: "删除成功" })
-      : fail("数据不存在");
+    return tables.length !== before ? ok({ code: 200, msg: "删除成功" }) : fail("数据不存在");
   }
   return null;
 }

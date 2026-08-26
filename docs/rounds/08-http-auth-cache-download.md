@@ -114,4 +114,3 @@ tests/unit/http/*.test.ts
 ```text
 refactor: migrate typed http auth cache and download boundaries
 ```
-

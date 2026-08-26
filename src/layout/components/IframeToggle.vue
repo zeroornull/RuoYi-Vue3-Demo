@@ -9,9 +9,7 @@ const tagsStore = useTagsViewStore();
 const frames = computed(() =>
   tagsStore.iframeViews
     .map((view) => ({ view, url: sanitizeIframeUrl(view.meta.link) }))
-    .filter((item): item is { view: typeof item.view; url: string } =>
-      item.url !== null,
-    ),
+    .filter((item): item is { view: typeof item.view; url: string } => item.url !== null),
 );
 </script>
 

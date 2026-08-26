@@ -1,11 +1,5 @@
 import { http } from "../http";
-import type {
-  CaptchaResponse,
-  LoginRequest,
-  LoginResponse,
-  RegisterRequest,
-  UserInfoResponse,
-} from "../types/api";
+import type { CaptchaResponse, LoginRequest, LoginResponse, RegisterRequest, UserInfoResponse } from "../types/api";
 import type { EmptyResponse } from "../types/http";
 import { parseLoginResponse, parseUserInfoResponse } from "./contracts";
 

@@ -1,11 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import type {
-  LoginRequest,
-  LoginResponse,
-  SystemUser,
-  UserInfoResponse,
-} from "../../types/api";
+import type { LoginRequest, LoginResponse, SystemUser, UserInfoResponse } from "../../types/api";
 import { isHttp } from "../../utils/validate";
 import type { StoreStorage } from "../persistence";
 
@@ -30,22 +25,11 @@ export type UserStoreDeps = {
 export const PASSWORD_CHARACTER_TYPE_KEY = "pwrChrtype";
 export const DEFAULT_ROLE = "ROLE_DEFAULT";
 
-function parsePasswordCharacterType(
-  value: string | undefined | null,
-): PasswordCharacterType | null {
-  return value === "0" ||
-    value === "1" ||
-    value === "2" ||
-    value === "3" ||
-    value === "4"
-    ? value
-    : null;
+function parsePasswordCharacterType(value: string | undefined | null): PasswordCharacterType | null {
+  return value === "0" || value === "1" || value === "2" || value === "3" || value === "4" ? value : null;
 }
 
-export function resolveUserAvatar(
-  avatar: string | null | undefined,
-  baseApi: string,
-): string {
+export function resolveUserAvatar(avatar: string | null | undefined, baseApi: string): string {
   if (!avatar) return "";
   if (isHttp(avatar)) return avatar;
   return `${baseApi.replace(/\/$/, "")}/${avatar.replace(/^\//, "")}`;
@@ -61,9 +45,7 @@ export function createUseUserStore(deps: UserStoreDeps) {
     const operationStatus = ref<UserOperationStatus>("idle");
     const profileStatus = ref<UserProfileStatus>("idle");
     const passwordCharacterType = ref<PasswordCharacterType | null>(
-      parsePasswordCharacterType(
-        deps.sessionStorage.get(PASSWORD_CHARACTER_TYPE_KEY),
-      ),
+      parsePasswordCharacterType(deps.sessionStorage.get(PASSWORD_CHARACTER_TYPE_KEY)),
     );
     const passwordNotice = ref<PasswordNotice>(null);
 
@@ -71,9 +53,7 @@ export function createUseUserStore(deps: UserStoreDeps) {
     const id = computed(() => profile.value?.userId ?? "");
     const name = computed(() => profile.value?.userName ?? "");
     const nickName = computed(() => profile.value?.nickName ?? "");
-    const avatar = computed(() =>
-      resolveUserAvatar(profile.value?.avatar, deps.baseApi),
-    );
+    const avatar = computed(() => resolveUserAvatar(profile.value?.avatar, deps.baseApi));
 
     function setPasswordCharacterType(value: string | undefined): void {
       const parsed = parsePasswordCharacterType(value);
@@ -136,16 +116,11 @@ export function createUseUserStore(deps: UserStoreDeps) {
       try {
         const response = await deps.getInfo();
         profile.value = response.user;
-        roles.value =
-          response.roles.length > 0 ? [...response.roles] : [DEFAULT_ROLE];
+        roles.value = response.roles.length > 0 ? [...response.roles] : [DEFAULT_ROLE];
         permissions.value = [...response.permissions];
         rolesLoaded.value = true;
         setPasswordCharacterType(response.pwdChrtype);
-        passwordNotice.value = response.isDefaultModifyPwd
-          ? "initial"
-          : response.isPasswordExpired
-            ? "expired"
-            : null;
+        passwordNotice.value = response.isDefaultModifyPwd ? "initial" : response.isPasswordExpired ? "expired" : null;
         profileStatus.value = "loaded";
         return response;
       } catch (error) {

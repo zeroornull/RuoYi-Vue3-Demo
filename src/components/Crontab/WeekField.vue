@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import {
-  classifyCronToken,
-  clampCronNumber,
-  cronList,
-  cronRange,
-  type CrontabValue,
-} from "./model";
+import { classifyCronToken, clampCronNumber, cronList, cronRange, type CrontabValue } from "./model";
 
 const WEEK_OPTIONS = [
   { key: 1, value: "星期日" },
@@ -109,11 +103,11 @@ function onRadioChange(): void {
   }
 }
 
-watch(() => props.cron.week, (value) => changeRadioValue(value));
 watch(
-  [radioValue, cycleTotal, averageTotal, weekdayTotal, checkboxString],
-  () => onRadioChange(),
+  () => props.cron.week,
+  (value) => changeRadioValue(value),
 );
+watch([radioValue, cycleTotal, averageTotal, weekdayTotal, checkboxString], () => onRadioChange());
 </script>
 
 <template>
@@ -153,12 +147,7 @@ watch(
         第
         <el-input-number v-model="average01" :min="1" :max="4" /> 周的
         <el-select v-model="average02" clearable>
-          <el-option
-            v-for="item in WEEK_OPTIONS"
-            :key="item.key"
-            :label="item.value"
-            :value="item.key"
-          />
+          <el-option v-for="item in WEEK_OPTIONS" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
       </el-radio>
     </el-form-item>
@@ -166,25 +155,22 @@ watch(
       <el-radio v-model="radioValue" :value="5">
         本月最后一个
         <el-select v-model="weekday" clearable>
-          <el-option
-            v-for="item in WEEK_OPTIONS"
-            :key="item.key"
-            :label="item.value"
-            :value="item.key"
-          />
+          <el-option v-for="item in WEEK_OPTIONS" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
       </el-radio>
     </el-form-item>
     <el-form-item>
       <el-radio v-model="radioValue" :value="6">
         指定
-        <el-select v-model="checkboxList" class="multiselect" clearable placeholder="可多选" multiple :multiple-limit="6">
-          <el-option
-            v-for="item in WEEK_OPTIONS"
-            :key="item.key"
-            :label="item.value"
-            :value="item.key"
-          />
+        <el-select
+          v-model="checkboxList"
+          class="multiselect"
+          clearable
+          placeholder="可多选"
+          multiple
+          :multiple-limit="6"
+        >
+          <el-option v-for="item in WEEK_OPTIONS" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
       </el-radio>
     </el-form-item>

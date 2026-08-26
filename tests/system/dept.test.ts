@@ -1,23 +1,8 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import {
-  deptToForm,
-  emptyDeptForm,
-  emptyDeptQuery,
-  isRootDept,
-  toDeptTree,
-} from "../../src/views/system/dept/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { deptToForm, emptyDeptForm, emptyDeptQuery, isRootDept, toDeptTree } from "../../src/views/system/dept/model";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
-function dept(
-  method: string,
-  path: string,
-  body?: unknown,
-  query?: Record<string, string>,
-) {
+function dept(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
     method,
     path,
@@ -77,12 +62,8 @@ describe("dept mock tree CRUD", () => {
   test("returns a flat list that still encodes parent/child ids as strings", () => {
     const listed = dept("GET", "/system/dept/list");
     const rows = listed.body.data as Array<{ deptId: string; parentId: string }>;
-    expect(rows.some((row) => row.deptId === "100" && row.parentId === "0")).toBe(
-      true,
-    );
-    expect(rows.some((row) => row.deptId === "103" && row.parentId === "101")).toBe(
-      true,
-    );
+    expect(rows.some((row) => row.deptId === "100" && row.parentId === "0")).toBe(true);
+    expect(rows.some((row) => row.deptId === "103" && row.parentId === "101")).toBe(true);
     const excluded = dept("GET", "/system/dept/list/exclude/101");
     const ids = (excluded.body.data as Array<{ deptId: string }>).map((row) => row.deptId);
     expect(ids).not.toContain("101");
@@ -101,9 +82,7 @@ describe("dept mock tree CRUD", () => {
       }).body.msg,
     ).toBe("上级部门不能选择自己或子部门");
     expect(dept("DELETE", "/system/dept/100").body.msg).toBe("顶级部门不能删除");
-    expect(dept("DELETE", "/system/dept/101").body.msg).toBe(
-      "存在下级部门,不允许删除",
-    );
+    expect(dept("DELETE", "/system/dept/101").body.msg).toBe("存在下级部门,不允许删除");
     expect(
       dept("POST", "/system/dept", {
         parentId: "103",
@@ -111,14 +90,8 @@ describe("dept mock tree CRUD", () => {
         orderNum: 4,
       }).body.code,
     ).toBe(200);
-    expect(dept("PUT", "/system/dept/updateSort", { ids: "103", orderNums: "9" }).body.code).toBe(
-      200,
-    );
-    expect(
-      (dept("GET", "/system/dept/103").body.data as { orderNum: number }).orderNum,
-    ).toBe(9);
-    expect(
-      dept("GET", "/system/dept/list", undefined, { status: "1" }).body.data as unknown[],
-    ).toHaveLength(1);
+    expect(dept("PUT", "/system/dept/updateSort", { ids: "103", orderNums: "9" }).body.code).toBe(200);
+    expect((dept("GET", "/system/dept/103").body.data as { orderNum: number }).orderNum).toBe(9);
+    expect(dept("GET", "/system/dept/list", undefined, { status: "1" }).body.data as unknown[]).toHaveLength(1);
   });
 });

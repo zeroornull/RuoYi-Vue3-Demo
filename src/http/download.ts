@@ -19,10 +19,7 @@ function messageFromBlobJson(text: string): string {
   }
   const code = parsed.code;
   const msg = typeof parsed.msg === "string" ? parsed.msg : undefined;
-  return resolveErrorMessage(
-    typeof code === "number" || typeof code === "string" ? code : "default",
-    msg,
-  );
+  return resolveErrorMessage(typeof code === "number" || typeof code === "string" ? code : "default", msg);
 }
 
 export async function downloadForm(
@@ -38,9 +35,7 @@ export async function downloadForm(
       url,
       method: "post",
       data: params,
-      transformRequest: [
-        (body: unknown) => tansParams(body as Record<string, unknown>),
-      ],
+      transformRequest: [(body: unknown) => tansParams(body as Record<string, unknown>)],
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       ...config,
     });

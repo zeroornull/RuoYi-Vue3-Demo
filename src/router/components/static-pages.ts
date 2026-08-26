@@ -12,9 +12,7 @@ function createStaticPage(name: string, fallbackTitle: string) {
       return () =>
         h("main", { class: "static-route-page", "data-route-page": name }, [
           h("h1", String(route.meta.title ?? fallbackTitle)),
-          props.activeTab
-            ? h("p", { "data-active-tab": props.activeTab }, props.activeTab)
-            : null,
+          props.activeTab ? h("p", { "data-active-tab": props.activeTab }, props.activeTab) : null,
         ]);
     },
   });
@@ -53,7 +51,4 @@ export function loadVuePage(
 }
 export const DynamicRoutePage = createStaticPage("DynamicRoutePage", "动态页面占位");
 export const InnerLinkPage = createStaticPage("InnerLinkPage", "内链占位");
-export const UnknownComponentPage = createStaticPage(
-  "UnknownComponentPage",
-  "未知组件",
-);
+export const UnknownComponentPage = createStaticPage("UnknownComponentPage", "未知组件");

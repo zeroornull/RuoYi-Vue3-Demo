@@ -53,9 +53,7 @@ const originalOrders = ref<Record<string, number>>({});
 const queryParams = reactive(emptyDeptQuery());
 const form = reactive<DepartmentUpsertRequest>(emptyDeptForm());
 
-const hideParentSelect = computed(
-  () => Boolean(form.deptId) && form.parentId === ROOT_PARENT_ID,
-);
+const hideParentSelect = computed(() => Boolean(form.deptId) && form.parentId === ROOT_PARENT_ID);
 
 const rules: FormRules<DepartmentUpsertRequest> = {
   parentId: [{ required: true, message: "上级部门不能为空", trigger: "blur" }],
@@ -123,9 +121,7 @@ function resetQuery(): void {
 }
 
 async function loadParentOptions(excludeId?: string): Promise<void> {
-  const response = excludeId
-    ? await listDeptExcludeChild(excludeId)
-    : await listDept();
+  const response = excludeId ? await listDeptExcludeChild(excludeId) : await listDept();
   deptOptions.value = toDeptTree(response.data ?? []);
   if (excludeId) {
     deptOptions.value = excludeSelfAndDescendants(
@@ -225,10 +221,14 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:dept:add']" type="primary" plain :icon="Plus" @click="handleAdd()">新增</el-button>
+        <el-button v-hasPermi="['system:dept:add']" type="primary" plain :icon="Plus" @click="handleAdd()"
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:dept:edit']" type="warning" plain :icon="Check" @click="handleSaveSort">保存排序</el-button>
+        <el-button v-hasPermi="['system:dept:edit']" type="warning" plain :icon="Check" @click="handleSaveSort"
+          >保存排序</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button type="info" plain :icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
@@ -259,8 +259,12 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="{ row }">
-          <el-button v-hasPermi="['system:dept:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)">修改</el-button>
-          <el-button v-hasPermi="['system:dept:add']" link type="primary" :icon="Plus" @click="handleAdd(row)">新增</el-button>
+          <el-button v-hasPermi="['system:dept:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)"
+            >修改</el-button
+          >
+          <el-button v-hasPermi="['system:dept:add']" link type="primary" :icon="Plus" @click="handleAdd(row)"
+            >新增</el-button
+          >
           <el-button
             v-if="!isRootDept(row)"
             v-hasPermi="['system:dept:remove']"
@@ -268,7 +272,8 @@ onMounted(() => {
             type="primary"
             :icon="Delete"
             @click="handleDelete(row)"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -315,7 +320,9 @@ onMounted(() => {
           <el-col :span="12">
             <el-form-item label="部门状态">
               <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{
+                  dict.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>

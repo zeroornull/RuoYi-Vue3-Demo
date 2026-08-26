@@ -1,12 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { isRecord } from "../../utils/guard";
-import {
-  browserLocalStore,
-  readStoredJson,
-  writeStoredJson,
-  type StoreStorage,
-} from "../persistence";
+import { browserLocalStore, readStoredJson, writeStoredJson, type StoreStorage } from "../persistence";
 
 export const LOCK_STATE_KEY = "screen-lock-state";
 const LEGACY_LOCK_KEY = "screen-lock";
@@ -37,10 +32,7 @@ function loadInitialState(storage: StoreStorage): LockState {
   const legacyPath = storage.get(LEGACY_LOCK_PATH_KEY);
   return {
     isLock: legacyLock === "true",
-    lockPath:
-      typeof legacyPath === "string" && legacyPath.startsWith("/")
-        ? legacyPath
-        : DEFAULT_LOCK_PATH,
+    lockPath: typeof legacyPath === "string" && legacyPath.startsWith("/") ? legacyPath : DEFAULT_LOCK_PATH,
   };
 }
 

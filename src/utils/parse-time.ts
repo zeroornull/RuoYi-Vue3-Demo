@@ -1,9 +1,6 @@
 const WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"] as const;
 
-export function parseTime(
-  time?: Date | string | number | null,
-  pattern?: string,
-): string | null {
+export function parseTime(time?: Date | string | number | null, pattern?: string): string | null {
   if (!time) {
     return null;
   }

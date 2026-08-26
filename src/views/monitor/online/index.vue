@@ -8,11 +8,7 @@ import Pagination from "../../../components/Pagination/index.vue";
 import { replaceObject } from "../../../composables/crud";
 import { parseTime } from "../../../utils/parse-time";
 import type { OnlineUser } from "../../../types/api/monitor";
-import {
-  ONLINE_PAGE_NAME,
-  emptyOnlineQuery,
-  paginateOnline,
-} from "./model";
+import { ONLINE_PAGE_NAME, emptyOnlineQuery, paginateOnline } from "./model";
 
 defineOptions({ name: ONLINE_PAGE_NAME });
 
@@ -23,9 +19,7 @@ const total = ref(0);
 const pageNum = ref(1);
 const pageSize = ref(10);
 const queryParams = reactive(emptyOnlineQuery());
-const pagedRows = computed(() =>
-  paginateOnline(onlineList.value, pageNum.value, pageSize.value),
-);
+const pagedRows = computed(() => paginateOnline(onlineList.value, pageNum.value, pageSize.value));
 
 async function getList(): Promise<void> {
   loading.value = true;
@@ -93,7 +87,14 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
-          <el-button v-hasPermi="['monitor:online:forceLogout']" link type="primary" :icon="Delete" @click="handleForceLogout(row)">强退</el-button>
+          <el-button
+            v-hasPermi="['monitor:online:forceLogout']"
+            link
+            type="primary"
+            :icon="Delete"
+            @click="handleForceLogout(row)"
+            >强退</el-button
+          >
         </template>
       </el-table-column>
     </el-table>

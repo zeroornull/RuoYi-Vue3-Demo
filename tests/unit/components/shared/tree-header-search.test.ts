@@ -63,10 +63,8 @@ describe("HeaderSearch menu pool", () => {
     expect(pool[1]?.query).toBe('{"dept":"1"}');
     const fuse = createHeaderSearchIndex(pool);
     expect(searchHeaderItems(pool, fuse, "用户")[0]?.path).toBe("/system/user");
-    expect(searchHeaderItems(pool, fuse, "/system/user")[0]?.path).toBe(
-      "/system/user",
-    );
-    expect(highlightText("用户管理", "用户")).toContain("class=\"highlight\"");
+    expect(searchHeaderItems(pool, fuse, "/system/user")[0]?.path).toBe("/system/user");
+    expect(highlightText("用户管理", "用户")).toContain('class="highlight"');
     expect(highlightText("<script>", "<")).not.toContain("<script>");
     expect(nextActiveIndex(-1, 2, "down")).toBe(0);
     expect(parseBackendQuery('{"dept":"1"}')).toEqual({ dept: "1" });

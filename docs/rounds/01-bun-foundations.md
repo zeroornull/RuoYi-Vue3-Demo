@@ -55,17 +55,17 @@ git check-ignore bun.lock && exit 1 || true
 
 2026-08-24 实测：
 
-| 命令 | 结果 |
-| --- | --- |
-| `bun --version` | `1.4.0` |
-| `node --version` | `v22.23.2` |
-| `bun run env:check` | 通过。Bun runtime `1.4.0`，Bun 的 Node 兼容版本 `v26.3.0`，系统 Node `v22.23.2`，依赖数 0 |
-| `bun install --frozen-lockfile` | 通过（零依赖，无 lockfile） |
-| `git check-ignore bun.lock` | 退出码 1，未被忽略 |
-| `bun pm untrusted` | `missing lockfile, nothing to list`（预期） |
-| `bun pm default-trusted` | 368 项 |
-| `bun scripts/runtime-probe.mjs` | `execPath` 为 Bun，`bun` 为 `1.4.0` |
-| `node scripts/runtime-probe.mjs` | `execPath` 为系统 Node，`bun` 为 `null` |
+| 命令                             | 结果                                                                                      |
+| -------------------------------- | ----------------------------------------------------------------------------------------- |
+| `bun --version`                  | `1.4.0`                                                                                   |
+| `node --version`                 | `v22.23.2`                                                                                |
+| `bun run env:check`              | 通过。Bun runtime `1.4.0`，Bun 的 Node 兼容版本 `v26.3.0`，系统 Node `v22.23.2`，依赖数 0 |
+| `bun install --frozen-lockfile`  | 通过（零依赖，无 lockfile）                                                               |
+| `git check-ignore bun.lock`      | 退出码 1，未被忽略                                                                        |
+| `bun pm untrusted`               | `missing lockfile, nothing to list`（预期）                                               |
+| `bun pm default-trusted`         | 368 项                                                                                    |
+| `bun scripts/runtime-probe.mjs`  | `execPath` 为 Bun，`bun` 为 `1.4.0`                                                       |
+| `node scripts/runtime-probe.mjs` | `execPath` 为系统 Node，`bun` 为 `null`                                                   |
 
 ## 停止条件
 
@@ -108,4 +108,3 @@ README.md
 ```text
 chore: establish bun repository baseline
 ```
-

@@ -1,12 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { isRecord } from "../../utils/guard";
-import {
-  browserLocalStore,
-  readStoredJson,
-  writeStoredJson,
-  type StoreStorage,
-} from "../persistence";
+import { browserLocalStore, readStoredJson, writeStoredJson, type StoreStorage } from "../persistence";
 
 export type SideTheme = "theme-dark" | "theme-light";
 export type NavigationType = 1 | 2 | 3;
@@ -73,20 +68,14 @@ const browserDeps: SettingsStoreDeps = {
   },
 };
 
-function readBoolean(
-  source: Record<string, unknown>,
-  key: keyof LayoutSettings,
-  fallback: boolean,
-): boolean {
+function readBoolean(source: Record<string, unknown>, key: keyof LayoutSettings, fallback: boolean): boolean {
   return typeof source[key] === "boolean" ? source[key] : fallback;
 }
 
 export function parseLayoutSettings(value: unknown): LayoutSettings {
   const envelope = isRecord(value) ? value : {};
   const source =
-    envelope.version === LAYOUT_SETTINGS_VERSION && isRecord(envelope.settings)
-      ? envelope.settings
-      : envelope;
+    envelope.version === LAYOUT_SETTINGS_VERSION && isRecord(envelope.settings) ? envelope.settings : envelope;
   const theme = typeof source.theme === "string" ? source.theme : DEFAULT_LAYOUT_SETTINGS.theme;
   const sideTheme =
     source.sideTheme === "theme-light" || source.sideTheme === "theme-dark"
@@ -105,33 +94,13 @@ export function parseLayoutSettings(value: unknown): LayoutSettings {
     sideTheme,
     navType,
     tagsView: readBoolean(source, "tagsView", DEFAULT_LAYOUT_SETTINGS.tagsView),
-    tagsViewPersist: readBoolean(
-      source,
-      "tagsViewPersist",
-      DEFAULT_LAYOUT_SETTINGS.tagsViewPersist,
-    ),
+    tagsViewPersist: readBoolean(source, "tagsViewPersist", DEFAULT_LAYOUT_SETTINGS.tagsViewPersist),
     tagsIcon: readBoolean(source, "tagsIcon", DEFAULT_LAYOUT_SETTINGS.tagsIcon),
     tagsViewStyle,
-    fixedHeader: readBoolean(
-      source,
-      "fixedHeader",
-      DEFAULT_LAYOUT_SETTINGS.fixedHeader,
-    ),
-    sidebarLogo: readBoolean(
-      source,
-      "sidebarLogo",
-      DEFAULT_LAYOUT_SETTINGS.sidebarLogo,
-    ),
-    dynamicTitle: readBoolean(
-      source,
-      "dynamicTitle",
-      DEFAULT_LAYOUT_SETTINGS.dynamicTitle,
-    ),
-    footerVisible: readBoolean(
-      source,
-      "footerVisible",
-      DEFAULT_LAYOUT_SETTINGS.footerVisible,
-    ),
+    fixedHeader: readBoolean(source, "fixedHeader", DEFAULT_LAYOUT_SETTINGS.fixedHeader),
+    sidebarLogo: readBoolean(source, "sidebarLogo", DEFAULT_LAYOUT_SETTINGS.sidebarLogo),
+    dynamicTitle: readBoolean(source, "dynamicTitle", DEFAULT_LAYOUT_SETTINGS.dynamicTitle),
+    footerVisible: readBoolean(source, "footerVisible", DEFAULT_LAYOUT_SETTINGS.footerVisible),
     isDark: readBoolean(source, "isDark", DEFAULT_LAYOUT_SETTINGS.isDark),
   };
 }
@@ -152,9 +121,7 @@ export function createUseSettingsStore(deps: SettingsStoreDeps = browserDeps) {
     const sidebarLogo = ref(initial.sidebarLogo);
     const dynamicTitle = ref(initial.dynamicTitle);
     const footerVisible = ref(initial.footerVisible);
-    const footerContent = ref(
-      "Copyright © 2018-2026 RuoYi. All Rights Reserved.",
-    );
+    const footerContent = ref("Copyright © 2018-2026 RuoYi. All Rights Reserved.");
     const isDark = ref(initial.isDark);
 
     function snapshot(): LayoutSettings {
@@ -183,17 +150,39 @@ export function createUseSettingsStore(deps: SettingsStoreDeps = browserDeps) {
 
     function changeSetting(change: SettingChange): void {
       switch (change.key) {
-        case "theme": theme.value = change.value; break;
-        case "sideTheme": sideTheme.value = change.value; break;
-        case "navType": navType.value = change.value; break;
-        case "tagsView": tagsView.value = change.value; break;
-        case "tagsViewPersist": tagsViewPersist.value = change.value; break;
-        case "tagsIcon": tagsIcon.value = change.value; break;
-        case "tagsViewStyle": tagsViewStyle.value = change.value; break;
-        case "fixedHeader": fixedHeader.value = change.value; break;
-        case "sidebarLogo": sidebarLogo.value = change.value; break;
-        case "dynamicTitle": dynamicTitle.value = change.value; break;
-        case "footerVisible": footerVisible.value = change.value; break;
+        case "theme":
+          theme.value = change.value;
+          break;
+        case "sideTheme":
+          sideTheme.value = change.value;
+          break;
+        case "navType":
+          navType.value = change.value;
+          break;
+        case "tagsView":
+          tagsView.value = change.value;
+          break;
+        case "tagsViewPersist":
+          tagsViewPersist.value = change.value;
+          break;
+        case "tagsIcon":
+          tagsIcon.value = change.value;
+          break;
+        case "tagsViewStyle":
+          tagsViewStyle.value = change.value;
+          break;
+        case "fixedHeader":
+          fixedHeader.value = change.value;
+          break;
+        case "sidebarLogo":
+          sidebarLogo.value = change.value;
+          break;
+        case "dynamicTitle":
+          dynamicTitle.value = change.value;
+          break;
+        case "footerVisible":
+          footerVisible.value = change.value;
+          break;
         case "isDark":
           isDark.value = change.value;
           deps.applyDarkMode(change.value);

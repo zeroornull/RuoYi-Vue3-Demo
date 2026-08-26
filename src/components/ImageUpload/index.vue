@@ -58,12 +58,8 @@ const uploaded = ref<UploadFileItem[]>([]);
 const dialogVisible = ref(false);
 const dialogImageUrl = ref("");
 const headers = computed(() => uploadHeaders(getToken()));
-const uploadImgUrl = computed(() =>
-  uploadActionUrl(appEnv.baseApi, props.action),
-);
-const showTip = computed(
-  () => props.isShowTip && (props.fileType.length > 0 || props.fileSize > 0),
-);
+const uploadImgUrl = computed(() => uploadActionUrl(appEnv.baseApi, props.action));
+const showTip = computed(() => props.isShowTip && (props.fileType.length > 0 || props.fileSize > 0));
 const hideAdder = computed(() => fileList.value.length >= props.limit);
 
 let sortable: { destroy: () => void } | null = null;
@@ -80,17 +76,12 @@ watch(
 );
 
 function commit(list = fileList.value): void {
-  emit(
-    "update:modelValue",
-    stringifyUploadValue(list, { baseUrl: appEnv.baseApi, stripBlob: true }),
-  );
+  emit("update:modelValue", stringifyUploadValue(list, { baseUrl: appEnv.baseApi, stripBlob: true }));
 }
 
 function finishBatch(): void {
   if (pending.value > 0 && uploaded.value.length === pending.value) {
-    fileList.value = fileList.value
-      .filter((item) => item.url.length > 0)
-      .concat(uploaded.value);
+    fileList.value = fileList.value.filter((item) => item.url.length > 0).concat(uploaded.value);
     uploaded.value = [];
     pending.value = 0;
     commit();
@@ -154,13 +145,10 @@ function handlePictureCardPreview(file: UploadFile): void {
 
 onMounted(() => {
   if (props.drag && !props.disabled) {
-    sortable = bindSortableList(
-      imageUpload.value?.$el?.querySelector(".el-upload-list") ?? null,
-      (from, to) => {
-        fileList.value = moveUploadItem(fileList.value, from, to);
-        commit();
-      },
-    );
+    sortable = bindSortableList(imageUpload.value?.$el?.querySelector(".el-upload-list") ?? null, (from, to) => {
+      fileList.value = moveUploadItem(fileList.value, from, to);
+      commit();
+    });
   }
 });
 

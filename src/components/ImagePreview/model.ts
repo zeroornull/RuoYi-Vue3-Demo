@@ -4,20 +4,14 @@ export function toCssSize(value: number | string): string {
   return typeof value === "number" ? `${value}px` : value;
 }
 
-export function resolveMediaUrl(
-  src: string,
-  baseApi: string,
-): string {
+export function resolveMediaUrl(src: string, baseApi: string): string {
   if (src.length === 0) {
     return src;
   }
   return isExternal(src) ? src : `${baseApi}${src}`;
 }
 
-export function previewSourceList(
-  src: string,
-  baseApi: string,
-): string[] {
+export function previewSourceList(src: string, baseApi: string): string[] {
   if (src.length === 0) {
     return [];
   }
@@ -28,9 +22,6 @@ export function previewSourceList(
     .map((item) => resolveMediaUrl(item, baseApi));
 }
 
-export function primaryPreviewSource(
-  src: string,
-  baseApi: string,
-): string {
+export function primaryPreviewSource(src: string, baseApi: string): string {
   return previewSourceList(src, baseApi)[0] ?? "";
 }

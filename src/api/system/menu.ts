@@ -24,9 +24,7 @@ export function treeselect(): Promise<ApiResponse<TreeSelectNode[]>> {
 }
 
 export function roleMenuTreeselect(roleId: EntityId): Promise<RoleMenuTreeResponse> {
-  return http.get<RoleMenuTreeResponse>(
-    `/system/menu/roleMenuTreeselect/${encodePathSegment(roleId)}`,
-  );
+  return http.get<RoleMenuTreeResponse>(`/system/menu/roleMenuTreeselect/${encodePathSegment(roleId)}`);
 }
 
 export function addMenu(data: MenuUpsertRequest): Promise<EmptyResponse> {

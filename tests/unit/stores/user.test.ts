@@ -1,11 +1,7 @@
 import { beforeEach, describe, expect, test } from "bun:test";
 import { createPinia, setActivePinia } from "pinia";
 import { createMemoryStore } from "../../../src/http/cache";
-import type {
-  LoginRequest,
-  LoginResponse,
-  UserInfoResponse,
-} from "../../../src/types/api";
+import type { LoginRequest, LoginResponse, UserInfoResponse } from "../../../src/types/api";
 import {
   createUseUserStore,
   DEFAULT_ROLE,
@@ -37,12 +33,14 @@ function userInfo(overrides: Partial<UserInfoResponse> = {}): UserInfoResponse {
   };
 }
 
-function createDeps(options: {
-  initialToken?: string;
-  login?: (data: LoginRequest) => Promise<LoginResponse>;
-  getInfo?: () => Promise<UserInfoResponse>;
-  logout?: () => Promise<unknown>;
-} = {}): {
+function createDeps(
+  options: {
+    initialToken?: string;
+    login?: (data: LoginRequest) => Promise<LoginResponse>;
+    getInfo?: () => Promise<UserInfoResponse>;
+    logout?: () => Promise<unknown>;
+  } = {},
+): {
   deps: UserStoreDeps;
   token: { value: string | undefined };
   unlocks: { count: number };
@@ -140,9 +138,9 @@ describe("user store lifecycle", () => {
       },
     });
     const anonymous = createUseUserStore(loginFailure.deps)();
-    await expect(
-      anonymous.login({ username: "u", password: "p", code: "c", uuid: "id" }),
-    ).rejects.toThrow("login failed");
+    await expect(anonymous.login({ username: "u", password: "p", code: "c", uuid: "id" })).rejects.toThrow(
+      "login failed",
+    );
     expect(anonymous.token).toBeNull();
     expect(loginFailure.token.value).toBeUndefined();
     expect(anonymous.operationStatus).toBe("error");
@@ -167,9 +165,7 @@ describe("user store lifecycle", () => {
   });
 
   test("leaves absolute avatar URLs untouched", () => {
-    expect(resolveUserAvatar("https://example.invalid/a.png", "/dev-api")).toBe(
-      "https://example.invalid/a.png",
-    );
+    expect(resolveUserAvatar("https://example.invalid/a.png", "/dev-api")).toBe("https://example.invalid/a.png");
   });
 
   test("patches profile and avatar without replacing the whole session", async () => {

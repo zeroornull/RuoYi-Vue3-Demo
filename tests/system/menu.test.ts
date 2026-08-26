@@ -8,19 +8,10 @@ import {
   toMenuTree,
   withMenuRoot,
 } from "../../src/views/system/menu/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 import { excludeSelfAndDescendants } from "../../src/utils/tree-edit";
 
-function menu(
-  method: string,
-  path: string,
-  body?: unknown,
-  query?: Record<string, string>,
-) {
+function menu(method: string, path: string, body?: unknown, query?: Record<string, string>) {
   return dispatchMockRequest({
     method,
     path,
@@ -103,9 +94,7 @@ describe("menu mock tree CRUD", () => {
   test("lists a flat menu, exposes treeselect and blocks deleting parents", () => {
     const listed = menu("GET", "/system/menu/list");
     const rows = listed.body.data as Array<{ menuId: string; parentId: string }>;
-    expect(rows.some((row) => row.menuId === "100" && row.parentId === "1")).toBe(
-      true,
-    );
+    expect(rows.some((row) => row.menuId === "100" && row.parentId === "1")).toBe(true);
     const tree = menu("GET", "/system/menu/treeselect");
     expect((tree.body.data as Array<{ id: string }>)[0]?.id).toBe("1");
     expect(menu("DELETE", "/system/menu/1").body.msg).toBe("存在子菜单,不允许删除");
@@ -130,8 +119,6 @@ describe("menu mock tree CRUD", () => {
       }).body.code,
     ).toBe(200);
     expect(menu("DELETE", "/system/menu/1001").body.code).toBe(200);
-    expect(
-      menu("PUT", "/system/menu/updateSort", { ids: "102", orderNums: "8" }).body.code,
-    ).toBe(200);
+    expect(menu("PUT", "/system/menu/updateSort", { ids: "102", orderNums: "8" }).body.code).toBe(200);
   });
 });

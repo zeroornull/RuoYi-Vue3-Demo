@@ -3,17 +3,7 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {
-  CircleCheck,
-  Delete,
-  Download,
-  Edit,
-  Key,
-  Plus,
-  Refresh,
-  Search,
-  Upload,
-} from "@element-plus/icons-vue";
+import { CircleCheck, Delete, Download, Edit, Key, Plus, Refresh, Search, Upload } from "@element-plus/icons-vue";
 import {
   addUser,
   changeUserStatus,
@@ -67,15 +57,10 @@ defineOptions({ name: USER_PAGE_NAME });
 
 const router = useRouter();
 const userStore = useUserStore();
-const { sys_normal_disable, sys_user_sex } = useDict(
-  "sys_normal_disable",
-  "sys_user_sex",
-);
+const { sys_normal_disable, sys_user_sex } = useDict("sys_normal_disable", "sys_user_sex");
 const queryRef = ref<FormInstance>();
 const userRef = ref<FormInstance>();
-const deptTreeRef = ref<{ setCurrentKey: (key: string | number | null) => void } | null>(
-  null,
-);
+const deptTreeRef = ref<{ setCurrentKey: (key: string | number | null) => void } | null>(null);
 const userViewRef = ref<{ open: (userId: string) => void } | null>(null);
 const importUserRef = ref<{ open: () => void } | null>(null);
 const userList = ref<SystemUser[]>([]);
@@ -104,10 +89,7 @@ const passwordRules: FormRules<UserUpsertRequest> = {
           callback();
           return;
         }
-        const message = passwordFieldError(
-          value,
-          userStore.passwordCharacterType ?? "0",
-        );
+        const message = passwordFieldError(value, userStore.passwordCharacterType ?? "0");
         if (message) {
           callback(new Error(message));
           return;
@@ -216,10 +198,7 @@ async function handleUpdate(row?: SystemUser): Promise<void> {
   if (!response.data) {
     return;
   }
-  replaceObject(
-    form,
-    userToForm(response.data, response.postIds ?? [], response.roleIds ?? []),
-  );
+  replaceObject(form, userToForm(response.data, response.postIds ?? [], response.roleIds ?? []));
   postOptions.value = response.posts;
   roleOptions.value = response.roles;
   title.value = "修改用户";
@@ -283,16 +262,12 @@ async function handleResetPwd(row: SystemUser): Promise<void> {
   }
   let value: string;
   try {
-    const result = await ElMessageBox.prompt(
-      `请输入「${row.userName}」的新密码`,
-      "重置密码",
-      {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        closeOnClickModal: false,
-        inputValidator: passwordPromptError,
-      },
-    );
+    const result = await ElMessageBox.prompt(`请输入「${row.userName}」的新密码`, "重置密码", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      closeOnClickModal: false,
+      inputValidator: passwordPromptError,
+    });
     value = result.value;
   } catch {
     return;
@@ -339,10 +314,20 @@ onMounted(() => {
       <div class="content-inner">
         <el-form v-show="showSearch" ref="queryRef" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="用户名称" prop="userName">
-            <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable @keyup.enter="handleQuery" />
+            <el-input
+              v-model="queryParams.userName"
+              placeholder="请输入用户名称"
+              clearable
+              @keyup.enter="handleQuery"
+            />
           </el-form-item>
           <el-form-item label="手机号码" prop="phonenumber">
-            <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable @keyup.enter="handleQuery" />
+            <el-input
+              v-model="queryParams.phonenumber"
+              placeholder="请输入手机号码"
+              clearable
+              @keyup.enter="handleQuery"
+            />
           </el-form-item>
           <el-form-item label="状态" prop="status">
             <el-select v-model="queryParams.status" placeholder="用户状态" clearable>
@@ -366,21 +351,53 @@ onMounted(() => {
         </el-form>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
-            <el-button v-hasPermi="['system:user:add']" type="primary" plain :icon="Plus" @click="handleAdd">新增</el-button>
+            <el-button v-hasPermi="['system:user:add']" type="primary" plain :icon="Plus" @click="handleAdd"
+              >新增</el-button
+            >
           </el-col>
           <el-col :span="1.5">
-            <el-button v-hasPermi="['system:user:edit']" type="success" plain :icon="Edit" :disabled="selection.single" @click="handleUpdate()">修改</el-button>
+            <el-button
+              v-hasPermi="['system:user:edit']"
+              type="success"
+              plain
+              :icon="Edit"
+              :disabled="selection.single"
+              @click="handleUpdate()"
+              >修改</el-button
+            >
           </el-col>
           <el-col :span="1.5">
-            <el-button v-hasPermi="['system:user:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete()">删除</el-button>
+            <el-button
+              v-hasPermi="['system:user:remove']"
+              type="danger"
+              plain
+              :icon="Delete"
+              :disabled="selection.multiple"
+              @click="handleDelete()"
+              >删除</el-button
+            >
           </el-col>
           <el-col :span="1.5">
-            <el-button v-hasPermi="['system:user:import']" type="info" plain :icon="Upload" @click="importUserRef?.open()">导入</el-button>
+            <el-button
+              v-hasPermi="['system:user:import']"
+              type="info"
+              plain
+              :icon="Upload"
+              @click="importUserRef?.open()"
+              >导入</el-button
+            >
           </el-col>
           <el-col :span="1.5">
-            <el-button v-hasPermi="['system:user:export']" type="warning" plain :icon="Download" @click="handleExport">导出</el-button>
+            <el-button v-hasPermi="['system:user:export']" type="warning" plain :icon="Download" @click="handleExport"
+              >导出</el-button
+            >
           </el-col>
-          <RightToolbar v-model:show-search="showSearch" :columns="columns" storage-key="user-list-columns" @query-table="getList" />
+          <RightToolbar
+            v-model:show-search="showSearch"
+            :columns="columns"
+            storage-key="user-list-columns"
+            @query-table="getList"
+          />
         </el-row>
         <el-table
           v-loading="loading"
@@ -389,43 +406,85 @@ onMounted(() => {
         >
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column v-if="columns.userId.visible" label="用户编号" align="center" prop="userId" />
-          <el-table-column v-if="columns.userName.visible" label="用户名称" align="center" :show-overflow-tooltip="true">
+          <el-table-column
+            v-if="columns.userName.visible"
+            label="用户名称"
+            align="center"
+            :show-overflow-tooltip="true"
+          >
             <template #default="{ row }">
               <a class="link-type" @click="handleViewData(row)">{{ row.userName }}</a>
             </template>
           </el-table-column>
-          <el-table-column v-if="columns.nickName.visible" label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
+          <el-table-column
+            v-if="columns.nickName.visible"
+            label="用户昵称"
+            align="center"
+            prop="nickName"
+            :show-overflow-tooltip="true"
+          />
           <el-table-column v-if="columns.deptName.visible" label="部门" align="center" :show-overflow-tooltip="true">
             <template #default="{ row }">{{ row.dept?.deptName }}</template>
           </el-table-column>
-          <el-table-column v-if="columns.phonenumber.visible" label="手机号码" align="center" prop="phonenumber" width="120" />
+          <el-table-column
+            v-if="columns.phonenumber.visible"
+            label="手机号码"
+            align="center"
+            prop="phonenumber"
+            width="120"
+          />
           <el-table-column v-if="columns.status.visible" label="状态" align="center">
             <template #default="{ row }">
-              <el-switch
-                v-model="row.status"
-                active-value="0"
-                inactive-value="1"
-                @change="handleStatusChange(row)"
-              />
+              <el-switch v-model="row.status" active-value="0" inactive-value="1" @change="handleStatusChange(row)" />
             </template>
           </el-table-column>
-          <el-table-column v-if="columns.createTime.visible" label="创建时间" align="center" prop="createTime" width="160">
+          <el-table-column
+            v-if="columns.createTime.visible"
+            label="创建时间"
+            align="center"
+            prop="createTime"
+            width="160"
+          >
             <template #default="{ row }">{{ parseTime(row.createTime) }}</template>
           </el-table-column>
           <el-table-column label="操作" align="center" width="150">
             <template #default="{ row }">
               <template v-if="!isProtectedUser(row.userId)">
                 <el-tooltip content="修改" placement="top">
-                  <el-button v-hasPermi="['system:user:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)" />
+                  <el-button
+                    v-hasPermi="['system:user:edit']"
+                    link
+                    type="primary"
+                    :icon="Edit"
+                    @click="handleUpdate(row)"
+                  />
                 </el-tooltip>
                 <el-tooltip content="删除" placement="top">
-                  <el-button v-hasPermi="['system:user:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)" />
+                  <el-button
+                    v-hasPermi="['system:user:remove']"
+                    link
+                    type="primary"
+                    :icon="Delete"
+                    @click="handleDelete(row)"
+                  />
                 </el-tooltip>
                 <el-tooltip content="重置密码" placement="top">
-                  <el-button v-hasPermi="['system:user:resetPwd']" link type="primary" :icon="Key" @click="handleResetPwd(row)" />
+                  <el-button
+                    v-hasPermi="['system:user:resetPwd']"
+                    link
+                    type="primary"
+                    :icon="Key"
+                    @click="handleResetPwd(row)"
+                  />
                 </el-tooltip>
                 <el-tooltip content="分配角色" placement="top">
-                  <el-button v-hasPermi="['system:user:edit']" link type="primary" :icon="CircleCheck" @click="handleAuthRole(row)" />
+                  <el-button
+                    v-hasPermi="['system:user:edit']"
+                    link
+                    type="primary"
+                    :icon="CircleCheck"
+                    @click="handleAuthRole(row)"
+                  />
                 </el-tooltip>
               </template>
             </template>
@@ -482,7 +541,13 @@ onMounted(() => {
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="!form.userId" label="用户密码" prop="password" :rules="passwordRules.password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password />
+              <el-input
+                v-model="form.password"
+                placeholder="请输入用户密码"
+                type="password"
+                maxlength="20"
+                show-password
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -497,7 +562,9 @@ onMounted(() => {
           <el-col :span="12">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{
+                  dict.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>

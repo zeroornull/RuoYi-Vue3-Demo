@@ -11,9 +11,7 @@ export function closeCurrentPage(
   const view = routeToTagView(route);
   if (view) {
     const remaining = tagsStore.delView(view).visitedViews;
-    void router.push(
-      fallbackAfterClose(remaining.map((item) => item.fullPath ?? item.path)),
-    );
+    void router.push(fallbackAfterClose(remaining.map((item) => item.fullPath ?? item.path)));
     return;
   }
   void router.push({ name: "Index" });

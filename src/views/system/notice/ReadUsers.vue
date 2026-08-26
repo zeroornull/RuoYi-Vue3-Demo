@@ -45,13 +45,21 @@ defineExpose({ open });
   <el-dialog v-model="visible" :title="`「${noticeTitle}」已读用户`" width="760px" append-to-body>
     <el-form :model="queryParams" :inline="true">
       <el-form-item>
-        <el-input v-model="queryParams.searchValue" placeholder="登录名称 / 用户名称" clearable :prefix-icon="Search" @keyup.enter="handleQuery" />
+        <el-input
+          v-model="queryParams.searchValue"
+          placeholder="登录名称 / 用户名称"
+          clearable
+          :prefix-icon="Search"
+          @keyup.enter="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="handleQuery">搜索</el-button>
       </el-form-item>
       <el-form-item>
-        <span>共 <strong>{{ total }}</strong> 人已读</span>
+        <span
+          >共 <strong>{{ total }}</strong> 人已读</span
+        >
       </el-form-item>
     </el-form>
     <el-table v-loading="loading" :data="userList" stripe height="340">
@@ -64,6 +72,12 @@ defineExpose({ open });
         <template #default="{ row }">{{ parseTime(row.readTime) }}</template>
       </el-table-column>
     </el-table>
-    <Pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
+    <Pagination
+      v-show="total > 0"
+      :total="total"
+      v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize"
+      @pagination="getList"
+    />
   </el-dialog>
 </template>

@@ -15,15 +15,11 @@ export function listData(query: DictDataQuery): Promise<DictDataPageResponse> {
 }
 
 export function getData(dictCode: EntityId): Promise<ApiResponse<DictData>> {
-  return http.get<ApiResponse<DictData>>(
-    `/system/dict/data/${encodePathSegment(dictCode)}`,
-  );
+  return http.get<ApiResponse<DictData>>(`/system/dict/data/${encodePathSegment(dictCode)}`);
 }
 
 export function getDicts(dictType: string): Promise<ApiResponse<DictData[]>> {
-  return http.get<ApiResponse<DictData[]>>(
-    `/system/dict/data/type/${encodePathSegment(dictType)}`,
-  );
+  return http.get<ApiResponse<DictData[]>>(`/system/dict/data/type/${encodePathSegment(dictType)}`);
 }
 
 export function addData(data: DictDataUpsertRequest): Promise<EmptyResponse> {
@@ -35,7 +31,5 @@ export function updateData(data: DictDataUpsertRequest): Promise<EmptyResponse> 
 }
 
 export function delData(dictCodes: IdCollection): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/system/dict/data/${encodeIdCollection(dictCodes)}`,
-  );
+  return http.delete<EmptyResponse>(`/system/dict/data/${encodeIdCollection(dictCodes)}`);
 }

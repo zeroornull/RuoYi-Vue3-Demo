@@ -20,18 +20,12 @@ export function generateSearchRoutes(
     if (route.hidden) {
       continue;
     }
-    const absolute =
-      route.path.length > 0 && route.path.startsWith("/")
-        ? route.path
-        : `/${route.path}`;
-    const path = isHttp(route.path)
-      ? route.path
-      : getNormalPath(`${basePath}${absolute}`);
+    const absolute = route.path.length > 0 && route.path.startsWith("/") ? route.path : `/${route.path}`;
+    const path = isHttp(route.path) ? route.path : getNormalPath(`${basePath}${absolute}`);
     const title = [...prefixTitle];
-    let icon = "";
     if (route.meta?.title) {
       title.push(route.meta.title);
-      icon = route.meta.icon ?? "";
+      const icon = route.meta.icon ?? "";
       if (route.redirect !== "noRedirect") {
         const item: HeaderSearchItem = { path, title, icon };
         if (route.backendQuery) {
@@ -47,9 +41,7 @@ export function generateSearchRoutes(
   return result;
 }
 
-export function createHeaderSearchIndex(
-  items: readonly HeaderSearchItem[],
-): Fuse<HeaderSearchItem> {
+export function createHeaderSearchIndex(items: readonly HeaderSearchItem[]): Fuse<HeaderSearchItem> {
   return new Fuse([...items], {
     shouldSort: true,
     threshold: 0.2,
@@ -71,9 +63,7 @@ export function searchHeaderItems(
     return [...pool];
   }
   const lowered = query.toLowerCase();
-  const pathMatches = pool.filter((item) =>
-    item.path.toLowerCase().includes(lowered),
-  );
+  const pathMatches = pool.filter((item) => item.path.toLowerCase().includes(lowered));
   const fuseMatches = fuse ? fuse.search(query).map((item) => item.item) : [];
   const merged = [...pathMatches];
   for (const item of fuseMatches) {
@@ -106,11 +96,7 @@ export function highlightText(text: string, keyword: string): string {
   return safe.replace(pattern, '<span class="highlight">$1</span>');
 }
 
-export function nextActiveIndex(
-  current: number,
-  length: number,
-  direction: "up" | "down",
-): number {
+export function nextActiveIndex(current: number, length: number, direction: "up" | "down"): number {
   if (length === 0) {
     return -1;
   }
@@ -120,9 +106,7 @@ export function nextActiveIndex(
   return current >= length - 1 ? 0 : current + 1;
 }
 
-export function parseBackendQuery(
-  query: string | undefined,
-): Record<string, string> | undefined {
+export function parseBackendQuery(query: string | undefined): Record<string, string> | undefined {
   if (!query) {
     return undefined;
   }

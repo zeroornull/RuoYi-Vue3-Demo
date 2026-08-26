@@ -6,14 +6,10 @@ import { dictDataToItem, FALLBACK_DICTS } from "./dict-model";
 
 export { dictDataToItem, FALLBACK_DICTS } from "./dict-model";
 
-export function useDict<K extends string>(
-  ...keys: K[]
-): { [P in K]: DictItem[] } {
+export function useDict<K extends string>(...keys: K[]): { [P in K]: DictItem[] } {
   const store = useDictStore();
   const state: Record<string, DictItem[]> = reactive(
-    Object.fromEntries(
-      keys.map((key) => [key, store.getDict(key) ?? FALLBACK_DICTS[key] ?? []]),
-    ),
+    Object.fromEntries(keys.map((key) => [key, store.getDict(key) ?? FALLBACK_DICTS[key] ?? []])),
   );
 
   async function load(key: K): Promise<void> {

@@ -2,24 +2,8 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {
-  Check,
-  Delete,
-  Edit,
-  Plus,
-  QuestionFilled,
-  Refresh,
-  Search,
-  Sort,
-} from "@element-plus/icons-vue";
-import {
-  addMenu,
-  delMenu,
-  getMenu,
-  listMenu,
-  updateMenu,
-  updateMenuSort,
-} from "../../../api/system/menu";
+import { Check, Delete, Edit, Plus, QuestionFilled, Refresh, Search, Sort } from "@element-plus/icons-vue";
+import { addMenu, delMenu, getMenu, listMenu, updateMenu, updateMenuSort } from "../../../api/system/menu";
 import IconSelect from "../../../components/IconSelect/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
 import SvgIcon from "../../../components/SvgIcon.vue";
@@ -48,10 +32,7 @@ import {
 
 defineOptions({ name: MENU_PAGE_NAME });
 
-const { sys_normal_disable, sys_show_hide } = useDict(
-  "sys_normal_disable",
-  "sys_show_hide",
-);
+const { sys_normal_disable, sys_show_hide } = useDict("sys_normal_disable", "sys_show_hide");
 const queryRef = ref<FormInstance>();
 const menuRef = ref<FormInstance>();
 const iconSelectRef = ref<{ reset: () => void } | null>(null);
@@ -70,10 +51,7 @@ const form = reactive<MenuUpsertRequest>(emptyMenuForm());
 const rules = computed<FormRules<MenuUpsertRequest>>(() => ({
   menuName: [{ required: true, message: "菜单名称不能为空", trigger: "blur" }],
   orderNum: [{ required: true, message: "菜单顺序不能为空", trigger: "blur" }],
-  path:
-    form.menuType === "F"
-      ? []
-      : [{ required: true, message: "路由地址不能为空", trigger: "blur" }],
+  path: form.menuType === "F" ? [] : [{ required: true, message: "路由地址不能为空", trigger: "blur" }],
 }));
 
 function rememberOrders(nodes: readonly MenuTreeNode[]): void {
@@ -221,10 +199,14 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:menu:add']" type="primary" plain :icon="Plus" @click="handleAdd()">新增</el-button>
+        <el-button v-hasPermi="['system:menu:add']" type="primary" plain :icon="Plus" @click="handleAdd()"
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['system:menu:edit']" type="warning" plain :icon="Check" @click="handleSaveSort">保存排序</el-button>
+        <el-button v-hasPermi="['system:menu:edit']" type="warning" plain :icon="Check" @click="handleSaveSort"
+          >保存排序</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button type="info" plain :icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
@@ -268,9 +250,15 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center" width="210">
         <template #default="{ row }">
-          <el-button v-hasPermi="['system:menu:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)">修改</el-button>
-          <el-button v-hasPermi="['system:menu:add']" link type="primary" :icon="Plus" @click="handleAdd(row)">新增</el-button>
-          <el-button v-hasPermi="['system:menu:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)">删除</el-button>
+          <el-button v-hasPermi="['system:menu:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)"
+            >修改</el-button
+          >
+          <el-button v-hasPermi="['system:menu:add']" link type="primary" :icon="Plus" @click="handleAdd(row)"
+            >新增</el-button
+          >
+          <el-button v-hasPermi="['system:menu:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -327,7 +315,10 @@ onMounted(() => {
             <el-form-item prop="routeName">
               <template #label>
                 <span>
-                  <el-tooltip content="默认不填则和路由地址相同。router 会删除名称相同的路由，请保证唯一。" placement="top">
+                  <el-tooltip
+                    content="默认不填则和路由地址相同。router 会删除名称相同的路由，请保证唯一。"
+                    placement="top"
+                  >
                     <el-icon><QuestionFilled /></el-icon>
                   </el-tooltip>
                   路由名称
@@ -431,7 +422,9 @@ onMounted(() => {
                 </span>
               </template>
               <el-radio-group v-model="form.visible">
-                <el-radio v-for="dict in sys_show_hide" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+                <el-radio v-for="dict in sys_show_hide" :key="dict.value" :value="dict.value">{{
+                  dict.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -446,7 +439,9 @@ onMounted(() => {
                 </span>
               </template>
               <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+                <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{
+                  dict.label
+                }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>

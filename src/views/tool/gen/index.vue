@@ -3,25 +3,9 @@ import { computed, onActivated, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { FormInstance, TableInstance } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {
-  Delete,
-  Download,
-  Edit,
-  Plus,
-  Refresh,
-  Search,
-  Upload,
-  View,
-} from "@element-plus/icons-vue";
+import { Delete, Download, Edit, Plus, Refresh, Search, Upload, View } from "@element-plus/icons-vue";
 import { saveAs } from "file-saver";
-import {
-  delTable,
-  downloadGeneratedCode,
-  genCode,
-  listTable,
-  previewTable,
-  synchDb,
-} from "../../../api/tool/gen";
+import { delTable, downloadGeneratedCode, genCode, listTable, previewTable, synchDb } from "../../../api/tool/gen";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
 import {
@@ -245,7 +229,9 @@ onMounted(() => {
         <el-button type="primary" plain :icon="Plus" @click="openCreateTable">创建</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['tool:gen:import']" type="info" plain :icon="Upload" @click="openImportTable">导入</el-button>
+        <el-button v-hasPermi="['tool:gen:import']" type="info" plain :icon="Upload" @click="openImportTable"
+          >导入</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button

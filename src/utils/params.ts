@@ -10,11 +10,7 @@ export function tansParams(params: Record<string, unknown>): string {
         const nested = value as Record<string, unknown>;
         for (const key of Object.keys(nested)) {
           const nestedValue = nested[key];
-          if (
-            nestedValue !== null &&
-            nestedValue !== "" &&
-            typeof nestedValue !== "undefined"
-          ) {
+          if (nestedValue !== null && nestedValue !== "" && typeof nestedValue !== "undefined") {
             const nestedName = `${propName}[${key}]`;
             result += `${encodeURIComponent(nestedName)}=${encodeURIComponent(String(nestedValue))}&`;
           }
@@ -27,18 +23,10 @@ export function tansParams(params: Record<string, unknown>): string {
   return result;
 }
 
-export function addDateRange<T extends SearchParams>(
-  params: T,
-  dateRange?: DateRange,
-  propName?: string,
-): T {
+export function addDateRange<T extends SearchParams>(params: T, dateRange?: DateRange, propName?: string): T {
   const search = params;
   search.params =
-    typeof search.params === "object" &&
-    search.params !== null &&
-    !Array.isArray(search.params)
-      ? search.params
-      : {};
+    typeof search.params === "object" && search.params !== null && !Array.isArray(search.params) ? search.params : {};
   const range = Array.isArray(dateRange) ? dateRange : [];
   if (typeof propName === "undefined") {
     search.params.beginTime = range[0];

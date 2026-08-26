@@ -19,9 +19,7 @@ import {
 } from "./model";
 
 type QuillLike = {
-  getModule: (name: string) =>
-    | { addHandler: (name: string, handler: (value?: boolean) => void) => void }
-    | undefined;
+  getModule: (name: string) => { addHandler: (name: string, handler: (value?: boolean) => void) => void } | undefined;
   root: HTMLElement;
   insertEmbed: (index: number, type: string, value: string) => void;
   setSelection: (index: number) => void;
@@ -111,9 +109,7 @@ function insertUploadedImage(fileName: string): void {
   if (!quill) {
     return;
   }
-  const index = nextEditorIndex(
-    quill.getSelection?.(true)?.index ?? quill.selection?.savedRange?.index,
-  );
+  const index = nextEditorIndex(quill.getSelection?.(true)?.index ?? quill.selection?.savedRange?.index);
   quill.insertEmbed(index, "image", editorImageUrl(appEnv.baseApi, fileName));
   quill.setSelection(index + 1);
 }

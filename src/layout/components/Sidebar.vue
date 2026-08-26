@@ -16,19 +16,13 @@ const permissionStore = usePermissionStore();
 const settingsStore = useSettingsStore();
 
 const routes = computed(() => visibleMenuRoutes(permissionStore.sidebarRouters));
-const activeMenu = computed(() =>
-  resolveActiveMenu({ path: route.path, meta: route.meta }),
-);
+const activeMenu = computed(() => resolveActiveMenu({ path: route.path, meta: route.meta }));
 const collapsed = computed(() => !appStore.sidebar.opened);
 const menuBackground = computed(() =>
-  settingsStore.sideTheme === "theme-light" && !settingsStore.isDark
-    ? "#ffffff"
-    : "var(--sidebar-bg)",
+  settingsStore.sideTheme === "theme-light" && !settingsStore.isDark ? "#ffffff" : "var(--sidebar-bg)",
 );
 const menuText = computed(() =>
-  settingsStore.sideTheme === "theme-light" && !settingsStore.isDark
-    ? "#334155"
-    : "var(--sidebar-text)",
+  settingsStore.sideTheme === "theme-light" && !settingsStore.isDark ? "#334155" : "var(--sidebar-text)",
 );
 
 function handleSelect(index: string): void {

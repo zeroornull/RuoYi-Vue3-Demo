@@ -10,9 +10,7 @@ export type ColumnCollection = ColumnVisible[] | Record<string, ColumnVisible>;
 
 export type ColumnVisibilityState = Record<string, boolean>;
 
-export function columnEntries(
-  columns: ColumnCollection,
-): ColumnVisible[] {
+export function columnEntries(columns: ColumnCollection): ColumnVisible[] {
   return Array.isArray(columns) ? columns : Object.values(columns);
 }
 
@@ -25,10 +23,7 @@ export function isSomeColumnsVisible(columns: ColumnCollection): boolean {
   return columnEntries(columns).some((column) => column.visible);
 }
 
-export function setAllColumnsVisible(
-  columns: ColumnCollection,
-  visible: boolean,
-): void {
+export function setAllColumnsVisible(columns: ColumnCollection, visible: boolean): void {
   if (Array.isArray(columns)) {
     for (const column of columns) {
       column.visible = visible;
@@ -42,19 +37,12 @@ export function setAllColumnsVisible(
 
 export function hiddenTransferKeys(columns: ColumnCollection): number[] {
   if (Array.isArray(columns)) {
-    return columns.flatMap((column, index) =>
-      column.visible === false ? [index] : [],
-    );
+    return columns.flatMap((column, index) => (column.visible === false ? [index] : []));
   }
-  return Object.keys(columns).flatMap((key, index) =>
-    columns[key]?.visible === false ? [index] : [],
-  );
+  return Object.keys(columns).flatMap((key, index) => (columns[key]?.visible === false ? [index] : []));
 }
 
-export function applyTransferHiddenKeys(
-  columns: ColumnCollection,
-  hiddenKeys: readonly number[],
-): void {
+export function applyTransferHiddenKeys(columns: ColumnCollection, hiddenKeys: readonly number[]): void {
   if (Array.isArray(columns)) {
     for (const [index, column] of columns.entries()) {
       const key = column.key;
@@ -71,9 +59,7 @@ export function applyTransferHiddenKeys(
   });
 }
 
-export function snapshotColumnVisibility(
-  columns: ColumnCollection,
-): ColumnVisibilityState {
+export function snapshotColumnVisibility(columns: ColumnCollection): ColumnVisibilityState {
   const state: ColumnVisibilityState = {};
   if (Array.isArray(columns)) {
     columns.forEach((column, index) => {
@@ -90,10 +76,7 @@ export function snapshotColumnVisibility(
   return state;
 }
 
-export function restoreColumnVisibility(
-  columns: ColumnCollection,
-  saved: unknown,
-): void {
+export function restoreColumnVisibility(columns: ColumnCollection, saved: unknown): void {
   if (!isRecord(saved)) {
     return;
   }

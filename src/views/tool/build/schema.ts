@@ -3,24 +3,9 @@ import { isRecord } from "../../../utils/guard";
 export const BUILD_PAGE_NAME = "Build";
 export const MAX_SCHEMA_DEPTH = 8;
 
-export type DrawingKind =
-  | "input"
-  | "textarea"
-  | "select"
-  | "radio"
-  | "upload"
-  | "tree"
-  | "row";
+export type DrawingKind = "input" | "textarea" | "select" | "radio" | "upload" | "tree" | "row";
 
-export const DRAWING_KINDS: readonly DrawingKind[] = [
-  "input",
-  "textarea",
-  "select",
-  "radio",
-  "upload",
-  "tree",
-  "row",
-];
+export const DRAWING_KINDS: readonly DrawingKind[] = ["input", "textarea", "select", "radio", "upload", "tree", "row"];
 
 export type SelectOption = {
   label: string;
@@ -121,14 +106,7 @@ export type RowItem = {
   document: string;
 };
 
-export type DrawingItem =
-  | InputItem
-  | TextareaItem
-  | SelectItem
-  | RadioItem
-  | UploadItem
-  | TreeItem
-  | RowItem;
+export type DrawingItem = InputItem | TextareaItem | SelectItem | RadioItem | UploadItem | TreeItem | RowItem;
 
 export type FieldItem = Exclude<DrawingItem, RowItem>;
 
@@ -261,9 +239,7 @@ function treeTemplate(): TreeItem {
     kind: "tree",
     tag: "el-tree",
     showCheckbox: true,
-    data: [
-      { id: 1, label: "一级", value: "one", children: [{ id: 2, label: "二级", value: "two" }] },
-    ],
+    data: [{ id: 1, label: "一级", value: "one", children: [{ id: 2, label: "二级", value: "two" }] }],
   };
 }
 
@@ -336,11 +312,7 @@ export function cloneDrawing(item: DrawingItem, allocate: () => number): Drawing
   return assignIds(parseDrawingItem(JSON.parse(JSON.stringify(item)) as unknown), allocate);
 }
 
-export function replaceByFormId(
-  list: DrawingItem[],
-  formId: number,
-  next: DrawingItem,
-): DrawingItem[] {
+export function replaceByFormId(list: DrawingItem[], formId: number, next: DrawingItem): DrawingItem[] {
   return list.map((item) => {
     if (item.formId === formId) {
       return next;
@@ -503,9 +475,7 @@ export function parseDrawingItem(raw: unknown, depth = 0): DrawingItem {
         gutter: Number(raw.gutter) || 15,
         span: 24,
         document: String(raw.document ?? ""),
-        children: Array.isArray(raw.children)
-          ? raw.children.map((child) => parseDrawingItem(child, depth + 1))
-          : [],
+        children: Array.isArray(raw.children) ? raw.children.map((child) => parseDrawingItem(child, depth + 1)) : [],
       };
     default: {
       const unexpected: never = kind;
@@ -518,12 +488,10 @@ function parseOptions(raw: unknown): SelectOption[] {
   if (!Array.isArray(raw)) {
     return defaultOptions();
   }
-  return raw
-    .filter(isRecord)
-    .map((item) => ({
-      label: String(item.label ?? ""),
-      value: typeof item.value === "number" ? item.value : String(item.value ?? ""),
-    }));
+  return raw.filter(isRecord).map((item) => ({
+    label: String(item.label ?? ""),
+    value: typeof item.value === "number" ? item.value : String(item.value ?? ""),
+  }));
 }
 
 function parseTree(raw: unknown, depth: number): TreeOption[] {
@@ -570,12 +538,4 @@ export function changeKind(current: DrawingItem, nextKind: DrawingKind, allocate
   };
 }
 
-export const ICON_CHOICES = [
-  "Edit",
-  "Search",
-  "User",
-  "Calendar",
-  "Upload",
-  "Share",
-  "Iphone",
-] as const;
+export const ICON_CHOICES = ["Edit", "Search", "User", "Calendar", "Upload", "Share", "Iphone"] as const;

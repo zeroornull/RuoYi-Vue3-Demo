@@ -18,9 +18,7 @@ export function listNotice(query: NoticeQuery): Promise<NoticePageResponse> {
 }
 
 export function getNotice(noticeId: EntityId): Promise<ApiResponse<Notice>> {
-  return http.get<ApiResponse<Notice>>(
-    `/system/notice/${encodePathSegment(noticeId)}`,
-  );
+  return http.get<ApiResponse<Notice>>(`/system/notice/${encodePathSegment(noticeId)}`);
 }
 
 export function addNotice(data: NoticeUpsertRequest): Promise<EmptyResponse> {
@@ -32,9 +30,7 @@ export function updateNotice(data: NoticeUpsertRequest): Promise<EmptyResponse> 
 }
 
 export function delNotice(noticeIds: IdCollection): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/system/notice/${encodeIdCollection(noticeIds)}`,
-  );
+  return http.delete<EmptyResponse>(`/system/notice/${encodeIdCollection(noticeIds)}`);
 }
 
 export function listNoticeTop(): Promise<NoticeTopResponse> {
@@ -53,9 +49,7 @@ export function markNoticeReadAll(ids: string): Promise<EmptyResponse> {
   });
 }
 
-export function listNoticeReadUsers(
-  query: NoticeReadUserQuery,
-): Promise<NoticeReadUserPageResponse> {
+export function listNoticeReadUsers(query: NoticeReadUserQuery): Promise<NoticeReadUserPageResponse> {
   return http.get<NoticeReadUserPageResponse>("/system/notice/readUsers/list", {
     params: query,
   });

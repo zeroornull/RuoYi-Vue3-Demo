@@ -22,10 +22,7 @@ import {
 } from "./model";
 
 type TreeInstance = InstanceType<typeof ElTree>;
-type LoadFn = (
-  node: unknown,
-  resolve: (data: TreePanelNode[]) => void,
-) => void;
+type LoadFn = (node: unknown, resolve: (data: TreePanelNode[]) => void) => void;
 
 const props = withDefaults(
   defineProps<{
@@ -50,10 +47,7 @@ const props = withDefaults(
     enableStorage?: boolean;
     lazy?: boolean;
     load?: LoadFn;
-    filterMethod?: (
-      value: string,
-      data: Record<string, unknown>,
-    ) => boolean;
+    filterMethod?: (value: string, data: Record<string, unknown>) => boolean;
   }>(),
   {
     treeData: () => [],
@@ -93,9 +87,7 @@ const emit = defineEmits<{
 const treeRef = ref<TreeInstance>();
 const searchKeyword = ref("");
 const collapsed = ref(props.defaultCollapsed);
-const sidebarWidth = ref(
-  props.defaultCollapsed ? props.collapsedWidth : props.defaultWidth,
-);
+const sidebarWidth = ref(props.defaultCollapsed ? props.collapsedWidth : props.defaultWidth);
 const isResizing = ref(false);
 const startX = ref(0);
 const startWidth = ref(0);
@@ -105,10 +97,7 @@ const isLoadingFromStorage = ref(false);
 const expandedAll = ref(props.defaultExpandAll);
 const isEmpty = computed(() => emptyTreeData(props.treeData) && !props.lazy);
 
-function filterNodeMethod(
-  value: string,
-  data: Record<string, unknown>,
-): boolean {
+function filterNodeMethod(value: string, data: Record<string, unknown>): boolean {
   if (props.filterMethod) {
     return props.filterMethod(value, data);
   }
@@ -119,11 +108,7 @@ function getSavedWidth(): number | null {
   if (!props.enableStorage || typeof localStorage === "undefined") {
     return null;
   }
-  return readStoredWidth(
-    localStorage.getItem(props.storageKey),
-    props.minWidth,
-    props.maxWidth,
-  );
+  return readStoredWidth(localStorage.getItem(props.storageKey), props.minWidth, props.maxWidth);
 }
 
 function saveWidthToStorage(): void {
@@ -135,8 +120,7 @@ function saveWidthToStorage(): void {
 
 function expandAllNodes(): void {
   const root = treeRef.value?.root as
-    | { childNodes?: Array<{ expanded?: boolean; childNodes?: unknown[] }> }
-    | undefined;
+    { childNodes?: Array<{ expanded?: boolean; childNodes?: unknown[] }> } | undefined;
   if (!root) {
     return;
   }
@@ -153,8 +137,7 @@ function expandAllNodes(): void {
 
 function collapseAllNodes(): void {
   const root = treeRef.value?.root as
-    | { childNodes?: Array<{ expanded?: boolean; childNodes?: unknown[] }> }
-    | undefined;
+    { childNodes?: Array<{ expanded?: boolean; childNodes?: unknown[] }> } | undefined;
   if (!root) {
     return;
   }
@@ -170,9 +153,7 @@ function collapseAllNodes(): void {
 }
 
 watch(collapsed, (value) => {
-  sidebarWidth.value = value
-    ? props.collapsedWidth
-    : (getSavedWidth() ?? props.defaultWidth);
+  sidebarWidth.value = value ? props.collapsedWidth : (getSavedWidth() ?? props.defaultWidth);
   emit("collapsed-change", value);
 });
 
@@ -225,9 +206,7 @@ function getCheckedKeys(leafOnly = false): Array<string | number> {
   if (!props.showCheckbox) {
     return [];
   }
-  return (treeRef.value?.getCheckedKeys(leafOnly) ?? []) as Array<
-    string | number
-  >;
+  return (treeRef.value?.getCheckedKeys(leafOnly) ?? []) as Array<string | number>;
 }
 
 function getCheckedNodes(leafOnly = false): unknown[] {
@@ -256,8 +235,7 @@ function filter(value: string): void {
 function startResize(event: MouseEvent | TouchEvent): void {
   event.preventDefault();
   isResizing.value = true;
-  startX.value =
-    event instanceof MouseEvent ? event.clientX : (event.touches[0]?.clientX ?? 0);
+  startX.value = event instanceof MouseEvent ? event.clientX : (event.touches[0]?.clientX ?? 0);
   startWidth.value = sidebarWidth.value;
   document.addEventListener("mousemove", handleResizeMove);
   document.addEventListener("mouseup", stopResize);
@@ -273,15 +251,8 @@ function handleResizeMove(event: MouseEvent | TouchEvent): void {
     cancelAnimationFrame(rafId.value);
   }
   rafId.value = requestAnimationFrame(() => {
-    const clientX =
-      event instanceof MouseEvent
-        ? event.clientX
-        : (event.touches[0]?.clientX ?? startX.value);
-    sidebarWidth.value = clampTreeWidth(
-      startWidth.value + (clientX - startX.value),
-      props.minWidth,
-      props.maxWidth,
-    );
+    const clientX = event instanceof MouseEvent ? event.clientX : (event.touches[0]?.clientX ?? startX.value);
+    sidebarWidth.value = clampTreeWidth(startWidth.value + (clientX - startX.value), props.minWidth, props.maxWidth);
   });
 }
 

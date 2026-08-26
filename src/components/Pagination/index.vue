@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import {
-  DEFAULT_PAGE_SIZES,
-  defaultPagerCount,
-  nextPageOnSizeChange,
-  paginationChange,
-} from "./model";
+import { DEFAULT_PAGE_SIZES, defaultPagerCount, nextPageOnSizeChange, paginationChange } from "./model";
 
 const props = withDefaults(
   defineProps<{
@@ -23,10 +18,7 @@ const props = withDefaults(
     page: 1,
     limit: 20,
     pageSizes: () => [...DEFAULT_PAGE_SIZES],
-    pagerCount: () =>
-      defaultPagerCount(
-        typeof document === "undefined" ? 1440 : document.body.clientWidth,
-      ),
+    pagerCount: () => defaultPagerCount(typeof document === "undefined" ? 1440 : document.body.clientWidth),
     layout: "total, sizes, prev, pager, next, jumper",
     background: true,
     autoScroll: true,

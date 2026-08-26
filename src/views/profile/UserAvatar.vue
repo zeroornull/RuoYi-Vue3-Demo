@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import {
-  Minus,
-  Plus,
-  RefreshLeft,
-  RefreshRight,
-  Upload,
-} from "@element-plus/icons-vue";
+import { Minus, Plus, RefreshLeft, RefreshRight, Upload } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import type { UploadRawFile } from "element-plus";
 import { VueCropper } from "vue-cropper";
@@ -115,14 +109,7 @@ function closeDialog(): void {
 <template>
   <div class="user-info-head" @click="editCropper">
     <img :src="options.img" title="点击上传头像" class="img-circle img-lg" alt="" />
-    <el-dialog
-      v-model="open"
-      title="修改头像"
-      width="800px"
-      append-to-body
-      @opened="modalOpened"
-      @close="closeDialog"
-    >
+    <el-dialog v-model="open" title="修改头像" width="800px" append-to-body @opened="modalOpened" @close="closeDialog">
       <el-row>
         <el-col :xs="24" :md="12" class="avatar-pane">
           <VueCropper
@@ -146,12 +133,7 @@ function closeDialog(): void {
       </el-row>
       <el-row class="avatar-actions">
         <el-col :lg="2" :md="2">
-          <el-upload
-            action="#"
-            :http-request="requestUpload"
-            :show-file-list="false"
-            :before-upload="beforeUpload"
-          >
+          <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
             <el-button>
               选择
               <el-icon class="el-icon--right"><Upload /></el-icon>

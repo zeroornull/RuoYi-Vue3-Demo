@@ -4,14 +4,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Delete, Download, Edit, Operation, Plus, Refresh, Search } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
-import {
-  addType,
-  delType,
-  getType,
-  listType,
-  refreshCache,
-  updateType,
-} from "../../../api/system/dict/type";
+import { addType, delType, getType, listType, refreshCache, updateType } from "../../../api/system/dict/type";
 import { download } from "../../../http";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
@@ -31,12 +24,7 @@ import { addDateRange } from "../../../utils/params";
 import { parseTime } from "../../../utils/parse-time";
 import type { DictType, DictTypeUpsertRequest } from "../../../types/api/system";
 import DictDetail from "./detail.vue";
-import {
-  DICT_PAGE_NAME,
-  dictTypeToForm,
-  emptyDictTypeForm,
-  emptyDictTypeQuery,
-} from "./model";
+import { DICT_PAGE_NAME, dictTypeToForm, emptyDictTypeForm, emptyDictTypeQuery } from "./model";
 
 defineOptions({ name: DICT_PAGE_NAME });
 
@@ -158,7 +146,13 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-date-picker v-model="dateRange" value-format="YYYY-MM-DD" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" />
+        <el-date-picker
+          v-model="dateRange"
+          value-format="YYYY-MM-DD"
+          type="daterange"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="handleQuery">搜索</el-button>
@@ -166,14 +160,55 @@ onMounted(() => {
       </el-form-item>
     </el-form>
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5"><el-button v-hasPermi="['system:dict:add']" type="primary" plain :icon="Plus" @click="handleAdd">新增</el-button></el-col>
-      <el-col :span="1.5"><el-button v-hasPermi="['system:dict:edit']" type="success" plain :icon="Edit" :disabled="selection.single" @click="handleUpdate()">修改</el-button></el-col>
-      <el-col :span="1.5"><el-button v-hasPermi="['system:dict:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete()">删除</el-button></el-col>
-      <el-col :span="1.5"><el-button v-hasPermi="['system:dict:export']" type="warning" plain :icon="Download" @click="download('system/dict/type/export', { ...queryParams }, `dict_${Date.now()}.xlsx`)">导出</el-button></el-col>
-      <el-col :span="1.5"><el-button v-hasPermi="['system:dict:remove']" type="danger" plain :icon="Refresh" @click="handleRefreshCache">刷新缓存</el-button></el-col>
+      <el-col :span="1.5"
+        ><el-button v-hasPermi="['system:dict:add']" type="primary" plain :icon="Plus" @click="handleAdd"
+          >新增</el-button
+        ></el-col
+      >
+      <el-col :span="1.5"
+        ><el-button
+          v-hasPermi="['system:dict:edit']"
+          type="success"
+          plain
+          :icon="Edit"
+          :disabled="selection.single"
+          @click="handleUpdate()"
+          >修改</el-button
+        ></el-col
+      >
+      <el-col :span="1.5"
+        ><el-button
+          v-hasPermi="['system:dict:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete()"
+          >删除</el-button
+        ></el-col
+      >
+      <el-col :span="1.5"
+        ><el-button
+          v-hasPermi="['system:dict:export']"
+          type="warning"
+          plain
+          :icon="Download"
+          @click="download('system/dict/type/export', { ...queryParams }, `dict_${Date.now()}.xlsx`)"
+          >导出</el-button
+        ></el-col
+      >
+      <el-col :span="1.5"
+        ><el-button v-hasPermi="['system:dict:remove']" type="danger" plain :icon="Refresh" @click="handleRefreshCache"
+          >刷新缓存</el-button
+        ></el-col
+      >
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
-    <el-table v-loading="loading" :data="list" @selection-change="(rows: DictType[]) => (selection = selectionFromRows(rows, (row) => row.dictId))">
+    <el-table
+      v-loading="loading"
+      :data="list"
+      @selection-change="(rows: DictType[]) => (selection = selectionFromRows(rows, (row) => row.dictId))"
+    >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="字典编号" align="center" prop="dictId" />
       <el-table-column label="字典名称" align="center" prop="dictName" show-overflow-tooltip />
@@ -191,20 +226,39 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center" width="280">
         <template #default="{ row }">
-          <el-button v-hasPermi="['system:dict:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)">修改</el-button>
-          <el-button v-hasPermi="['system:dict:edit']" link type="primary" :icon="Operation" @click="handleDataList(row)">列表</el-button>
-          <el-button v-hasPermi="['system:dict:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)">删除</el-button>
+          <el-button v-hasPermi="['system:dict:edit']" link type="primary" :icon="Edit" @click="handleUpdate(row)"
+            >修改</el-button
+          >
+          <el-button
+            v-hasPermi="['system:dict:edit']"
+            link
+            type="primary"
+            :icon="Operation"
+            @click="handleDataList(row)"
+            >列表</el-button
+          >
+          <el-button v-hasPermi="['system:dict:remove']" link type="primary" :icon="Delete" @click="handleDelete(row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    <Pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
+    <Pagination
+      v-show="total > 0"
+      :total="total"
+      v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize"
+      @pagination="getList"
+    />
     <el-dialog v-model="open" :title="title" width="500px" append-to-body>
       <el-form ref="dictRef" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="字典名称" prop="dictName"><el-input v-model="form.dictName" /></el-form-item>
         <el-form-item label="字典类型" prop="dictType"><el-input v-model="form.dictType" /></el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{ dict.label }}</el-radio>
+            <el-radio v-for="dict in sys_normal_disable" :key="dict.value" :value="dict.value">{{
+              dict.label
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark"><el-input v-model="form.remark" type="textarea" /></el-form-item>

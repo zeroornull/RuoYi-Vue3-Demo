@@ -38,16 +38,16 @@
 ## 每个组件的迁移卡
 
 ```md
-| 项目 | 内容 |
-| --- | --- |
-| Props | 类型、默认值、必填性 |
-| Emits | 事件名和参数 tuple |
-| Slots | 名称和 slot props |
-| Model | value 类型和更新语义 |
-| Refs | Element Plus/DOM 公开类型 |
-| Expose | 对父组件公开的方法 |
-| Errors | 错误与空状态 |
-| Tests | 正常、边界、失败路径 |
+| 项目   | 内容                      |
+| ------ | ------------------------- |
+| Props  | 类型、默认值、必填性      |
+| Emits  | 事件名和参数 tuple        |
+| Slots  | 名称和 slot props         |
+| Model  | value 类型和更新语义      |
+| Refs   | Element Plus/DOM 公开类型 |
+| Expose | 对父组件公开的方法        |
+| Errors | 错误与空状态              |
+| Tests  | 正常、边界、失败路径      |
 ```
 
 ## 专项验收
@@ -95,23 +95,23 @@ refactor: migrate typed shared components and forms
 
 ## 组件迁移表
 
-| 组件 | Props | Emits | Slots | 暴露方法 | 第三方实例 | 测试 |
-| --- | --- | --- | --- | --- | --- | --- |
-| DictTag | options/value/showValue/separator | 无 | 无 | 无 | ElTag | 匹配/未匹配/plain span |
-| Pagination | total/page/limit/sizes | update:page/limit, pagination | 无 | 无 | ElPagination | 页码、页大小、移动端 pager |
-| RightToolbar | columns/showSearch/storageKey | update:showSearch, queryTable | 无 | 无 | Transfer/Checkbox | 列显隐、全选、持久化 |
-| ImagePreview | src/width/height | 无 | error | 无 | ElImage | 相对/外链、空值 |
-| ParentView | 无 | 无 | RouterView | 无 | 无 | resolver 映射 |
-| FileUpload | modelValue/action/limit/fileType | update:modelValue | 无 | 无 | ElUpload | 类型/大小/逗号/失败/排序 |
-| ImageUpload | 同上 + drag | update:modelValue | 无 | 无 | ElUpload | 同上 |
-| ExcelImportDialog | action/templateAction | success | 无 | open | ElUpload | excel URL、后缀 |
-| IconSelect | activeIcon | selected | 无 | reset | 无 | 名称过滤 |
-| Editor | modelValue/readOnly/type | update:modelValue | 无 | 无 | VueQuill | 空 HTML、图片类型/大小 |
-| Crontab | expression/hideComponent | fill/hide | 无 | 无 | 无 | 解析/字段组合/预览 |
-| TreePanel | treeData/lazy/load | node-click/check/search | node/actions | 选择/半选/过滤/宽度 | ElTree 不外泄 | 过滤、空节点、宽度 |
-| HeaderSearch | 无 | 无 | 无 | 无 | Fuse | 索引、搜索、高亮转义 |
-| Screenfull | 无 | 无 | 无 | 无 | Fullscreen API | toggle 状态 |
-| submitForm/resetForm | FormInstance-like | 无 | 无 | 函数 | 不暴露 EP 内部 | 成功/失败/缺省 |
+| 组件                 | Props                             | Emits                         | Slots        | 暴露方法            | 第三方实例        | 测试                       |
+| -------------------- | --------------------------------- | ----------------------------- | ------------ | ------------------- | ----------------- | -------------------------- |
+| DictTag              | options/value/showValue/separator | 无                            | 无           | 无                  | ElTag             | 匹配/未匹配/plain span     |
+| Pagination           | total/page/limit/sizes            | update:page/limit, pagination | 无           | 无                  | ElPagination      | 页码、页大小、移动端 pager |
+| RightToolbar         | columns/showSearch/storageKey     | update:showSearch, queryTable | 无           | 无                  | Transfer/Checkbox | 列显隐、全选、持久化       |
+| ImagePreview         | src/width/height                  | 无                            | error        | 无                  | ElImage           | 相对/外链、空值            |
+| ParentView           | 无                                | 无                            | RouterView   | 无                  | 无                | resolver 映射              |
+| FileUpload           | modelValue/action/limit/fileType  | update:modelValue             | 无           | 无                  | ElUpload          | 类型/大小/逗号/失败/排序   |
+| ImageUpload          | 同上 + drag                       | update:modelValue             | 无           | 无                  | ElUpload          | 同上                       |
+| ExcelImportDialog    | action/templateAction             | success                       | 无           | open                | ElUpload          | excel URL、后缀            |
+| IconSelect           | activeIcon                        | selected                      | 无           | reset               | 无                | 名称过滤                   |
+| Editor               | modelValue/readOnly/type          | update:modelValue             | 无           | 无                  | VueQuill          | 空 HTML、图片类型/大小     |
+| Crontab              | expression/hideComponent          | fill/hide                     | 无           | 无                  | 无                | 解析/字段组合/预览         |
+| TreePanel            | treeData/lazy/load                | node-click/check/search       | node/actions | 选择/半选/过滤/宽度 | ElTree 不外泄     | 过滤、空节点、宽度         |
+| HeaderSearch         | 无                                | 无                            | 无           | 无                  | Fuse              | 索引、搜索、高亮转义       |
+| Screenfull           | 无                                | 无                            | 无           | 无                  | Fullscreen API    | toggle 状态                |
+| submitForm/resetForm | FormInstance-like                 | 无                            | 无           | 函数                | 不暴露 EP 内部    | 成功/失败/缺省             |
 
 全局注册仅：`SvgIcon`、`DictTag`、`Pagination`、`RightToolbar`、`ImagePreview`、`FileUpload`、`ImageUpload`、`Editor`。其余显式 import。
 
@@ -128,4 +128,3 @@ refactor: migrate typed shared components and forms
 - 测试：新增 22 条 `tests/unit/components/shared`。`bun test tests/unit tests/integration tests/contracts` 122 pass / 0 fail。`bun run typecheck` 与 `bun run build:stage` 通过；产物含 `ParentView` 与 `quill` chunk。
 - 浏览器：现有 Vite 5173 上 `/login` 可打开，无控制台错误；未登录访问 `/index` 仍重定向到 `/login?redirect=/index`。HeaderSearch/Screenfull 位于受保护壳层，未做真实登录点击（与第 12 轮相同限制，留到第 15 轮认证页）。
 - 源码 `src/components` 无 `any` / `ref<any>()`。
-

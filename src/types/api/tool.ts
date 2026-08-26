@@ -1,9 +1,4 @@
-import type {
-  BaseEntity,
-  DateRangeQuery,
-  EntityId,
-  PageQuery,
-} from "./common";
+import type { BaseEntity, DateRangeQuery, EntityId, PageQuery } from "./common";
 import type { PageResponse } from "../http";
 
 export type GeneratorQuery = PageQuery & {
@@ -66,10 +61,7 @@ export type GeneratorTableUpdateParams = {
   parentMenuId?: EntityId | null;
 };
 
-export type GeneratorTableUpdateRequest = Omit<
-  GeneratorTable,
-  keyof BaseEntity
-> & {
+export type GeneratorTableUpdateRequest = Omit<GeneratorTable, keyof BaseEntity> & {
   remark?: string | null;
   params?: GeneratorTableUpdateParams;
 };

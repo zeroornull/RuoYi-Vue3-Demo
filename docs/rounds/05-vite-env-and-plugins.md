@@ -71,30 +71,30 @@ bunx --bun vite build --mode production
 
 2026-08-25 实测：
 
-| 检查 | 结果 |
-| --- | --- |
-| `vite build --mode development` | 产物含 `/dev-api` |
-| `vite build --mode staging` | 产物含 `/stage-api` |
-| `vite build --mode production` | 产物含 `/prod-api` |
+| 检查                                         | 结果                                                                |
+| -------------------------------------------- | ------------------------------------------------------------------- |
+| `vite build --mode development`              | 产物含 `/dev-api`                                                   |
+| `vite build --mode staging`                  | 产物含 `/stage-api`                                                 |
+| `vite build --mode production`               | 产物含 `/prod-api`                                                  |
 | 删除 staging 的 `VITE_APP_BASE_API` 后再构建 | 退出码 1，`Missing environment variable: VITE_APP_BASE_API`，已还原 |
-| `curl /dev-api/login` | **502**（代理到 `localhost:8080`，后端未开） |
-| `curl /v3/api-docs/swagger-config` | **502** |
-| 未匹配路径 | 200，返回 SPA `index.html` |
-| SCSS | `probe.scss` 编进 `static/css`，`@charset` 已去掉 |
-| SVG | Vite 内置 URL / `?raw` 导入 `user.svg`，dev/build 均可 |
-| `legacy/` 字符串 | 产物中没有 |
-| 旧端口 80 | 本机 `EACCES`，开发端口改为 **5173** |
+| `curl /dev-api/login`                        | **502**（代理到 `localhost:8080`，后端未开）                        |
+| `curl /v3/api-docs/swagger-config`           | **502**                                                             |
+| 未匹配路径                                   | 200，返回 SPA `index.html`                                          |
+| SCSS                                         | `probe.scss` 编进 `static/css`，`@charset` 已去掉                   |
+| SVG                                          | Vite 内置 URL / `?raw` 导入 `user.svg`，dev/build 均可              |
+| `legacy/` 字符串                             | 产物中没有                                                          |
+| 旧端口 80                                    | 本机 `EACCES`，开发端口改为 **5173**                                |
 
 ### 插件去留
 
-| 旧插件 | 本轮决定 | 理由 |
-| --- | --- | --- |
-| `@vitejs/plugin-vue` | 保留 | 官方 Vue SFC 编译，Vite 8 已验证 |
-| `unplugin-auto-import` | 不装 | 手册默认显式导入 |
-| `unplugin-vue-setup-extend-plus` | 不装 | 用 Vue 原生 `defineOptions` |
-| `vite-plugin-svg-icons` | 推迟到第 13 轮 | peer 虽写 `vite>=2`，本轮用内置导入完成单图标验证 |
-| `vite-plugin-compression` | 不装 | staging/prod 仍声明 `VITE_BUILD_COMPRESS=gzip`，但产物不写 `.gz`，压缩交给部署层，避免双重 gzip |
-| `sass-embedded@1.103.1` | 安装 | SCSS 编译器，不是旧业务插件。`@parcel/watcher` 的 install 脚本被 Bun 拦截，sass 二进制仍可用 |
+| 旧插件                           | 本轮决定       | 理由                                                                                            |
+| -------------------------------- | -------------- | ----------------------------------------------------------------------------------------------- |
+| `@vitejs/plugin-vue`             | 保留           | 官方 Vue SFC 编译，Vite 8 已验证                                                                |
+| `unplugin-auto-import`           | 不装           | 手册默认显式导入                                                                                |
+| `unplugin-vue-setup-extend-plus` | 不装           | 用 Vue 原生 `defineOptions`                                                                     |
+| `vite-plugin-svg-icons`          | 推迟到第 13 轮 | peer 虽写 `vite>=2`，本轮用内置导入完成单图标验证                                               |
+| `vite-plugin-compression`        | 不装           | staging/prod 仍声明 `VITE_BUILD_COMPRESS=gzip`，但产物不写 `.gz`，压缩交给部署层，避免双重 gzip |
+| `sass-embedded@1.103.1`          | 安装           | SCSS 编译器，不是旧业务插件。`@parcel/watcher` 的 install 脚本被 Bun 拦截，sass 二进制仍可用    |
 
 ## 练习解答
 
@@ -148,4 +148,3 @@ src/assets/icons/svg/user.svg
 ```text
 chore: migrate vite environments and verified plugins
 ```
-

@@ -23,18 +23,9 @@ describe("dictionary mapping", () => {
     });
     expect(FALLBACK_DICTS.sys_yes_no?.map((item) => item.value)).toEqual(["Y", "N"]);
     expect(FALLBACK_DICTS.sys_normal_disable?.[0]?.elTagType).toBe("success");
-    expect(FALLBACK_DICTS.sys_notice_type?.map((item) => item.value)).toEqual([
-      "1",
-      "2",
-    ]);
-    expect(FALLBACK_DICTS.sys_common_status?.map((item) => item.value)).toEqual([
-      "0",
-      "1",
-    ]);
+    expect(FALLBACK_DICTS.sys_notice_type?.map((item) => item.value)).toEqual(["1", "2"]);
+    expect(FALLBACK_DICTS.sys_common_status?.map((item) => item.value)).toEqual(["0", "1"]);
     expect(FALLBACK_DICTS.sys_oper_type?.[3]?.label).toBe("删除");
-    expect(FALLBACK_DICTS.sys_job_group?.map((item) => item.value)).toEqual([
-      "DEFAULT",
-      "SYSTEM",
-    ]);
+    expect(FALLBACK_DICTS.sys_job_group?.map((item) => item.value)).toEqual(["DEFAULT", "SYSTEM"]);
   });
 });

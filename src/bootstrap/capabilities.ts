@@ -1,9 +1,4 @@
-export type CapabilityKind =
-  | "globalProperty"
-  | "plugin"
-  | "directive"
-  | "globalComponent"
-  | "sideEffectImport";
+export type CapabilityKind = "globalProperty" | "plugin" | "directive" | "globalComponent" | "sideEffectImport";
 
 export type GlobalCapability = {
   name: string;

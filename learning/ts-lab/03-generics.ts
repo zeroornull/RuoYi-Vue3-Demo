@@ -21,10 +21,7 @@ export function requireFirstRow<T>(page: PageResult<T>): T {
   return page.rows[0];
 }
 
-export function pickById<T extends { id: string }>(
-  items: T[],
-  id: string,
-): T | undefined {
+export function pickById<T extends { id: string }>(items: T[], id: string): T | undefined {
   return items.find((item) => item.id === id);
 }
 

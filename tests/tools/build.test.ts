@@ -70,7 +70,7 @@ describe("form builder schema", () => {
     expect(source).toContain("name:");
     expect(source).toContain("role:");
     expect(source).toContain(`:value='"admin"'`);
-    expect(source).toContain("  <div class=\"app-container\">");
+    expect(source).toContain('  <div class="app-container">');
     expect(source).not.toContain("js-beautify");
     const dialog = generateVueSource(emptyFormConf(), [cloneDrawing(input, allocate)], "dialog");
     expect(dialog).toContain("el-dialog");

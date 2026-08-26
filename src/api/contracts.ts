@@ -52,16 +52,16 @@ function optionalBoolean(source: Record<string, unknown>, key: string): boolean 
   return booleanValue(value, key);
 }
 
-function optionalNullableString(
-  source: Record<string, unknown>,
-  key: string,
-): string | null | undefined {
+function optionalNullableString(source: Record<string, unknown>, key: string): string | null | undefined {
   const value = source[key];
   if (value === undefined || value === null) return value;
   return stringValue(value, key);
 }
 
-function codeMessage(value: unknown, path: string): {
+function codeMessage(
+  value: unknown,
+  path: string,
+): {
   source: Record<string, unknown>;
   code: number;
   msg?: string;
@@ -86,11 +86,7 @@ function entityId(value: unknown, path: string): string {
   throw new ApiContractError(path, "string ID or safe integer ID");
 }
 
-function optionalEntityId(
-  source: Record<string, unknown>,
-  key: string,
-  path: string,
-): string | null | undefined {
+function optionalEntityId(source: Record<string, unknown>, key: string, path: string): string | null | undefined {
   const value = source[key];
   if (value === undefined || value === null) return value;
   return entityId(value, `${path}.${key}`);
@@ -121,14 +117,7 @@ function optionalBaseEntity(source: Record<string, unknown>): {
   updateTime?: string | null;
   remark?: string | null;
 } {
-  const keys = [
-    "searchValue",
-    "createBy",
-    "createTime",
-    "updateBy",
-    "updateTime",
-    "remark",
-  ] as const;
+  const keys = ["searchValue", "createBy", "createTime", "updateBy", "updateTime", "remark"] as const;
   const result: {
     searchValue?: string | null;
     createBy?: string | null;
@@ -166,9 +155,7 @@ function parseDepartment(value: unknown, path: string): Department {
       ? {}
       : {
           children: Array.isArray(children)
-            ? children.map((item, index) =>
-                parseDepartment(item, `${path}.children[${index}]`),
-              )
+            ? children.map((item, index) => parseDepartment(item, `${path}.children[${index}]`))
             : (() => {
                 throw new ApiContractError(`${path}.children`, "array");
               })(),
@@ -193,12 +180,8 @@ function parseRole(value: unknown, path: string): Role {
     status: enabledStatus(source.status, `${path}.status`),
     ...(menuCheckStrictly === undefined ? {} : { menuCheckStrictly }),
     ...(deptCheckStrictly === undefined ? {} : { deptCheckStrictly }),
-    ...(menuIds === undefined
-      ? {}
-      : { menuIds: entityIdArray(menuIds, `${path}.menuIds`) }),
-    ...(deptIds === undefined
-      ? {}
-      : { deptIds: entityIdArray(deptIds, `${path}.deptIds`) }),
+    ...(menuIds === undefined ? {} : { menuIds: entityIdArray(menuIds, `${path}.menuIds`) }),
+    ...(deptIds === undefined ? {} : { deptIds: entityIdArray(deptIds, `${path}.deptIds`) }),
   };
 }
 
@@ -227,9 +210,7 @@ function parseSystemUser(value: unknown, path: string): SystemUser {
     ...(phonenumber === undefined ? {} : { phonenumber }),
     ...(avatar === undefined ? {} : { avatar }),
     ...(sex === undefined ? {} : { sex }),
-    ...(dept === undefined
-      ? {}
-      : { dept: dept === null ? null : parseDepartment(dept, `${path}.dept`) }),
+    ...(dept === undefined ? {} : { dept: dept === null ? null : parseDepartment(dept, `${path}.dept`) }),
     ...(roles === undefined
       ? {}
       : {
@@ -239,12 +220,8 @@ function parseSystemUser(value: unknown, path: string): SystemUser {
                 throw new ApiContractError(`${path}.roles`, "array");
               })(),
         }),
-    ...(roleIds === undefined
-      ? {}
-      : { roleIds: entityIdArray(roleIds, `${path}.roleIds`) }),
-    ...(postIds === undefined
-      ? {}
-      : { postIds: entityIdArray(postIds, `${path}.postIds`) }),
+    ...(roleIds === undefined ? {} : { roleIds: entityIdArray(roleIds, `${path}.roleIds`) }),
+    ...(postIds === undefined ? {} : { postIds: entityIdArray(postIds, `${path}.postIds`) }),
   };
 }
 
@@ -264,9 +241,7 @@ function parseRouteMeta(value: unknown, path: string): RouteMeta {
     ...(affix === undefined ? {} : { affix }),
     ...(breadcrumb === undefined ? {} : { breadcrumb }),
     ...(activeMenu === undefined ? {} : { activeMenu }),
-    ...(link === undefined
-      ? {}
-      : { link: link === null ? null : stringValue(link, `${path}.link`) }),
+    ...(link === undefined ? {} : { link: link === null ? null : stringValue(link, `${path}.link`) }),
   };
 }
 
@@ -280,12 +255,8 @@ function parseRoute(value: unknown, path: string): RouteNode {
   const query = optionalNullableString(source, "query");
   const parsed: RouteNode = {
     path: stringValue(source.path, `${path}.path`),
-    ...(source.hidden === undefined
-      ? {}
-      : { hidden: booleanValue(source.hidden, `${path}.hidden`) }),
-    ...(source.alwaysShow === undefined
-      ? {}
-      : { alwaysShow: booleanValue(source.alwaysShow, `${path}.alwaysShow`) }),
+    ...(source.hidden === undefined ? {} : { hidden: booleanValue(source.hidden, `${path}.hidden`) }),
+    ...(source.alwaysShow === undefined ? {} : { alwaysShow: booleanValue(source.alwaysShow, `${path}.alwaysShow`) }),
     ...(meta === undefined ? {} : { meta: parseRouteMeta(meta, `${path}.meta`) }),
     ...(children === undefined
       ? {}
@@ -342,10 +313,7 @@ export function parseRouterResponse(value: unknown): RouterResponse {
   };
 }
 
-export function parsePageResponse<T>(
-  value: unknown,
-  parseRow: (row: unknown, index: number) => T,
-): PageResponse<T> {
+export function parsePageResponse<T>(value: unknown, parseRow: (row: unknown, index: number) => T): PageResponse<T> {
   const { source, code, msg } = codeMessage(value, "page");
   if (!Array.isArray(source.rows)) throw new ApiContractError("page.rows", "array");
   return {

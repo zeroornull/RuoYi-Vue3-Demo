@@ -1,11 +1,6 @@
 import type { TreePanelNode } from "../../../components/TreePanel/model";
 import type { TreeSelectNode } from "../../../types/api/common";
-import type {
-  Role,
-  SystemUser,
-  UserQuery,
-  UserUpsertRequest,
-} from "../../../types/api/system";
+import type { Role, SystemUser, UserQuery, UserUpsertRequest } from "../../../types/api/system";
 import type { DictItem } from "../../../types/dict";
 import { checkPassword } from "../../../utils/password-rule";
 
@@ -113,11 +108,7 @@ export function filterEnabledDeptTree(nodes: readonly TreeSelectNode[]): TreeSel
   return result;
 }
 
-export function dictLabel(
-  items: readonly DictItem[],
-  value: string | undefined,
-  fallback = "-",
-): string {
+export function dictLabel(items: readonly DictItem[], value: string | undefined, fallback = "-"): string {
   if (value === undefined || value === "") {
     return fallback;
   }
@@ -160,19 +151,9 @@ export function passwordFieldError(value: string, chrType = "0"): string | undef
   return result.ok ? undefined : result.message;
 }
 
-export type UserColumnKey =
-  | "userId"
-  | "userName"
-  | "nickName"
-  | "deptName"
-  | "phonenumber"
-  | "status"
-  | "createTime";
+export type UserColumnKey = "userId" | "userName" | "nickName" | "deptName" | "phonenumber" | "status" | "createTime";
 
-export function defaultColumnVisibility(): Record<
-  UserColumnKey,
-  { label: string; visible: boolean }
-> {
+export function defaultColumnVisibility(): Record<UserColumnKey, { label: string; visible: boolean }> {
   return {
     userId: { label: "用户编号", visible: true },
     userName: { label: "用户名称", visible: true },

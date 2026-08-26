@@ -41,7 +41,14 @@ function seedJobs(): JobRow[] {
   return [
     job("1", "系统默认（无参）", "DEFAULT", "ryTask.ryNoParams", "0/10 * * * * ?", "0"),
     job("2", "系统默认（有参）", "SYSTEM", "ryTask.ryParams('ry')", "0/15 * * * * ?", "1"),
-    job("3", "系统默认（多参）", "DEFAULT", "ryTask.ryMultipleParams('ry', true, 2000L, 316.50D, 100)", "0/20 * * * * ?", "0"),
+    job(
+      "3",
+      "系统默认（多参）",
+      "DEFAULT",
+      "ryTask.ryMultipleParams('ry', true, 2000L, 316.50D, 100)",
+      "0/20 * * * * ?",
+      "0",
+    ),
   ];
 }
 
@@ -85,7 +92,16 @@ function seedJobLogs(): JobLogRow[] {
       "java.lang.RuntimeException: mock failure\n\tat com.ruoyi.quartz.task.RyTask.ryParams(RyTask.java:42)",
       "2026-08-26 11:50:00",
     ),
-    log("4", "系统默认（多参）", "DEFAULT", "ryTask.ryMultipleParams('ry', true, 2000L, 316.50D, 100)", "0", "执行成功", "", "2026-08-25 08:00:00"),
+    log(
+      "4",
+      "系统默认（多参）",
+      "DEFAULT",
+      "ryTask.ryMultipleParams('ry', true, 2000L, 316.50D, 100)",
+      "0",
+      "执行成功",
+      "",
+      "2026-08-25 08:00:00",
+    ),
   ];
 }
 
@@ -178,8 +194,7 @@ function exportBlob(): MockResponse {
   return {
     status: 200,
     body: { code: 200, msg: "操作成功" },
-    contentType:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     raw: "mock-xlsx",
   };
 }
@@ -197,11 +212,7 @@ function nextId(ids: string[]): string {
 
 function readString(body: Record<string, unknown>, key: string): string {
   const value = body[key];
-  return typeof value === "string"
-    ? value.trim()
-    : typeof value === "number"
-      ? String(value)
-      : "";
+  return typeof value === "string" ? value.trim() : typeof value === "number" ? String(value) : "";
 }
 
 function readMisfire(value: string): "1" | "2" | "3" {
@@ -232,19 +243,11 @@ export function dispatchJobMock(request: MockRequest): MockResponse | null {
     return ok({ code: 200, msg: "清空成功" });
   }
   const logRest = restAfter(path, "/monitor/jobLog");
-  if (
-    method === "DELETE" &&
-    logRest &&
-    logRest !== "list" &&
-    logRest !== "export" &&
-    logRest !== "clean"
-  ) {
+  if (method === "DELETE" && logRest && logRest !== "list" && logRest !== "export" && logRest !== "clean") {
     const ids = new Set(parseIds(logRest));
     const before = jobLogs.length;
     jobLogs = jobLogs.filter((row) => !ids.has(row.jobLogId));
-    return jobLogs.length !== before
-      ? ok({ code: 200, msg: "操作成功" })
-      : fail("数据不存在");
+    return jobLogs.length !== before ? ok({ code: 200, msg: "操作成功" }) : fail("数据不存在");
   }
 
   if (method === "GET" && path === "/monitor/job/list") {
@@ -329,12 +332,7 @@ export function dispatchJobMock(request: MockRequest): MockResponse | null {
     if (!invokeTarget) return fail("调用目标字符串不能为空");
     if (!cronExpression) return fail("cron执行表达式不能为空");
     const jobGroup = readString(request.body, "jobGroup") || row.jobGroup;
-    if (
-      jobs.some(
-        (item) =>
-          item.jobId !== jobId && item.jobName === jobName && item.jobGroup === jobGroup,
-      )
-    ) {
+    if (jobs.some((item) => item.jobId !== jobId && item.jobName === jobName && item.jobGroup === jobGroup)) {
       return fail("任务名称已存在");
     }
     row.jobName = jobName;
@@ -362,17 +360,13 @@ export function dispatchJobMock(request: MockRequest): MockResponse | null {
   }
   if (method === "GET") {
     const row = jobs.find((item) => item.jobId === decodeURIComponent(jobRest));
-    return row
-      ? ok({ code: 200, msg: "操作成功", data: { ...row } })
-      : fail("数据不存在");
+    return row ? ok({ code: 200, msg: "操作成功", data: { ...row } }) : fail("数据不存在");
   }
   if (method === "DELETE") {
     const ids = new Set(parseIds(jobRest));
     const before = jobs.length;
     jobs = jobs.filter((item) => !ids.has(item.jobId));
-    return jobs.length !== before
-      ? ok({ code: 200, msg: "操作成功" })
-      : fail("数据不存在");
+    return jobs.length !== before ? ok({ code: 200, msg: "操作成功" }) : fail("数据不存在");
   }
   return null;
 }

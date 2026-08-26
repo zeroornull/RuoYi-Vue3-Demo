@@ -5,10 +5,7 @@ import {
   resolveCustomIcon,
   resolveElementIcon,
 } from "../../../src/icons/registry";
-import {
-  buildThemeVariables,
-  isHexTheme,
-} from "../../../src/layout/theme";
+import { buildThemeVariables, isHexTheme } from "../../../src/layout/theme";
 import { IndexPage } from "../../../src/router/components/static-pages";
 import { PROFILE_COMPONENT_NAME } from "../../../src/views/profile/model";
 
@@ -21,9 +18,7 @@ describe("layout theme variables", () => {
     expect(light["--el-color-primary"]).toBe("#409EFF");
     expect(light["--el-color-primary-light-9"]).toStartWith("#");
     expect(dark["--el-color-primary"]).not.toBe("#409EFF");
-    expect(buildThemeVariables("bad", false)["--app-primary"]).toBe(
-      "#409EFF",
-    );
+    expect(buildThemeVariables("bad", false)["--app-primary"]).toBe("#409EFF");
   });
 });
 

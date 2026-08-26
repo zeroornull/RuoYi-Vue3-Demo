@@ -15,9 +15,7 @@ export function listType(query: DictTypeQuery): Promise<DictTypePageResponse> {
 }
 
 export function getType(dictId: EntityId): Promise<ApiResponse<DictType>> {
-  return http.get<ApiResponse<DictType>>(
-    `/system/dict/type/${encodePathSegment(dictId)}`,
-  );
+  return http.get<ApiResponse<DictType>>(`/system/dict/type/${encodePathSegment(dictId)}`);
 }
 
 export function addType(data: DictTypeUpsertRequest): Promise<EmptyResponse> {
@@ -29,9 +27,7 @@ export function updateType(data: DictTypeUpsertRequest): Promise<EmptyResponse> 
 }
 
 export function delType(dictIds: IdCollection): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/system/dict/type/${encodeIdCollection(dictIds)}`,
-  );
+  return http.delete<EmptyResponse>(`/system/dict/type/${encodeIdCollection(dictIds)}`);
 }
 
 export function refreshCache(): Promise<EmptyResponse> {

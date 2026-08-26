@@ -6,10 +6,7 @@ export function isHexTheme(value: string): boolean {
   return /^#[0-9a-fA-F]{6}$/.test(value);
 }
 
-export function buildThemeVariables(
-  theme: string,
-  isDark: boolean,
-): ThemeVariables {
+export function buildThemeVariables(theme: string, isDark: boolean): ThemeVariables {
   const primary = isHexTheme(theme) ? theme : "#409EFF";
   const variables: ThemeVariables = {
     "--app-primary": primary,
@@ -17,22 +14,13 @@ export function buildThemeVariables(
     "--el-color-primary-dark-2": getDarkColor(primary, 0.2),
   };
   for (let level = 1; level <= 9; level += 1) {
-    variables[`--el-color-primary-light-${level}`] = getLightColor(
-      primary,
-      level / 10,
-    );
+    variables[`--el-color-primary-light-${level}`] = getLightColor(primary, level / 10);
   }
   return variables;
 }
 
-export function applyThemeVariables(
-  target: CSSStyleDeclaration,
-  theme: string,
-  isDark: boolean,
-): void {
-  for (const [name, value] of Object.entries(
-    buildThemeVariables(theme, isDark),
-  )) {
+export function applyThemeVariables(target: CSSStyleDeclaration, theme: string, isDark: boolean): void {
+  for (const [name, value] of Object.entries(buildThemeVariables(theme, isDark))) {
     target.setProperty(name, value);
   }
 }

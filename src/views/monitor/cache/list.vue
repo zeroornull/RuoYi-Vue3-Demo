@@ -12,12 +12,7 @@ import {
 } from "../../../api/monitor/cache";
 import { replaceObject } from "../../../composables/crud";
 import type { CacheEntry } from "../../../types/api/monitor";
-import {
-  CACHE_LIST_PAGE_NAME,
-  emptyCacheForm,
-  stripCachePrefix,
-  type CacheViewForm,
-} from "./model";
+import { CACHE_LIST_PAGE_NAME, emptyCacheForm, stripCachePrefix, type CacheViewForm } from "./model";
 
 defineOptions({ name: CACHE_LIST_PAGE_NAME });
 
@@ -125,7 +120,13 @@ onUnmounted(() => {
           <template #header>
             <el-icon><Collection /></el-icon>
             <span>缓存列表</span>
-            <el-button v-hasPermi="['monitor:cache:list']" link type="primary" :icon="Refresh" @click="refreshCacheNames" />
+            <el-button
+              v-hasPermi="['monitor:cache:list']"
+              link
+              type="primary"
+              :icon="Refresh"
+              @click="refreshCacheNames"
+            />
           </template>
           <el-table
             v-loading="loading"
@@ -141,7 +142,13 @@ onUnmounted(() => {
             <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
             <el-table-column label="操作" width="60" align="center">
               <template #default="{ row }">
-                <el-button v-hasPermi="['monitor:cache:list']" link type="primary" :icon="Delete" @click="handleClearCacheName(row, $event)" />
+                <el-button
+                  v-hasPermi="['monitor:cache:list']"
+                  link
+                  type="primary"
+                  :icon="Delete"
+                  @click="handleClearCacheName(row, $event)"
+                />
               </template>
             </el-table-column>
           </el-table>
@@ -152,7 +159,13 @@ onUnmounted(() => {
           <template #header>
             <el-icon><Key /></el-icon>
             <span>键名列表</span>
-            <el-button v-hasPermi="['monitor:cache:list']" link type="primary" :icon="Refresh" @click="refreshCacheKeys" />
+            <el-button
+              v-hasPermi="['monitor:cache:list']"
+              link
+              type="primary"
+              :icon="Refresh"
+              @click="refreshCacheKeys"
+            />
           </template>
           <el-table
             v-loading="subLoading"
@@ -167,7 +180,13 @@ onUnmounted(() => {
             </el-table-column>
             <el-table-column label="操作" width="60" align="center">
               <template #default="{ row }">
-                <el-button v-hasPermi="['monitor:cache:list']" link type="primary" :icon="Delete" @click="handleClearCacheKey(row, $event)" />
+                <el-button
+                  v-hasPermi="['monitor:cache:list']"
+                  link
+                  type="primary"
+                  :icon="Delete"
+                  @click="handleClearCacheKey(row, $event)"
+                />
               </template>
             </el-table-column>
           </el-table>
@@ -178,7 +197,14 @@ onUnmounted(() => {
           <template #header>
             <el-icon><Document /></el-icon>
             <span>缓存内容</span>
-            <el-button v-hasPermi="['monitor:cache:list']" link type="primary" :icon="Refresh" @click="handleClearCacheAll">清理全部</el-button>
+            <el-button
+              v-hasPermi="['monitor:cache:list']"
+              link
+              type="primary"
+              :icon="Refresh"
+              @click="handleClearCacheAll"
+              >清理全部</el-button
+            >
           </template>
           <el-form :model="cacheForm">
             <el-form-item label="缓存名称:">

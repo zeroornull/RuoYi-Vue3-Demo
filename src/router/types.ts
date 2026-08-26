@@ -25,9 +25,7 @@ export type AppRouteRecordRaw = RouteRecordRaw & {
   children?: AppRouteRecordRaw[];
 };
 
-export function collectRouteNames(
-  routes: readonly AppRouteRecordRaw[],
-): string[] {
+export function collectRouteNames(routes: readonly AppRouteRecordRaw[]): string[] {
   const names: string[] = [];
   for (const route of routes) {
     if (route.name !== undefined) {
@@ -41,9 +39,7 @@ export function collectRouteNames(
   return names;
 }
 
-export function assertUniqueRouteNames(
-  routes: readonly AppRouteRecordRaw[],
-): void {
+export function assertUniqueRouteNames(routes: readonly AppRouteRecordRaw[]): void {
   const seen = new Set<string>();
   for (const name of collectRouteNames(routes)) {
     if (seen.has(name)) throw new Error(`Duplicate route name: ${name}`);

@@ -1,23 +1,8 @@
-export type CrontabField =
-  | "second"
-  | "min"
-  | "hour"
-  | "day"
-  | "month"
-  | "week"
-  | "year";
+export type CrontabField = "second" | "min" | "hour" | "day" | "month" | "week" | "year";
 
 export type CrontabValue = Record<CrontabField, string>;
 
-export const CRONTAB_FIELDS: readonly CrontabField[] = [
-  "second",
-  "min",
-  "hour",
-  "day",
-  "month",
-  "week",
-  "year",
-];
+export const CRONTAB_FIELDS: readonly CrontabField[] = ["second", "min", "hour", "day", "month", "week", "year"];
 
 export const DEFAULT_CRONTAB: CrontabValue = {
   second: "*",
@@ -29,11 +14,7 @@ export const DEFAULT_CRONTAB: CrontabValue = {
   year: "",
 };
 
-export function clampCronNumber(
-  value: number,
-  minLimit: number,
-  maxLimit: number,
-): number {
+export function clampCronNumber(value: number, minLimit: number, maxLimit: number): number {
   const integer = Math.floor(value);
   if (integer < minLimit) {
     return minLimit;
@@ -50,7 +31,10 @@ export function stringifyCrontab(value: CrontabValue): string {
 }
 
 export function parseCrontab(expression: string): CrontabValue {
-  const tokens = expression.trim().split(/\s+/).filter((token) => token.length > 0);
+  const tokens = expression
+    .trim()
+    .split(/\s+/)
+    .filter((token) => token.length > 0);
   if (tokens.length < 6) {
     return { ...DEFAULT_CRONTAB };
   }
@@ -77,23 +61,11 @@ export function cronList(values: readonly number[]): string {
   return values.join(",");
 }
 
-export function shouldShowCrontabField(
-  hideComponent: readonly string[],
-  field: CrontabField,
-): boolean {
+export function shouldShowCrontabField(hideComponent: readonly string[], field: CrontabField): boolean {
   return !hideComponent.includes(field);
 }
 
-export type CronRadioKind =
-  | "every"
-  | "unspecified"
-  | "range"
-  | "step"
-  | "list"
-  | "workday"
-  | "last"
-  | "nth"
-  | "empty";
+export type CronRadioKind = "every" | "unspecified" | "range" | "step" | "list" | "workday" | "last" | "nth" | "empty";
 
 export function classifyCronToken(value: string): CronRadioKind {
   if (value === "") {

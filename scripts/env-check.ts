@@ -4,23 +4,13 @@ import { resolve } from "node:path";
 
 const EXPECTED_PACKAGE_MANAGER = "bun@1.4.0";
 
-const ROUND2_REQUIRED = [
-  "vue",
-  "vite",
-  "@vitejs/plugin-vue",
-  "typescript",
-  "vue-tsc",
-] as const;
+const ROUND2_REQUIRED = ["vue", "vite", "@vitejs/plugin-vue", "typescript", "vue-tsc"] as const;
 
 const ROUND6_REQUIRED = ["element-plus"] as const;
 
 const ROUND8_REQUIRED = ["axios", "js-cookie", "file-saver"] as const;
 
-const ROUND6_FORBIDDEN = [
-  "vue-router",
-  "pinia",
-  "@element-plus/icons-vue",
-] as const;
+const ROUND6_FORBIDDEN = ["vue-router", "pinia", "@element-plus/icons-vue"] as const;
 
 type PackageJson = {
   private?: boolean;
@@ -39,9 +29,7 @@ type ParsedVersion = {
 };
 
 const cwd = process.cwd();
-const pkg = JSON.parse(
-  readFileSync(resolve(cwd, "package.json"), "utf8"),
-) as PackageJson;
+const pkg = JSON.parse(readFileSync(resolve(cwd, "package.json"), "utf8")) as PackageJson;
 const bunVersion = process.versions.bun;
 const installed = {
   ...pkg.dependencies,
@@ -57,15 +45,11 @@ if (!bunVersion) {
 }
 
 if (pkg.packageManager !== EXPECTED_PACKAGE_MANAGER) {
-  errors.push(
-    `packageManager is ${pkg.packageManager ?? "(missing)"}; expected ${EXPECTED_PACKAGE_MANAGER}`,
-  );
+  errors.push(`packageManager is ${pkg.packageManager ?? "(missing)"}; expected ${EXPECTED_PACKAGE_MANAGER}`);
 }
 
 if (bunVersion && `bun@${bunVersion}` !== pkg.packageManager) {
-  errors.push(
-    `running Bun ${bunVersion} does not match packageManager ${pkg.packageManager}`,
-  );
+  errors.push(`running Bun ${bunVersion} does not match packageManager ${pkg.packageManager}`);
 }
 
 if (pkg.private !== true) {
@@ -81,16 +65,10 @@ if (dependencyCount > 0 && !hasLockfile) {
 }
 
 if (dependencyCount === 0 && hasLockfile) {
-  errors.push(
-    "Bun 1.4.0 deletes empty lockfiles; remove bun.lock until the first dependency exists",
-  );
+  errors.push("Bun 1.4.0 deletes empty lockfiles; remove bun.lock until the first dependency exists");
 }
 
-for (const file of [
-  ".env.development",
-  ".env.staging",
-  ".env.production",
-] as const) {
+for (const file of [".env.development", ".env.staging", ".env.production"] as const) {
   if (!existsSync(resolve(cwd, file))) {
     errors.push(`missing ${file}`);
   }
@@ -121,17 +99,13 @@ for (const name of ROUND6_FORBIDDEN) {
 }
 
 if ((pkg.trustedDependencies?.length ?? 0) > 0) {
-  errors.push(
-    "trustedDependencies must stay empty until a lifecycle script is reviewed",
-  );
+  errors.push("trustedDependencies must stay empty until a lifecycle script is reviewed");
 }
 
 if (!systemNodeVersion) {
   errors.push("system node is missing; keep a Node install for Vite engines");
 } else if (!satisfiesViteNodeEngines(systemNodeVersion)) {
-  errors.push(
-    `system Node ${systemNodeVersion} does not satisfy ^20.19.0 || >=22.12.0`,
-  );
+  errors.push(`system Node ${systemNodeVersion} does not satisfy ^20.19.0 || >=22.12.0`);
 }
 
 console.log(
@@ -170,7 +144,10 @@ function readSystemNodeVersion(): string | null {
 }
 
 function parseVersion(raw: string): ParsedVersion | null {
-  const match = raw.trim().replace(/^v/, "").match(/^(\d+)\.(\d+)\.(\d+)/);
+  const match = raw
+    .trim()
+    .replace(/^v/, "")
+    .match(/^(\d+)\.(\d+)\.(\d+)/);
   if (!match) {
     return null;
   }
@@ -197,4 +174,3 @@ function satisfiesViteNodeEngines(raw: string): boolean {
   }
   return version.major > 22;
 }
-

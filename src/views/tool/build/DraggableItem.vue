@@ -42,11 +42,7 @@ function remove(index: number, parent?: DrawingItem[]): void {
 
 <template>
   <el-col :span="element.span" :class="className" @click.stop="active(element)">
-    <el-form-item
-      v-if="element.kind !== 'row'"
-      :label="element.label"
-      :required="element.required"
-    >
+    <el-form-item v-if="element.kind !== 'row'" :label="element.label" :required="element.required">
       <FieldPreview :element="element" />
     </el-form-item>
     <el-row v-else :gutter="element.gutter" @click.stop="active(element)">

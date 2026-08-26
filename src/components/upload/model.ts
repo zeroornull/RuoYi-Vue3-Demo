@@ -17,22 +17,11 @@ export type UploadValidationError = {
 
 export type UploadKind = "file" | "image";
 
-const DEFAULT_FILE_TYPES = [
-  "doc",
-  "docx",
-  "xls",
-  "xlsx",
-  "ppt",
-  "pptx",
-  "txt",
-  "pdf",
-] as const;
+const DEFAULT_FILE_TYPES = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "pdf"] as const;
 
 const DEFAULT_IMAGE_TYPES = ["png", "jpg", "jpeg"] as const;
 
-export function defaultFileTypes(
-  kind: UploadKind,
-): readonly string[] {
+export function defaultFileTypes(kind: UploadKind): readonly string[] {
   return kind === "image" ? DEFAULT_IMAGE_TYPES : DEFAULT_FILE_TYPES;
 }
 
@@ -80,12 +69,7 @@ export function parseUploadValue(
   const baseUrl = options.baseUrl ?? "";
   return list.map((item, index) => {
     const parsed = asItem(item, Date.now() + index + 1);
-    if (
-      options.prefixBase &&
-      baseUrl.length > 0 &&
-      parsed.url.indexOf(baseUrl) === -1 &&
-      !isExternal(parsed.url)
-    ) {
+    if (options.prefixBase && baseUrl.length > 0 && parsed.url.indexOf(baseUrl) === -1 && !isExternal(parsed.url)) {
       const prefixed = `${baseUrl}${parsed.url}`;
       return { ...parsed, name: prefixed, url: prefixed };
     }
@@ -110,18 +94,8 @@ export function stringifyUploadValue(
   return names.join(",");
 }
 
-export function moveUploadItem(
-  list: readonly UploadFileItem[],
-  from: number,
-  to: number,
-): UploadFileItem[] {
-  if (
-    from === to ||
-    from < 0 ||
-    to < 0 ||
-    from >= list.length ||
-    to >= list.length
-  ) {
+export function moveUploadItem(list: readonly UploadFileItem[], from: number, to: number): UploadFileItem[] {
+  if (from === to || from < 0 || to < 0 || from >= list.length || to >= list.length) {
     return [...list];
   }
   const next = [...list];
@@ -134,14 +108,10 @@ export function moveUploadItem(
 }
 
 export function displayFileName(name: string): string {
-  return name.lastIndexOf("/") > -1
-    ? name.slice(name.lastIndexOf("/") + 1)
-    : name;
+  return name.lastIndexOf("/") > -1 ? name.slice(name.lastIndexOf("/") + 1) : name;
 }
 
-export function isUploadSuccess(
-  response: unknown,
-): response is UploadFileResponse {
+export function isUploadSuccess(response: unknown): response is UploadFileResponse {
   return isRecord(response) && response.code === 200 && typeof response.fileName === "string";
 }
 
@@ -166,10 +136,7 @@ export function validateUploadFile(
   }
   const extension = fileExtension(file.name);
   if (options.kind === "file") {
-    if (
-      options.fileType.length > 0 &&
-      !options.fileType.some((type) => type.toLowerCase() === extension)
-    ) {
+    if (options.fileType.length > 0 && !options.fileType.some((type) => type.toLowerCase() === extension)) {
       return {
         code: "type",
         message: `文件格式不正确，请上传${options.fileType.join("/")}格式文件!`,
@@ -178,10 +145,7 @@ export function validateUploadFile(
   } else if (options.fileType.length > 0) {
     const matched = options.fileType.some((type) => {
       const normalized = type.toLowerCase();
-      return (
-        file.type.toLowerCase().includes(normalized) ||
-        extension === normalized
-      );
+      return file.type.toLowerCase().includes(normalized) || extension === normalized;
     });
     if (!matched) {
       return {
@@ -216,10 +180,6 @@ export function isExcelFileName(name: string): boolean {
   return lower.endsWith(".xls") || lower.endsWith(".xlsx");
 }
 
-export function excelUploadUrl(
-  baseApi: string,
-  action: string,
-  updateSupport: boolean,
-): string {
+export function excelUploadUrl(baseApi: string, action: string, updateSupport: boolean): string {
   return `${baseApi}${action}?updateSupport=${updateSupport ? 1 : 0}`;
 }

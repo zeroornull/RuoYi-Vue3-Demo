@@ -1,7 +1,4 @@
-import type {
-  RouteLocationNormalizedLoadedGeneric,
-  RouteLocationRaw,
-} from "vue-router";
+import type { RouteLocationNormalizedLoadedGeneric, RouteLocationRaw } from "vue-router";
 import type { AppDevice } from "../stores/modules/app";
 import type { TagViewInput, TagViewMeta } from "../stores/modules/tags-view";
 import type { AppRouteRecordRaw } from "../router/types";
@@ -10,10 +7,7 @@ import { isExternal } from "../utils/validate";
 
 export const MOBILE_BREAKPOINT = 992;
 
-export function resolveLayoutDevice(
-  width: number,
-  breakpoint = MOBILE_BREAKPOINT,
-): AppDevice {
+export function resolveLayoutDevice(width: number, breakpoint = MOBILE_BREAKPOINT): AppDevice {
   return width < breakpoint ? "mobile" : "desktop";
 }
 
@@ -24,22 +18,15 @@ export function joinRoutePath(basePath: string, routePath: string): string {
   return `${base}/${routePath}`.replace(/\/{2,}/g, "/") || "/";
 }
 
-export function resolveActiveMenu(route: {
-  path: string;
-  meta: { activeMenu?: string };
-}): string {
+export function resolveActiveMenu(route: { path: string; meta: { activeMenu?: string } }): string {
   return route.meta.activeMenu ?? route.path;
 }
 
-export function visibleMenuRoutes(
-  routes: readonly AppRouteRecordRaw[],
-): AppRouteRecordRaw[] {
+export function visibleMenuRoutes(routes: readonly AppRouteRecordRaw[]): AppRouteRecordRaw[] {
   return routes.filter((route) => route.hidden !== true);
 }
 
-function routeMetaToTagMeta(
-  meta: RouteLocationNormalizedLoadedGeneric["meta"],
-): TagViewMeta {
+function routeMetaToTagMeta(meta: RouteLocationNormalizedLoadedGeneric["meta"]): TagViewMeta {
   return {
     ...(meta.title === undefined ? {} : { title: meta.title }),
     ...(meta.icon === undefined ? {} : { icon: meta.icon }),
@@ -49,9 +36,7 @@ function routeMetaToTagMeta(
   };
 }
 
-export function routeToTagView(
-  route: RouteLocationNormalizedLoadedGeneric,
-): TagViewInput | null {
+export function routeToTagView(route: RouteLocationNormalizedLoadedGeneric): TagViewInput | null {
   if (typeof route.name !== "string") return null;
   return {
     path: route.path,
@@ -63,10 +48,7 @@ export function routeToTagView(
   };
 }
 
-export function collectAffixTags(
-  routes: readonly AppRouteRecordRaw[],
-  basePath = "",
-): TagViewInput[] {
+export function collectAffixTags(routes: readonly AppRouteRecordRaw[], basePath = ""): TagViewInput[] {
   const tags: TagViewInput[] = [];
   for (const route of routes) {
     const path = joinRoutePath(basePath, route.path);
@@ -77,14 +59,10 @@ export function collectAffixTags(
         name: route.name,
         title: route.meta.title ?? route.name,
         meta: {
-          ...(route.meta.title === undefined
-            ? {}
-            : { title: route.meta.title }),
+          ...(route.meta.title === undefined ? {} : { title: route.meta.title }),
           ...(route.meta.icon === undefined ? {} : { icon: route.meta.icon }),
           affix: true,
-          ...(route.meta.noCache === undefined
-            ? {}
-            : { noCache: route.meta.noCache }),
+          ...(route.meta.noCache === undefined ? {} : { noCache: route.meta.noCache }),
           ...(route.meta.link === undefined ? {} : { link: route.meta.link }),
         },
       });
@@ -102,17 +80,13 @@ export function sanitizeIframeUrl(link: string | null | undefined): string | nul
   if (!link) return null;
   try {
     const url = new URL(link);
-    return url.protocol === "http:" || url.protocol === "https:"
-      ? url.toString()
-      : null;
+    return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : null;
   } catch {
     return null;
   }
 }
 
-export function fallbackAfterClose(
-  visitedPaths: readonly string[],
-): RouteLocationRaw {
+export function fallbackAfterClose(visitedPaths: readonly string[]): RouteLocationRaw {
   return visitedPaths.at(-1) ?? { name: ROUTE_NAMES.index };
 }
 

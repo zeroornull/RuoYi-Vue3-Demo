@@ -83,7 +83,9 @@ onUnmounted(() => {
   <div class="app-container">
     <el-row :gutter="10">
       <el-col :span="24" class="toolbar">
-        <el-button v-hasPermi="['monitor:server:list']" type="primary" plain :icon="Refresh" @click="getList">刷新</el-button>
+        <el-button v-hasPermi="['monitor:server:list']" type="primary" plain :icon="Refresh" @click="getList"
+          >刷新</el-button
+        >
       </el-col>
       <el-col :span="8" class="card-box">
         <el-card>
@@ -123,7 +125,20 @@ onUnmounted(() => {
             <el-icon><Tickets /></el-icon>
             <span>内存</span>
           </template>
-          <el-table :data="[{ key: '总内存', mem: `${server.mem.total}G`, jvm: `${server.jvm.total}M` }, { key: '已用内存', mem: `${server.mem.used}G`, jvm: `${server.jvm.used}M` }, { key: '剩余内存', mem: `${server.mem.free}G`, jvm: `${server.jvm.free}M` }, { key: '使用率', mem: `${server.mem.usage}%`, jvm: `${server.jvm.usage}%`, dangerMem: usageDanger(server.mem.usage), dangerJvm: usageDanger(server.jvm.usage) }]">
+          <el-table
+            :data="[
+              { key: '总内存', mem: `${server.mem.total}G`, jvm: `${server.jvm.total}M` },
+              { key: '已用内存', mem: `${server.mem.used}G`, jvm: `${server.jvm.used}M` },
+              { key: '剩余内存', mem: `${server.mem.free}G`, jvm: `${server.jvm.free}M` },
+              {
+                key: '使用率',
+                mem: `${server.mem.usage}%`,
+                jvm: `${server.jvm.usage}%`,
+                dangerMem: usageDanger(server.mem.usage),
+                dangerJvm: usageDanger(server.jvm.usage),
+              },
+            ]"
+          >
             <el-table-column prop="key" label="属性" />
             <el-table-column label="内存">
               <template #default="{ row }">

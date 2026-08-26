@@ -112,7 +112,13 @@ onUnmounted(() => {
         <div ref="dragTable">
           <el-table :data="form.columns" row-key="columnId" :max-height="tableHeight">
             <el-table-column label="序号" type="index" min-width="5%" class-name="allowDrag" />
-            <el-table-column label="字段列名" prop="columnName" min-width="10%" show-overflow-tooltip class-name="allowDrag" />
+            <el-table-column
+              label="字段列名"
+              prop="columnName"
+              min-width="10%"
+              show-overflow-tooltip
+              class-name="allowDrag"
+            />
             <el-table-column label="字段描述" min-width="10%">
               <template #default="{ row }">
                 <el-input v-model="row.columnComment" />

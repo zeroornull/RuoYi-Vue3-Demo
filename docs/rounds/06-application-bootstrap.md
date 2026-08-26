@@ -66,13 +66,13 @@ bun run dev
 
 2026-08-25 实测：
 
-| 检查 | 结果 |
-| --- | --- |
-| `bun run typecheck` / `build` | 通过 |
-| 浏览器 | 标题「若依管理系统」；按钮「确定」；分页「共 100 条」 |
-| 暗色 | `html.dark`，`--el-bg-color` 为 `#141414` |
-| 控制台 | 无 error/warn |
-| 未安装 | `vue-router`、`pinia`、`@element-plus/icons-vue` |
+| 检查                          | 结果                                                  |
+| ----------------------------- | ----------------------------------------------------- |
+| `bun run typecheck` / `build` | 通过                                                  |
+| 浏览器                        | 标题「若依管理系统」；按钮「确定」；分页「共 100 条」 |
+| 暗色                          | `html.dark`，`--el-bg-color` 为 `#141414`             |
+| 控制台                        | 无 error/warn                                         |
+| 未安装                        | `vue-router`、`pinia`、`@element-plus/icons-vue`      |
 
 ### 练习记录
 
@@ -127,4 +127,3 @@ docs/migration-debt.md
 ```text
 refactor: establish typed application bootstrap boundaries
 ```
-

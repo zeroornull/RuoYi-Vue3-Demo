@@ -24,10 +24,7 @@ function childBase(item: AppRouteRecordRaw): string {
 </script>
 
 <template>
-  <el-menu-item
-    v-if="children.length === 1 && !item.alwaysShow && onlyChild"
-    :index="itemPath(onlyChild)"
-  >
+  <el-menu-item v-if="children.length === 1 && !item.alwaysShow && onlyChild" :index="itemPath(onlyChild)">
     <SvgIcon :name="onlyChild.meta?.icon || item.meta?.icon || 'grid'" />
     <template #title>{{ onlyChild.meta?.title || onlyChild.name || onlyChild.path }}</template>
   </el-menu-item>

@@ -64,10 +64,7 @@ function jsonAdapter(
   };
 }
 
-function headerValue(
-  config: InternalAxiosRequestConfig,
-  name: string,
-): unknown {
+function headerValue(config: InternalAxiosRequestConfig, name: string): unknown {
   const headers = config.headers as unknown as Record<string, unknown>;
   return headers[name] ?? headers[name.toLowerCase()];
 }
@@ -138,9 +135,7 @@ describe("http client", () => {
       })),
     });
     await client.post("/save", { id: 1 });
-    await expect(client.post("/save", { id: 1 })).rejects.toThrow(
-      "数据正在处理，请勿重复提交",
-    );
+    await expect(client.post("/save", { id: 1 })).rejects.toThrow("数据正在处理，请勿重复提交");
     expect(calls).toHaveLength(1);
 
     now += 2000;
@@ -211,9 +206,7 @@ describe("http client", () => {
     release(true);
     await Promise.resolve();
     expect(expired).toBe(1);
-    await expect(first).rejects.toBe(
-      "无效的会话，或者会话已过期，请重新登录。",
-    );
+    await expect(first).rejects.toBe("无效的会话，或者会话已过期，请重新登录。");
   });
 
   test("returns blob/arraybuffer bodies without reading business codes", async () => {
@@ -243,11 +236,7 @@ describe("http client", () => {
 
   test("maps network, timeout and HTTP status errors", async () => {
     const { ui, errors } = createUi();
-    const messages = [
-      "Network Error",
-      "timeout of 10000ms exceeded",
-      "Request failed with status code 404",
-    ];
+    const messages = ["Network Error", "timeout of 10000ms exceeded", "Request failed with status code 404"];
     let index = 0;
     const client = createHttpClient({
       baseURL: "/dev-api",
@@ -264,10 +253,6 @@ describe("http client", () => {
     await expect(client.get("/n")).rejects.toBeTruthy();
     await expect(client.get("/t")).rejects.toBeTruthy();
     await expect(client.get("/s")).rejects.toBeTruthy();
-    expect(errors).toEqual([
-      "后端接口连接异常",
-      "系统接口请求超时",
-      "系统接口404异常",
-    ]);
+    expect(errors).toEqual(["后端接口连接异常", "系统接口请求超时", "系统接口404异常"]);
   });
 });

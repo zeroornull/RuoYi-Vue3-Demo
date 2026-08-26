@@ -1,21 +1,20 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import { commandPieOption, emptyCacheOverview, formatCpuUsage, memoryGaugeOption, parseMemoryNumber, redisModeLabel, stripCachePrefix } from "../../src/views/monitor/cache/model";
-import { coalesceServer, emptyServerOverview, usageDanger, usageGaugeOption } from "../../src/views/monitor/server/model";
+import {
+  commandPieOption,
+  emptyCacheOverview,
+  formatCpuUsage,
+  memoryGaugeOption,
+  parseMemoryNumber,
+  redisModeLabel,
+  stripCachePrefix,
+} from "../../src/views/monitor/cache/model";
+import { coalesceServer, usageDanger, usageGaugeOption } from "../../src/views/monitor/server/model";
 import { druidLoginUrl } from "../../src/views/monitor/druid/model";
 import { createVisibilityPoll } from "../../src/utils/visibility-poll";
 import { echartsTheme } from "../../src/charts/register";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 
-function runtime(
-  method: string,
-  path: string,
-  body?: unknown,
-  token: string = MOCK_TOKEN,
-) {
+function runtime(method: string, path: string, body?: unknown, token: string = MOCK_TOKEN) {
   return dispatchMockRequest({
     method,
     path,
@@ -46,7 +45,9 @@ describe("cache and server view models", () => {
     expect(empty.sysFiles).toEqual([]);
     expect(usageDanger(81)).toBe(true);
     expect(usageDanger(20)).toBe(false);
-    expect((usageGaugeOption("CPU", undefined).series as Array<{ data: Array<{ value: number }> }>)[0]?.data[0]?.value).toBe(0);
+    expect(
+      (usageGaugeOption("CPU", undefined).series as Array<{ data: Array<{ value: number }> }>)[0]?.data[0]?.value,
+    ).toBe(0);
     expect(echartsTheme(true)).toBe("dark");
     expect(echartsTheme(false)).toBeUndefined();
     expect(druidLoginUrl("/dev-api")).toBe("/dev-api/druid/login.html");
@@ -104,9 +105,9 @@ describe("cache and server mock", () => {
     const overview = runtime("GET", "/monitor/cache");
     expect((overview.body.data as { dbSize: number }).dbSize).toBe(4);
     expect(runtime("GET", "/monitor/cache/getNames").body.data as unknown[]).toHaveLength(3);
-    expect(
-      (runtime("GET", "/monitor/cache/getKeys/login_tokens:").body.data as string[])[0],
-    ).toBe("login_tokens:admin");
+    expect((runtime("GET", "/monitor/cache/getKeys/login_tokens:").body.data as string[])[0]).toBe(
+      "login_tokens:admin",
+    );
     expect(
       (runtime("GET", "/monitor/cache/getValue/login_tokens:/login_tokens:admin").body.data as { cacheValue: string })
         .cacheValue,

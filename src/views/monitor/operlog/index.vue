@@ -3,32 +3,18 @@ import { onMounted, reactive, ref } from "vue";
 import type { FormInstance, TableInstance } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Delete, Download, Refresh, Search, View } from "@element-plus/icons-vue";
-import {
-  cleanOperlog,
-  delOperlog,
-  list as listOperlog,
-} from "../../../api/monitor/operlog";
+import { cleanOperlog, delOperlog, list as listOperlog } from "../../../api/monitor/operlog";
 import { download } from "../../../http";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
 import { useDict } from "../../../composables/useDict";
-import {
-  emptySelection,
-  firstPage,
-  idsForAction,
-  replaceObject,
-  selectionFromRows,
-} from "../../../composables/crud";
+import { emptySelection, firstPage, idsForAction, replaceObject, selectionFromRows } from "../../../composables/crud";
 import { addDateRange } from "../../../utils/params";
 import { parseTime } from "../../../utils/parse-time";
 import type { OperationLog } from "../../../types/api/monitor";
 import { tableSortToQuery, type TableSortEvent } from "../log-query";
 import OperlogDetail from "./detail.vue";
-import {
-  OPERLOG_DEFAULT_SORT,
-  OPERLOG_PAGE_NAME,
-  emptyOperationLogQuery,
-} from "./model";
+import { OPERLOG_DEFAULT_SORT, OPERLOG_PAGE_NAME, emptyOperationLogQuery } from "./model";
 
 defineOptions({ name: OPERLOG_PAGE_NAME });
 
@@ -121,12 +107,7 @@ onMounted(() => {
       </el-form-item>
       <el-form-item label="类型" prop="businessType">
         <el-select v-model="queryParams.businessType" placeholder="操作类型" clearable>
-          <el-option
-            v-for="dict in sys_oper_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="Number(dict.value)"
-          />
+          <el-option v-for="dict in sys_oper_type" :key="dict.value" :label="dict.label" :value="Number(dict.value)" />
         </el-select>
       </el-form-item>
       <el-form-item label="状态" prop="status">
@@ -152,13 +133,25 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:operlog:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete">删除</el-button>
+        <el-button
+          v-hasPermi="['monitor:operlog:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete"
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:operlog:remove']" type="danger" plain :icon="Delete" @click="handleClean">清空</el-button>
+        <el-button v-hasPermi="['monitor:operlog:remove']" type="danger" plain :icon="Delete" @click="handleClean"
+          >清空</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:operlog:export']" type="warning" plain :icon="Download" @click="handleExport">导出</el-button>
+        <el-button v-hasPermi="['monitor:operlog:export']" type="warning" plain :icon="Download" @click="handleExport"
+          >导出</el-button
+        >
       </el-col>
       <RightToolbar v-model:show-search="showSearch" @query-table="getList" />
     </el-row>
@@ -178,22 +171,47 @@ onMounted(() => {
           <DictTag :options="sys_oper_type" :value="row.businessType" />
         </template>
       </el-table-column>
-      <el-table-column label="操作人员" align="center" width="110" prop="operName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
+      <el-table-column
+        label="操作人员"
+        align="center"
+        width="110"
+        prop="operName"
+        :show-overflow-tooltip="true"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      />
       <el-table-column label="操作地址" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
       <el-table-column label="操作状态" align="center" prop="status">
         <template #default="{ row }">
           <DictTag :options="sys_common_status" :value="row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="操作日期" align="center" prop="operTime" width="180" sortable="custom" :sort-orders="['descending', 'ascending']">
+      <el-table-column
+        label="操作日期"
+        align="center"
+        prop="operTime"
+        width="180"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      >
         <template #default="{ row }">{{ parseTime(row.operTime) }}</template>
       </el-table-column>
-      <el-table-column label="消耗时间" align="center" prop="costTime" width="110" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']">
+      <el-table-column
+        label="消耗时间"
+        align="center"
+        prop="costTime"
+        width="110"
+        :show-overflow-tooltip="true"
+        sortable="custom"
+        :sort-orders="['descending', 'ascending']"
+      >
         <template #default="{ row }">{{ row.costTime }}毫秒</template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
-          <el-button v-hasPermi="['monitor:operlog:query']" link type="primary" :icon="View" @click="handleDetail(row)">详细</el-button>
+          <el-button v-hasPermi="['monitor:operlog:query']" link type="primary" :icon="View" @click="handleDetail(row)"
+            >详细</el-button
+          >
         </template>
       </el-table-column>
     </el-table>

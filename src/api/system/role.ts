@@ -72,7 +72,5 @@ export function authUserSelectAll(data: AuthUserSelectionRequest): Promise<Empty
 }
 
 export function deptTreeSelect(roleId: EntityId): Promise<RoleDeptTreeResponse> {
-  return http.get<RoleDeptTreeResponse>(
-    `/system/role/deptTree/${encodePathSegment(roleId)}`,
-  );
+  return http.get<RoleDeptTreeResponse>(`/system/role/deptTree/${encodePathSegment(roleId)}`);
 }

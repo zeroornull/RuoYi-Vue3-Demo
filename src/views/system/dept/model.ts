@@ -1,8 +1,4 @@
-import type {
-  Department,
-  DepartmentQuery,
-  DepartmentUpsertRequest,
-} from "../../../types/api/system";
+import type { Department, DepartmentQuery, DepartmentUpsertRequest } from "../../../types/api/system";
 import { nestByParent, type TreeNode } from "../../../utils/tree-edit";
 
 export const DEPT_PAGE_NAME = "Dept";
@@ -42,7 +38,11 @@ export function deptToForm(row: Department): DepartmentUpsertRequest {
 }
 
 export function toDeptTree(rows: readonly Department[]): DeptTreeNode[] {
-  return nestByParent(rows, (row) => row.deptId, (row) => row.parentId);
+  return nestByParent(
+    rows,
+    (row) => row.deptId,
+    (row) => row.parentId,
+  );
 }
 
 export function isRootDept(row: Pick<Department, "parentId">): boolean {

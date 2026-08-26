@@ -1,12 +1,5 @@
 import { http } from "../../http";
-import type {
-  EntityId,
-  IdCollection,
-  Post,
-  PostPageResponse,
-  PostQuery,
-  PostUpsertRequest,
-} from "../../types/api";
+import type { EntityId, IdCollection, Post, PostPageResponse, PostQuery, PostUpsertRequest } from "../../types/api";
 import type { ApiResponse, EmptyResponse } from "../../types/http";
 import { encodeIdCollection, encodePathSegment } from "../shared";
 

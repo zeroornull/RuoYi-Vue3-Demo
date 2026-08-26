@@ -56,11 +56,7 @@ export function mockBackendPlugin(enabled: boolean): Plugin {
   };
 }
 
-async function handle(
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: () => void,
-): Promise<void> {
+async function handle(req: IncomingMessage, res: ServerResponse, next: () => void): Promise<void> {
   const path = mockPath(req.url ?? "");
   if (path === null) {
     next();
@@ -68,9 +64,7 @@ async function handle(
   }
   const body = await readBody(req);
   const token = tokenFromAuthorization(
-    typeof req.headers.authorization === "string"
-      ? req.headers.authorization
-      : undefined,
+    typeof req.headers.authorization === "string" ? req.headers.authorization : undefined,
   );
   const result = dispatchMockRequest({
     method: req.method ?? "GET",
@@ -80,9 +74,6 @@ async function handle(
     ...(token === undefined ? {} : { token }),
   });
   res.statusCode = result.status;
-  res.setHeader(
-    "Content-Type",
-    result.contentType ?? "application/json;charset=utf-8",
-  );
+  res.setHeader("Content-Type", result.contentType ?? "application/json;charset=utf-8");
   res.end(result.raw ?? JSON.stringify(result.body));
 }

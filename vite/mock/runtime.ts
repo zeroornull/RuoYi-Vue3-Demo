@@ -73,7 +73,7 @@ function restAfter(path: string, prefix: string): string | null {
 }
 
 export const DRUID_LOGIN_HTML =
-  "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"utf-8\"><title>Druid Monitor</title></head><body><h1>Druid Monitor</h1><p>本地 Mock 登录页</p></body></html>";
+  '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Druid Monitor</title></head><body><h1>Druid Monitor</h1><p>本地 Mock 登录页</p></body></html>';
 
 export function dispatchRuntimeMock(request: MockRequest): MockResponse | null {
   const method = request.method.toUpperCase();
@@ -116,9 +116,7 @@ export function dispatchRuntimeMock(request: MockRequest): MockResponse | null {
     return ok({
       code: 200,
       msg: "操作成功",
-      data: entries
-        .filter((item) => item.cacheName === cacheName)
-        .map((item) => item.cacheKey),
+      data: entries.filter((item) => item.cacheName === cacheName).map((item) => item.cacheKey),
     });
   }
   const valueRest = restAfter(path, "/monitor/cache/getValue");
@@ -126,12 +124,8 @@ export function dispatchRuntimeMock(request: MockRequest): MockResponse | null {
     const [rawName, ...keyParts] = valueRest.split("/");
     const cacheName = decodeURIComponent(rawName ?? "");
     const cacheKey = decodeURIComponent(keyParts.join("/"));
-    const row = entries.find(
-      (item) => item.cacheName === cacheName && item.cacheKey === cacheKey,
-    );
-    return row
-      ? ok({ code: 200, msg: "操作成功", data: { ...row } })
-      : fail("数据不存在");
+    const row = entries.find((item) => item.cacheName === cacheName && item.cacheKey === cacheKey);
+    return row ? ok({ code: 200, msg: "操作成功", data: { ...row } }) : fail("数据不存在");
   }
   const clearName = restAfter(path, "/monitor/cache/clearCacheName");
   if (method === "DELETE" && clearName) {
@@ -144,9 +138,7 @@ export function dispatchRuntimeMock(request: MockRequest): MockResponse | null {
     const cacheKey = decodeURIComponent(clearKey);
     const before = entries.length;
     entries = entries.filter((item) => item.cacheKey !== cacheKey);
-    return entries.length !== before
-      ? ok({ code: 200, msg: "清理成功" })
-      : fail("数据不存在");
+    return entries.length !== before ? ok({ code: 200, msg: "清理成功" }) : fail("数据不存在");
   }
   if (method === "DELETE" && path === "/monitor/cache/clearCacheAll") {
     entries = [];

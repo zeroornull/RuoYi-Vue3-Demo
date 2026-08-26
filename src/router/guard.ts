@@ -1,8 +1,4 @@
-import type {
-  NavigationGuard,
-  RouteLocationNormalizedGeneric,
-  RouteLocationRaw,
-} from "vue-router";
+import type { NavigationGuard, RouteLocationNormalizedGeneric, RouteLocationRaw } from "vue-router";
 import { ROUTE_NAMES } from "./types";
 
 export type StaticGuardDeps = {
@@ -22,9 +18,7 @@ function loginRedirect(to: RouteLocationNormalizedGeneric): RouteLocationRaw {
   };
 }
 
-export function createStaticNavigationGuard(
-  deps: StaticGuardDeps,
-): NavigationGuard {
+export function createStaticNavigationGuard(deps: StaticGuardDeps): NavigationGuard {
   return async (to) => {
     if (to.meta.title) deps.setTitle(to.meta.title);
 
@@ -46,11 +40,7 @@ export function createStaticNavigationGuard(
       return { name: ROUTE_NAMES.index, replace: true };
     }
 
-    if (
-      deps.isAccessReady &&
-      deps.ensureAccess &&
-      !deps.isAccessReady()
-    ) {
+    if (deps.isAccessReady && deps.ensureAccess && !deps.isAccessReady()) {
       try {
         await deps.ensureAccess();
         if (!deps.isAccessReady()) {

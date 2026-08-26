@@ -1,14 +1,6 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import {
-  configToForm,
-  emptyConfigForm,
-  emptyConfigQuery,
-} from "../../src/views/system/config/model";
-import {
-  dispatchMockRequest,
-  MOCK_TOKEN,
-  resetMockAuthState,
-} from "../../vite/mock/auth.ts";
+import { configToForm, emptyConfigForm, emptyConfigQuery } from "../../src/views/system/config/model";
+import { dispatchMockRequest, MOCK_TOKEN, resetMockAuthState } from "../../vite/mock/auth.ts";
 import { parseMockQuery } from "../../vite/mock/query.ts";
 
 function config(method: string, path: string, body?: unknown, query?: Record<string, string>) {
@@ -63,9 +55,7 @@ describe("config Query/Create/Update/Row models", () => {
 
 describe("config mock CRUD", () => {
   test("rejects anonymous access and paginates the seeded list", () => {
-    expect(
-      dispatchMockRequest({ method: "GET", path: "/system/config/list" }).body.code,
-    ).toBe(401);
+    expect(dispatchMockRequest({ method: "GET", path: "/system/config/list" }).body.code).toBe(401);
     const page1 = config("GET", "/system/config/list", undefined, {
       pageNum: "1",
       pageSize: "10",
@@ -92,10 +82,9 @@ describe("config mock CRUD", () => {
   });
 
   test("validates create, rejects duplicate keys, then updates and deletes", () => {
-    expect(
-      config("POST", "/system/config", { configName: "", configKey: "a", configValue: "1" })
-        .body.msg,
-    ).toBe("参数名称不能为空");
+    expect(config("POST", "/system/config", { configName: "", configKey: "a", configValue: "1" }).body.msg).toBe(
+      "参数名称不能为空",
+    );
     expect(
       config("POST", "/system/config", {
         configName: "重复",
@@ -125,17 +114,14 @@ describe("config mock CRUD", () => {
         configType: "N",
       }).body.code,
     ).toBe(200);
-    expect(
-      (config("GET", `/system/config/${row?.configId}`).body.data as { configValue: string })
-        .configValue,
-    ).toBe("RuoYi Vue3");
+    expect((config("GET", `/system/config/${row?.configId}`).body.data as { configValue: string }).configValue).toBe(
+      "RuoYi Vue3",
+    );
     expect(config("DELETE", "/system/config/12,11").body.code).toBe(200);
     expect(config("GET", "/system/config/list").body.total).toBe(11);
     expect(config("DELETE", "/system/config").body.msg).toBe("请选择要删除的数据");
     expect(config("DELETE", "/system/config/refreshCache").body.code).toBe(200);
-    expect(
-      config("GET", "/system/config/configKey/sys.user.initPassword").body.data,
-    ).toBe("123456");
+    expect(config("GET", "/system/config/configKey/sys.user.initPassword").body.data).toBe("123456");
   });
 
   test("export returns a spreadsheet blob instead of JSON", () => {

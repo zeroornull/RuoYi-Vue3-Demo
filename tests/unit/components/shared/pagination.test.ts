@@ -1,9 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  defaultPagerCount,
-  nextPageOnSizeChange,
-  paginationChange,
-} from "../../../../src/components/Pagination/model";
+import { defaultPagerCount, nextPageOnSizeChange, paginationChange } from "../../../../src/components/Pagination/model";
 
 describe("Pagination boundaries", () => {
   test("uses five pagers on mobile and seven on desktop", () => {

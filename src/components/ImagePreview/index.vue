@@ -2,11 +2,7 @@
 import { computed } from "vue";
 import { PictureFilled } from "@element-plus/icons-vue";
 import { appEnv } from "@/config/env";
-import {
-  previewSourceList,
-  primaryPreviewSource,
-  toCssSize,
-} from "./model";
+import { previewSourceList, primaryPreviewSource, toCssSize } from "./model";
 
 const props = withDefaults(
   defineProps<{

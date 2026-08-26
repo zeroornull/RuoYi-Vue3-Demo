@@ -66,9 +66,7 @@ export function uploadAvatar(data: FormData): Promise<UserAvatarResponse> {
 }
 
 export function getAuthRole(userId: EntityId): Promise<UserAuthRoleResponse> {
-  return http.get<UserAuthRoleResponse>(
-    `/system/user/authRole/${encodePathSegment(userId)}`,
-  );
+  return http.get<UserAuthRoleResponse>(`/system/user/authRole/${encodePathSegment(userId)}`);
 }
 
 export function updateAuthRole(data: UserRolesRequest): Promise<EmptyResponse> {

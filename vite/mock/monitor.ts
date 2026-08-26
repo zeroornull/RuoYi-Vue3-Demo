@@ -281,8 +281,7 @@ function exportBlob(): MockResponse {
   return {
     status: 200,
     body: { code: 200, msg: "操作成功" },
-    contentType:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     raw: "mock-xlsx",
   };
 }
@@ -300,11 +299,7 @@ export function dispatchMonitorMock(request: MockRequest): MockResponse | null {
   const query = queryOf(request);
 
   if (method === "GET" && path === "/monitor/online/list") {
-    const rows = online.filter(
-      (row) =>
-        includes(row.ipaddr, query.ipaddr) &&
-        includes(row.userName, query.userName),
-    );
+    const rows = online.filter((row) => includes(row.ipaddr, query.ipaddr) && includes(row.userName, query.userName));
     return ok({
       code: 200,
       msg: "查询成功",
@@ -317,9 +312,7 @@ export function dispatchMonitorMock(request: MockRequest): MockResponse | null {
     const tokenId = decodeURIComponent(onlineRest);
     const before = online.length;
     online = online.filter((row) => row.tokenId !== tokenId);
-    return online.length !== before
-      ? ok({ code: 200, msg: "操作成功" })
-      : fail("数据不存在");
+    return online.length !== before ? ok({ code: 200, msg: "操作成功" }) : fail("数据不存在");
   }
 
   if (method === "GET" && path === "/monitor/logininfor/list") {
@@ -356,34 +349,22 @@ export function dispatchMonitorMock(request: MockRequest): MockResponse | null {
     return ok({ code: 200, msg: `用户${userName}解锁成功` });
   }
   const loginRest = restAfter(path, "/monitor/logininfor");
-  if (
-    method === "DELETE" &&
-    loginRest &&
-    loginRest !== "list" &&
-    loginRest !== "export" &&
-    loginRest !== "clean"
-  ) {
+  if (method === "DELETE" && loginRest && loginRest !== "list" && loginRest !== "export" && loginRest !== "clean") {
     const ids = new Set(parseIds(loginRest));
     const before = loginLogs.length;
     loginLogs = loginLogs.filter((row) => !ids.has(row.infoId));
-    return loginLogs.length !== before
-      ? ok({ code: 200, msg: "操作成功" })
-      : fail("数据不存在");
+    return loginLogs.length !== before ? ok({ code: 200, msg: "操作成功" }) : fail("数据不存在");
   }
 
   if (method === "GET" && path === "/monitor/operlog/list") {
     const businessType =
-      query.businessType !== undefined && query.businessType !== ""
-        ? Number(query.businessType)
-        : undefined;
+      query.businessType !== undefined && query.businessType !== "" ? Number(query.businessType) : undefined;
     const filtered = operLogs.filter(
       (row) =>
         includes(row.operIp, query.operIp) &&
         includes(row.title, query.title) &&
         includes(row.operName, query.operName) &&
-        (businessType === undefined || Number.isNaN(businessType)
-          ? true
-          : row.businessType === businessType) &&
+        (businessType === undefined || Number.isNaN(businessType) ? true : row.businessType === businessType) &&
         (!query.status || row.status === query.status) &&
         inDateRange(row.operTime, query),
     );
@@ -408,19 +389,11 @@ export function dispatchMonitorMock(request: MockRequest): MockResponse | null {
     return ok({ code: 200, msg: "清空成功" });
   }
   const operRest = restAfter(path, "/monitor/operlog");
-  if (
-    method === "DELETE" &&
-    operRest &&
-    operRest !== "list" &&
-    operRest !== "export" &&
-    operRest !== "clean"
-  ) {
+  if (method === "DELETE" && operRest && operRest !== "list" && operRest !== "export" && operRest !== "clean") {
     const ids = new Set(parseIds(operRest));
     const before = operLogs.length;
     operLogs = operLogs.filter((row) => !ids.has(row.operId));
-    return operLogs.length !== before
-      ? ok({ code: 200, msg: "操作成功" })
-      : fail("数据不存在");
+    return operLogs.length !== before ? ok({ code: 200, msg: "操作成功" }) : fail("数据不存在");
   }
 
   return dispatchJobMock(request) ?? dispatchRuntimeMock(request);

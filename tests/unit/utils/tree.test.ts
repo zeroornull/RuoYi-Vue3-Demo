@@ -10,9 +10,7 @@ describe("handleTree", () => {
     const tree = handleTree(rows);
     expect(tree).toHaveLength(1);
     expect(tree[0]?.name).toBe("root");
-    expect(tree[0]?.children).toEqual([
-      { id: 2, parentId: 1, name: "child", children: [] },
-    ]);
+    expect(tree[0]?.children).toEqual([{ id: 2, parentId: 1, name: "child", children: [] }]);
   });
 
   test("treats nodes with missing parents as roots", () => {

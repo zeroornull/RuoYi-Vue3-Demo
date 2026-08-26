@@ -2,12 +2,7 @@
 import { computed } from "vue";
 import type { TagProps } from "element-plus";
 import type { DictItem } from "@/types/dict";
-import {
-  formatUnmatchedValues,
-  isPlainDictTag,
-  matchDictTagValues,
-  type DictTagValue,
-} from "./model";
+import { formatUnmatchedValues, isPlainDictTag, matchDictTagValues, type DictTagValue } from "./model";
 
 const props = withDefaults(
   defineProps<{
@@ -24,22 +19,12 @@ const props = withDefaults(
   },
 );
 
-const matched = computed(() =>
-  matchDictTagValues(props.options, props.value, props.separator).matched,
-);
-const unmatched = computed(() =>
-  matchDictTagValues(props.options, props.value, props.separator).unmatched,
-);
+const matched = computed(() => matchDictTagValues(props.options, props.value, props.separator).matched);
+const unmatched = computed(() => matchDictTagValues(props.options, props.value, props.separator).unmatched);
 
 function tagType(item: DictItem): TagProps["type"] | undefined {
   const type = item.elTagType;
-  if (
-    type === "primary" ||
-    type === "success" ||
-    type === "info" ||
-    type === "warning" ||
-    type === "danger"
-  ) {
+  if (type === "primary" || type === "success" || type === "info" || type === "warning" || type === "danger") {
     return type;
   }
   return undefined;
@@ -50,12 +35,7 @@ function tagType(item: DictItem): TagProps["type"] | undefined {
   <div class="dict-tag">
     <template v-for="item in matched" :key="String(item.value)">
       <span v-if="isPlainDictTag(item)" :class="item.elTagClass">{{ item.label }} </span>
-      <el-tag
-        v-else
-        :disable-transitions="true"
-        :type="tagType(item)"
-        :class="item.elTagClass"
-      >
+      <el-tag v-else :disable-transitions="true" :type="tagType(item)" :class="item.elTagClass">
         {{ item.label }}
       </el-tag>
     </template>

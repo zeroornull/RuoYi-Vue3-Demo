@@ -33,9 +33,7 @@ export const router = createStaticRouter({
       isAuthenticated: () => useUserStore(pinia).isAuthenticated,
       isLocked: () => useLockStore(pinia).isLock,
       setTitle: (title) => useSettingsStore(pinia).setTitle(title),
-      isAccessReady: () =>
-        useUserStore(pinia).rolesLoaded &&
-        usePermissionStore(pinia).status === "loaded",
+      isAccessReady: () => useUserStore(pinia).rolesLoaded && usePermissionStore(pinia).status === "loaded",
       ensureAccess: bootstrap.ensureAccess,
       onAccessError: () => useUserStore(pinia).resetSession(),
     };

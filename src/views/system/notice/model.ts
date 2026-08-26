@@ -1,9 +1,4 @@
-import type {
-  Notice,
-  NoticeQuery,
-  NoticeReadUserQuery,
-  NoticeUpsertRequest,
-} from "../../../types/api/system";
+import type { Notice, NoticeQuery, NoticeReadUserQuery, NoticeUpsertRequest } from "../../../types/api/system";
 
 export const NOTICE_PAGE_NAME = "Notice";
 

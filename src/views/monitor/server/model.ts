@@ -31,9 +31,7 @@ export function emptyServerOverview(): ServerOverview {
   };
 }
 
-export function coalesceServer(
-  data: Partial<ServerOverview> | null | undefined,
-): ServerOverview {
+export function coalesceServer(data: Partial<ServerOverview> | null | undefined): ServerOverview {
   const empty = emptyServerOverview();
   if (!data) {
     return empty;

@@ -1,9 +1,5 @@
 import { http } from "../../http";
-import type {
-  IdCollection,
-  JobLogPageResponse,
-  JobLogQuery,
-} from "../../types/api";
+import type { IdCollection, JobLogPageResponse, JobLogQuery } from "../../types/api";
 import type { EmptyResponse } from "../../types/http";
 import { encodeIdCollection } from "../shared";
 
@@ -12,9 +8,7 @@ export function listJobLog(query: JobLogQuery): Promise<JobLogPageResponse> {
 }
 
 export function delJobLog(jobLogIds: IdCollection): Promise<EmptyResponse> {
-  return http.delete<EmptyResponse>(
-    `/monitor/jobLog/${encodeIdCollection(jobLogIds)}`,
-  );
+  return http.delete<EmptyResponse>(`/monitor/jobLog/${encodeIdCollection(jobLogIds)}`);
 }
 
 export function cleanJobLog(): Promise<EmptyResponse> {

@@ -4,13 +4,7 @@ import { CirclePlus, Link, Rank, Remove } from "@element-plus/icons-vue";
 import draggable from "vuedraggable";
 import IconsDialog from "./IconsDialog.vue";
 import TreeNodeDialog from "./TreeNodeDialog.vue";
-import {
-  paletteItems,
-  type DrawingItem,
-  type DrawingKind,
-  type FormConf,
-  type SelectOption,
-} from "./schema";
+import { paletteItems, type DrawingItem, type DrawingKind, type FormConf, type SelectOption } from "./schema";
 
 const props = defineProps<{
   activeData: DrawingItem | null;
@@ -37,7 +31,15 @@ const tagList = computed(() => {
 const documentLink = computed(() => props.activeData?.document ?? "");
 
 function onKindChange(kind: string): void {
-  if (kind === "input" || kind === "textarea" || kind === "select" || kind === "radio" || kind === "upload" || kind === "tree" || kind === "row") {
+  if (
+    kind === "input" ||
+    kind === "textarea" ||
+    kind === "select" ||
+    kind === "radio" ||
+    kind === "upload" ||
+    kind === "tree" ||
+    kind === "row"
+  ) {
     emit("tagChange", kind);
   }
 }

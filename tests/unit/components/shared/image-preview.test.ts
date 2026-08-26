@@ -1,18 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import {
-  previewSourceList,
-  primaryPreviewSource,
-  toCssSize,
-} from "../../../../src/components/ImagePreview/model";
+import { previewSourceList, primaryPreviewSource, toCssSize } from "../../../../src/components/ImagePreview/model";
 
 describe("ImagePreview sources", () => {
   test("prefixes relative paths and keeps external URLs", () => {
-    expect(primaryPreviewSource("/profile.jpg", "/dev-api")).toBe(
-      "/dev-api/profile.jpg",
-    );
-    expect(
-      previewSourceList("https://cdn.example/a.png,/b.png", "/dev-api"),
-    ).toEqual(["https://cdn.example/a.png", "/dev-api/b.png"]);
+    expect(primaryPreviewSource("/profile.jpg", "/dev-api")).toBe("/dev-api/profile.jpg");
+    expect(previewSourceList("https://cdn.example/a.png,/b.png", "/dev-api")).toEqual([
+      "https://cdn.example/a.png",
+      "/dev-api/b.png",
+    ]);
     expect(previewSourceList("", "/dev-api")).toEqual([]);
   });
 

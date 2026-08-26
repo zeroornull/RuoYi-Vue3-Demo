@@ -53,9 +53,7 @@ describe("local auth mock", () => {
   });
 
   test("protects getInfo/getRouters and patches profile locally", () => {
-    expect(
-      dispatchMockRequest({ method: "GET", path: "/getInfo" }).body.code,
-    ).toBe(401);
+    expect(dispatchMockRequest({ method: "GET", path: "/getInfo" }).body.code).toBe(401);
     const info = dispatchMockRequest({
       method: "GET",
       path: "/getInfo",
@@ -79,14 +77,10 @@ describe("local auth mock", () => {
       path: "/system/user/profile",
       token: MOCK_TOKEN,
     });
-    expect((profile.body.data as { nickName: string }).nickName).toBe(
-      "本地管理员",
-    );
+    expect((profile.body.data as { nickName: string }).nickName).toBe("本地管理员");
     expect(tokenFromAuthorization("Bearer mock-admin-token")).toBe(MOCK_TOKEN);
     const dtos = parseBackendRoutes(routers.body.data);
     const transformed = transformBackendRoutes(dtos);
-    expect(() =>
-      assertUniqueRouteNames([...staticRoutes, ...transformed.routes]),
-    ).not.toThrow();
+    expect(() => assertUniqueRouteNames([...staticRoutes, ...transformed.routes])).not.toThrow();
   });
 });

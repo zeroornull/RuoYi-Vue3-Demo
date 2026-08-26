@@ -8,11 +8,7 @@ import { submitForm } from "../../components/form";
 import { useTagsViewStore } from "../../stores/modules/tags-view";
 import { useUserStore } from "../../stores/modules/user";
 import { closeCurrentPage } from "./close";
-import {
-  emptyPasswordForm,
-  profilePasswordError,
-  type ProfilePasswordForm,
-} from "./model";
+import { emptyPasswordForm, profilePasswordError, type ProfilePasswordForm } from "./model";
 
 const router = useRouter();
 const route = useRoute();
@@ -28,10 +24,7 @@ const rules: FormRules<ProfilePasswordForm> = {
     { required: true, message: "新密码不能为空", trigger: "blur" },
     {
       validator: (_rule, value: string, callback) => {
-        const message = profilePasswordError(
-          value,
-          userStore.passwordCharacterType ?? "0",
-        );
+        const message = profilePasswordError(value, userStore.passwordCharacterType ?? "0");
         if (message) {
           callback(new Error(message));
           return;

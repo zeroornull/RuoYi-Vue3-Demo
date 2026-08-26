@@ -3,9 +3,7 @@ export type AccessBootstrapper = {
   isPending: () => boolean;
 };
 
-export function createAccessBootstrapper(
-  task: () => Promise<void>,
-): AccessBootstrapper {
+export function createAccessBootstrapper(task: () => Promise<void>): AccessBootstrapper {
   let pending: Promise<void> | null = null;
   return {
     ensureAccess() {

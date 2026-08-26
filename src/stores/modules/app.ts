@@ -34,9 +34,7 @@ export function parseSidebarOpened(value: string | undefined): boolean {
 }
 
 export function parseAppSize(value: string | undefined): AppSize {
-  return value === "small" || value === "large" || value === "default"
-    ? value
-    : "default";
+  return value === "small" || value === "large" || value === "default" ? value : "default";
 }
 
 export function createUseAppStore(cookies: AppCookieStore = browserCookies) {

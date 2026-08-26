@@ -57,12 +57,8 @@ const fileList = ref<UploadFileItem[]>([]);
 const pending = ref(0);
 const uploaded = ref<UploadFileItem[]>([]);
 const headers = computed(() => uploadHeaders(getToken()));
-const uploadFileUrl = computed(() =>
-  uploadActionUrl(appEnv.baseApi, props.action),
-);
-const showTip = computed(
-  () => props.isShowTip && (props.fileType.length > 0 || props.fileSize > 0),
-);
+const uploadFileUrl = computed(() => uploadActionUrl(appEnv.baseApi, props.action));
+const showTip = computed(() => props.isShowTip && (props.fileType.length > 0 || props.fileSize > 0));
 
 let sortable: { destroy: () => void } | null = null;
 
@@ -80,9 +76,7 @@ function commit(): void {
 
 function finishBatch(): void {
   if (pending.value > 0 && uploaded.value.length === pending.value) {
-    fileList.value = fileList.value
-      .filter((item) => item.url.length > 0)
-      .concat(uploaded.value);
+    fileList.value = fileList.value.filter((item) => item.url.length > 0).concat(uploaded.value);
     uploaded.value = [];
     pending.value = 0;
     commit();
@@ -122,11 +116,7 @@ function handleUploadSuccess(response: unknown, file: { uid?: number }): void {
   }
   pending.value -= 1;
   props.ui.loading("").close();
-  props.ui.error(
-    isUploadSuccess(response) ? "" : String(
-      (response as { msg?: string } | null)?.msg ?? "上传文件失败",
-    ),
-  );
+  props.ui.error(isUploadSuccess(response) ? "" : String((response as { msg?: string } | null)?.msg ?? "上传文件失败"));
   if (file.uid !== undefined) {
     fileUpload.value?.handleRemove(file as never);
   }
@@ -187,23 +177,12 @@ onBeforeUnmount(() => {
       的文件
     </div>
     <ul ref="listRef" class="upload-file-list el-upload-list el-upload-list--text">
-      <li
-        v-for="(file, index) in fileList"
-        :key="file.uid"
-        class="el-upload-list__item ele-upload-list__item-content"
-      >
+      <li v-for="(file, index) in fileList" :key="file.uid" class="el-upload-list__item ele-upload-list__item-content">
         <el-link :href="`${appEnv.baseApi}${file.url}`" underline="never" target="_blank">
           <span class="el-icon-document">{{ displayFileName(file.name) }}</span>
         </el-link>
         <div class="ele-upload-list__item-content-action">
-          <el-link
-            v-if="!disabled"
-            underline="never"
-            type="danger"
-            @click="handleDelete(index)"
-          >
-            删除
-          </el-link>
+          <el-link v-if="!disabled" underline="never" type="danger" @click="handleDelete(index)"> 删除 </el-link>
         </div>
       </li>
     </ul>

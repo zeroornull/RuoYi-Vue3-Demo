@@ -13,17 +13,12 @@ export function isDocumentFullscreen(doc: FullscreenDocument): boolean {
   return Boolean(doc.fullscreenElement ?? doc.webkitFullscreenElement);
 }
 
-export async function toggleDocumentFullscreen(
-  doc: FullscreenDocument,
-): Promise<boolean> {
+export async function toggleDocumentFullscreen(doc: FullscreenDocument): Promise<boolean> {
   if (isDocumentFullscreen(doc)) {
     await (doc.exitFullscreen ?? doc.webkitExitFullscreen)?.();
     return false;
   }
-  await (
-    doc.documentElement.requestFullscreen ??
-    doc.documentElement.webkitRequestFullscreen
-  )?.();
+  await (doc.documentElement.requestFullscreen ?? doc.documentElement.webkitRequestFullscreen)?.();
   return true;
 }
 

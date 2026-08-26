@@ -40,16 +40,12 @@ const emit = defineEmits<{
 
 const hiddenKeys = ref<number[]>([]);
 const open = ref(false);
-const style = computed(() =>
-  props.gutter ? { marginRight: `${props.gutter / 2}px` } : {},
-);
+const style = computed(() => (props.gutter ? { marginRight: `${props.gutter / 2}px` } : {}));
 const isChecked = computed({
   get: () => isAllColumnsVisible(props.columns),
   set: () => undefined,
 });
-const isIndeterminate = computed(
-  () => isSomeColumnsVisible(props.columns) && !isChecked.value,
-);
+const isIndeterminate = computed(() => isSomeColumnsVisible(props.columns) && !isChecked.value);
 
 if (props.storageKey) {
   restoreColumnVisibility(props.columns, localCache.getJSON(props.storageKey));
@@ -112,32 +108,14 @@ function toggleCheckAll(): void {
       <el-tooltip content="刷新" placement="top">
         <el-button circle :icon="Refresh" @click="refresh" />
       </el-tooltip>
-      <el-tooltip
-        v-if="Object.keys(columns).length > 0"
-        content="显隐列"
-        placement="top"
-      >
-        <el-button
-          v-if="showColumnsType === 'transfer'"
-          circle
-          :icon="Menu"
-          @click="open = true"
-        />
-        <el-dropdown
-          v-else
-          trigger="click"
-          :hide-on-click="false"
-          style="padding-left: 12px"
-        >
+      <el-tooltip v-if="Object.keys(columns).length > 0" content="显隐列" placement="top">
+        <el-button v-if="showColumnsType === 'transfer'" circle :icon="Menu" @click="open = true" />
+        <el-dropdown v-else trigger="click" :hide-on-click="false" style="padding-left: 12px">
           <el-button circle :icon="Menu" />
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>
-                <el-checkbox
-                  :indeterminate="isIndeterminate"
-                  :model-value="isChecked"
-                  @change="toggleCheckAll"
-                >
+                <el-checkbox :indeterminate="isIndeterminate" :model-value="isChecked" @change="toggleCheckAll">
                   列展示
                 </el-checkbox>
               </el-dropdown-item>
@@ -166,12 +144,7 @@ function toggleCheckAll(): void {
       </el-tooltip>
     </el-row>
     <el-dialog v-model="open" title="显示/隐藏" append-to-body>
-      <el-transfer
-        v-model="hiddenKeys"
-        :titles="['显示', '隐藏']"
-        :data="transferData(columns)"
-        @change="dataChange"
-      />
+      <el-transfer v-model="hiddenKeys" :titles="['显示', '隐藏']" :data="transferData(columns)" @change="dataChange" />
     </el-dialog>
   </div>
 </template>

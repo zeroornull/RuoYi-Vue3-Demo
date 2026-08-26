@@ -52,10 +52,7 @@ const browserDeps: TagsViewStoreDeps = {
   isPersistenceEnabled: () => useSettingsStore().tagsViewPersist,
 };
 
-function optionalString(
-  source: Record<string, unknown>,
-  key: string,
-): string | undefined {
+function optionalString(source: Record<string, unknown>, key: string): string | undefined {
   return typeof source[key] === "string" ? source[key] : undefined;
 }
 
@@ -66,8 +63,7 @@ function parseMeta(value: unknown): TagViewMeta | null {
   const icon = optionalString(value, "icon");
   const noCache = typeof value.noCache === "boolean" ? value.noCache : undefined;
   const affix = typeof value.affix === "boolean" ? value.affix : undefined;
-  const link =
-    value.link === null || typeof value.link === "string" ? value.link : undefined;
+  const link = value.link === null || typeof value.link === "string" ? value.link : undefined;
   return {
     ...(title === undefined ? {} : { title }),
     ...(icon === undefined ? {} : { icon }),
@@ -86,10 +82,7 @@ function parseQuery(value: unknown): TagQuery | null {
       query[key] = item;
       continue;
     }
-    if (
-      Array.isArray(item) &&
-      item.every((entry) => typeof entry === "string" || entry === null)
-    ) {
+    if (Array.isArray(item) && item.every((entry) => typeof entry === "string" || entry === null)) {
       query[key] = item;
       continue;
     }
@@ -120,16 +113,12 @@ export function parsePersistedTags(raw: string | null): TagView[] {
   if (raw === null) return [];
   const parsed = parseCacheJson(raw);
   const source =
-    isRecord(parsed) &&
-    parsed.version === TAGS_VIEW_PERSIST_VERSION &&
-    Array.isArray(parsed.visitedViews)
+    isRecord(parsed) && parsed.version === TAGS_VIEW_PERSIST_VERSION && Array.isArray(parsed.visitedViews)
       ? parsed.visitedViews
       : Array.isArray(parsed)
         ? parsed
         : [];
-  return source
-    .map(parsePersistedTag)
-    .filter((view): view is TagView => view !== null && !view.meta.affix);
+  return source.map(parsePersistedTag).filter((view): view is TagView => view !== null && !view.meta.affix);
 }
 
 function normalizeView(view: TagViewInput): TagView {
@@ -222,18 +211,14 @@ export function createUseTagsViewStore(deps: TagsViewStoreDeps = browserDeps) {
     }
 
     function delOthersVisitedViews(view: Pick<TagViewInput, "path">): TagView[] {
-      visitedViews.value = visitedViews.value.filter(
-        (item) => item.meta.affix || item.path === view.path,
-      );
+      visitedViews.value = visitedViews.value.filter((item) => item.meta.affix || item.path === view.path);
       iframeViews.value = iframeViews.value.filter((item) => item.path === view.path);
       persistVisitedViews();
       return [...visitedViews.value];
     }
 
     function delOthersCachedViews(view: Pick<TagViewInput, "name">): string[] {
-      cachedViews.value = view.name && cachedViews.value.includes(view.name)
-        ? [view.name]
-        : [];
+      cachedViews.value = view.name && cachedViews.value.includes(view.name) ? [view.name] : [];
       return [...cachedViews.value];
     }
 

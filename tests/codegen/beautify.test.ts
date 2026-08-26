@@ -8,11 +8,7 @@ import {
   beautifyJs,
 } from "../../src/views/tool/build/beautify";
 import { generateVueSource } from "../../src/views/tool/build/codegen";
-import {
-  defaultDrawingList,
-  emptyFormConf,
-  parseDrawingItem,
-} from "../../src/views/tool/build/schema";
+import { defaultDrawingList, emptyFormConf, parseDrawingItem } from "../../src/views/tool/build/schema";
 
 async function fixture(name: string): Promise<string> {
   return Bun.file(new URL(`./fixtures/${name}`, import.meta.url)).text();
@@ -61,8 +57,8 @@ describe("js-beautify 2.x adapter", () => {
   test("form-builder default SFC matches the reviewed beautified snapshot", async () => {
     const source = generateVueSource(emptyFormConf(), defaultDrawingList(), "file");
     expect(source).toBe(await fixture("default-form.vue"));
-    expect(source).toContain("  <div class=\"app-container\">");
-    expect(source).toContain("import {\n  reactive\n} from \"vue\";");
+    expect(source).toContain('  <div class="app-container">');
+    expect(source).toContain('import {\n  reactive\n} from "vue";');
     expect(source).not.toContain("js-beautify");
   });
 

@@ -18,11 +18,7 @@ function parseUserPageRow(value: unknown): {
   createTime: string;
 } {
   if (!isRecord(value)) throw new ApiContractError("page.row", "object");
-  if (
-    typeof value.userId !== "string" ||
-    typeof value.userName !== "string" ||
-    typeof value.createTime !== "string"
-  ) {
+  if (typeof value.userId !== "string" || typeof value.userName !== "string" || typeof value.createTime !== "string") {
     throw new ApiContractError("page.row", "typed user row");
   }
   return {

@@ -30,7 +30,8 @@ const drawingList = ref<DrawingItem[]>(defaultDrawingList());
 const formConf = reactive(emptyFormConf());
 const activeId = ref(drawingList.value[0]?.formId ?? 0);
 const activeData = computed(
-  () => drawingList.value.flatMap(flatten).find((item) => item.formId === activeId.value) ?? drawingList.value[0] ?? null,
+  () =>
+    drawingList.value.flatMap(flatten).find((item) => item.formId === activeId.value) ?? drawingList.value[0] ?? null,
 );
 const dialogVisible = ref(false);
 const showFileName = ref(false);
@@ -153,7 +154,9 @@ async function generate(payload: { type: GenerateMode; fileName: string }): Prom
           >
             <template #item="{ element }">
               <div class="components-item" @click="addComponent(element)">
-                <div class="components-body">{{ element.kind === "row" ? "行容器" : "label" in element ? element.label : element.kind }}</div>
+                <div class="components-body">
+                  {{ element.kind === "row" ? "行容器" : "label" in element ? element.label : element.kind }}
+                </div>
               </div>
             </template>
           </draggable>
@@ -190,7 +193,13 @@ async function generate(payload: { type: GenerateMode; fileName: string }): Prom
           :disabled="formConf.disabled"
           :label-width="`${formConf.labelWidth}px`"
         >
-          <draggable class="drawing-board" :list="drawingList" :animation="340" group="componentsGroup" item-key="formId">
+          <draggable
+            class="drawing-board"
+            :list="drawingList"
+            :animation="340"
+            group="componentsGroup"
+            item-key="formId"
+          >
             <template #item="{ element, index }">
               <DraggableItem
                 :element="element"
@@ -208,7 +217,12 @@ async function generate(payload: { type: GenerateMode; fileName: string }): Prom
         </el-form>
       </el-scrollbar>
     </div>
-    <RightPanel :active-data="activeData" :form-conf="formConf" :show-field="drawingList.length > 0" @tag-change="onTagChange" />
+    <RightPanel
+      :active-data="activeData"
+      :form-conf="formConf"
+      :show-field="drawingList.length > 0"
+      @tag-change="onTagChange"
+    />
     <CodeTypeDialog v-model="dialogVisible" :show-file-name="showFileName" @confirm="generate" />
   </div>
 </template>

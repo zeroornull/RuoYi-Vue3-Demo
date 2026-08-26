@@ -10,13 +10,7 @@ import { download } from "../../../http";
 import Pagination from "../../../components/Pagination/index.vue";
 import RightToolbar from "../../../components/RightToolbar/index.vue";
 import { useDict } from "../../../composables/useDict";
-import {
-  emptySelection,
-  firstPage,
-  idsForAction,
-  replaceObject,
-  selectionFromRows,
-} from "../../../composables/crud";
+import { emptySelection, firstPage, idsForAction, replaceObject, selectionFromRows } from "../../../composables/crud";
 import { parseSingleRouteParam } from "../../../router/params";
 import { useTagsViewStore } from "../../../stores/modules/tags-view";
 import { addDateRange } from "../../../utils/params";
@@ -24,11 +18,7 @@ import { parseTime } from "../../../utils/parse-time";
 import { closeCurrentPage } from "../../profile/close";
 import type { JobLog } from "../../../types/api/monitor";
 import JobDetail from "./detail.vue";
-import {
-  ALL_JOB_LOGS_ID,
-  JOB_LOG_PAGE_NAME,
-  emptyJobLogQuery,
-} from "./model";
+import { ALL_JOB_LOGS_ID, JOB_LOG_PAGE_NAME, emptyJobLogQuery } from "./model";
 
 defineOptions({ name: JOB_LOG_PAGE_NAME });
 
@@ -147,13 +137,25 @@ onMounted(() => {
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:remove']" type="danger" plain :icon="Delete" :disabled="selection.multiple" @click="handleDelete">删除</el-button>
+        <el-button
+          v-hasPermi="['monitor:job:remove']"
+          type="danger"
+          plain
+          :icon="Delete"
+          :disabled="selection.multiple"
+          @click="handleDelete"
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:remove']" type="danger" plain :icon="Delete" @click="handleClean">清空</el-button>
+        <el-button v-hasPermi="['monitor:job:remove']" type="danger" plain :icon="Delete" @click="handleClean"
+          >清空</el-button
+        >
       </el-col>
       <el-col :span="1.5">
-        <el-button v-hasPermi="['monitor:job:export']" type="warning" plain :icon="Download" @click="handleExport">导出</el-button>
+        <el-button v-hasPermi="['monitor:job:export']" type="warning" plain :icon="Download" @click="handleExport"
+          >导出</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain :icon="Close" @click="handleClose">关闭</el-button>
@@ -185,7 +187,9 @@ onMounted(() => {
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="{ row }">
-          <el-button v-hasPermi="['monitor:job:query']" link type="primary" :icon="View" @click="handleView(row)">详细</el-button>
+          <el-button v-hasPermi="['monitor:job:query']" link type="primary" :icon="View" @click="handleView(row)"
+            >详细</el-button
+          >
         </template>
       </el-table-column>
     </el-table>

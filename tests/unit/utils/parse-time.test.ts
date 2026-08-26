@@ -28,8 +28,6 @@ describe("parseTime", () => {
 
   test("parses numeric strings", () => {
     const date = new Date(2020, 0, 2, 3, 4, 5);
-    expect(parseTime(String(date.getTime()), "{y}-{m}-{d}")).toBe(
-      parseTime(date, "{y}-{m}-{d}"),
-    );
+    expect(parseTime(String(date.getTime()), "{y}-{m}-{d}")).toBe(parseTime(date, "{y}-{m}-{d}"));
   });
 });

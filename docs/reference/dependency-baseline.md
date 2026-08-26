@@ -51,29 +51,29 @@ npm view vuedraggable dist-tags peerDependencies --json
 
 下表将“绝对最新”与“本手册默认实操版本”分开。版本来自基线日查询；执行时应重新验证。
 
-| 包 | 基线日注册表版本 | 默认实操选择 | 原因 |
-| --- | ---: | ---: | --- |
-| Bun | 本机 1.4.0 | 1.4.0 或执行时稳定版 | 包管理器与脚本入口；团队/CI 必须统一 |
-| `vue` | 3.5.41 | 3.5.41 | Vue 3 当前稳定线 |
-| `@vue/compiler-sfc` | 3.5.41 | 由 `vue@3.5.41` 精确带入 | 与 Vue runtime 保持同一 patch；安装后仍要检查解析结果 |
-| `vite` | 8.2.2 | 8.2.2 | 与 Router 5、插件 6 的 peer 范围一致 |
-| `@vitejs/plugin-vue` | 6.0.8 | 6.0.8 | 支持 Vite 5—8、Vue 3.2.25+ |
-| `typescript` | 7.0.2 | **6.0.3** | 最新 `typescript-eslint` 8.67.0 仅声明支持 `<6.1.0` |
-| `vue-tsc` | 3.3.11 | 3.3.11 | peer 为 TypeScript 5+ |
-| `vue-router` | 5.2.0 | 5.2.0 | 其 peer 与 Vue 3.5.34+、Vite 7.3+/8、Pinia 3/4 一致 |
-| `pinia` | 4.0.3 | 4.0.3 | peer 需要 Vue 3.5.11+、TypeScript 5.6+ |
-| `element-plus` | 2.14.5 | 2.14.5 | peer 需要 Vue 3.3.7+ |
-| `@element-plus/icons-vue` | 2.3.2 | 2.3.2 | 与 Element Plus 实际用例一起验证 |
-| `@vueuse/core` | 14.4.0 | 14.4.0 | 按使用 API 逐项验证 |
-| `axios` | 1.19.0 | 1.19.0 | 拦截器和自定义 config 类型需单独迁移 |
-| `sass-embedded` | 1.103.1 | 1.103.1 | 保留现有 SCSS 能力 |
-| `vitest` | 4.1.11 | 4.1.11 | peer 支持 Vite 6—8 |
-| `@vue/test-utils` | 2.4.11 | 2.4.11 | Vue 组件单元测试 |
-| `eslint` | 10.9.0 | 10.9.0 | 使用 flat config |
-| `eslint-plugin-vue` | 10.10.0 | 10.10.0 | peer 支持 ESLint 8.57—10 |
-| `typescript-eslint` | 8.67.0 | 8.67.0 | 决定 TypeScript 暂留 6.0.x |
-| `prettier` | 3.9.6 | 3.9.6 | 仅负责格式化，不与 Lint 规则混用 |
-| `@vue/tsconfig` | 0.9.1 | 优先采用脚手架实际解析版本 | Vue 官方维护的 TSConfig 基线；项目再增量收紧 |
+| 包                        | 基线日注册表版本 |               默认实操选择 | 原因                                                  |
+| ------------------------- | ---------------: | -------------------------: | ----------------------------------------------------- |
+| Bun                       |       本机 1.4.0 |       1.4.0 或执行时稳定版 | 包管理器与脚本入口；团队/CI 必须统一                  |
+| `vue`                     |           3.5.41 |                     3.5.41 | Vue 3 当前稳定线                                      |
+| `@vue/compiler-sfc`       |           3.5.41 |   由 `vue@3.5.41` 精确带入 | 与 Vue runtime 保持同一 patch；安装后仍要检查解析结果 |
+| `vite`                    |            8.2.2 |                      8.2.2 | 与 Router 5、插件 6 的 peer 范围一致                  |
+| `@vitejs/plugin-vue`      |            6.0.8 |                      6.0.8 | 支持 Vite 5—8、Vue 3.2.25+                            |
+| `typescript`              |            7.0.2 |                  **6.0.3** | 最新 `typescript-eslint` 8.67.0 仅声明支持 `<6.1.0`   |
+| `vue-tsc`                 |           3.3.11 |                     3.3.11 | peer 为 TypeScript 5+                                 |
+| `vue-router`              |            5.2.0 |                      5.2.0 | 其 peer 与 Vue 3.5.34+、Vite 7.3+/8、Pinia 3/4 一致   |
+| `pinia`                   |            4.0.3 |                      4.0.3 | peer 需要 Vue 3.5.11+、TypeScript 5.6+                |
+| `element-plus`            |           2.14.5 |                     2.14.5 | peer 需要 Vue 3.3.7+                                  |
+| `@element-plus/icons-vue` |            2.3.2 |                      2.3.2 | 与 Element Plus 实际用例一起验证                      |
+| `@vueuse/core`            |           14.4.0 |                     14.4.0 | 按使用 API 逐项验证                                   |
+| `axios`                   |           1.19.0 |                     1.19.0 | 拦截器和自定义 config 类型需单独迁移                  |
+| `sass-embedded`           |          1.103.1 |                    1.103.1 | 保留现有 SCSS 能力                                    |
+| `vitest`                  |           4.1.11 |                     4.1.11 | peer 支持 Vite 6—8                                    |
+| `@vue/test-utils`         |           2.4.11 |                     2.4.11 | Vue 组件单元测试                                      |
+| `eslint`                  |           10.9.0 |                 **10.9.1** | 19.a 实测 latest patch；flat config                   |
+| `eslint-plugin-vue`       |          10.10.0 |                    10.10.0 | peer 支持 ESLint 8.57—10                              |
+| `typescript-eslint`       |           8.67.0 |                 **8.68.0** | 19.a 实测 peer 仍是 `typescript >=4.8.4 <6.1.0`       |
+| `prettier`                |            3.9.6 |                      3.9.6 | 仅负责格式化，不与 Lint 规则混用                      |
+| `@vue/tsconfig`           |            0.9.1 | 优先采用脚手架实际解析版本 | Vue 官方维护的 TSConfig 基线；项目再增量收紧          |
 
 ### 2.1 Vite 的 Node engines 仍需关注
 
@@ -93,23 +93,23 @@ npm view vuedraggable dist-tags peerDependencies --json
 
 ## 3. 旧业务依赖的处理矩阵
 
-| 包 | 旧版本 | 基线日标签/版本 | 迁移处理 |
-| --- | ---: | ---: | --- |
-| `@vueup/vue-quill` | 1.2.0 | latest 1.5.5 | 单独迁移 Editor；验证内容、工具栏、只读与图片行为 |
-| `echarts` | 5.6.0 | latest 6.1.0 | 主版本升级；先迁移一个图表样例，再迁移监控页 |
-| `fuse.js` | 7.1.0 | latest 7.5.0 | 通常可升级，仍要验证搜索排序 |
-| `js-beautify` | 1.15.4 | 2.0.3 | 18.e 已迁；typed 适配器隔离，默认样本与 1.15.4 相同 |
-| `js-cookie` | 3.0.5 | latest 3.0.8 | 建立 cookie key 类型和序列化边界 |
-| `jsencrypt` | 3.3.2 | latest 3.5.4 | 登录加密需和后端公钥格式做集成验证 |
-| `clipboard` | 2.0.11 | latest 2.0.11 | 版本长期未变；评估原生 Clipboard API，但不要夹带替换 |
-| `file-saver` | 2.0.5 | latest 2.0.5 | 先保留确保下载行为一致，再评估原生实现 |
-| `nprogress` | 0.2.0 | latest 0.2.0 | 包版本长期未变；封装为 router UI 适配器 |
-| `vuedraggable` | 4.1.0 | `latest=2.24.3`、`next=4.1.0` | **Vue 3 必须检查 `next` 分支，不能直接装 latest** |
-| `vue-cropper` | 1.1.1 | `latest=0.6.5`、`next=1.1.4` | **Vue 3 使用线需检查 `next`** |
-| `unplugin-auto-import` | 0.18.6 | latest 21.1.0 | 主版本跨度大；本手册默认先改显式导入 |
-| `unplugin-vue-setup-extend-plus` | 1.0.1 | latest 1.0.1 | 优先用 Vue 原生 `defineOptions` 后删除插件 |
-| `vite-plugin-svg-icons` | 2.0.1 | latest 2.0.1 | 在 Vite 8 上做 dev/build 双测试；不要仅凭宽 peer 范围认定兼容 |
-| `vite-plugin-compression` | 0.5.1 | latest 0.5.1 | 确认是否仍需构建时压缩；部署层已有压缩时可删除 |
+| 包                               | 旧版本 |               基线日标签/版本 | 迁移处理                                                      |
+| -------------------------------- | -----: | ----------------------------: | ------------------------------------------------------------- |
+| `@vueup/vue-quill`               |  1.2.0 |                  latest 1.5.5 | 单独迁移 Editor；验证内容、工具栏、只读与图片行为             |
+| `echarts`                        |  5.6.0 |                  latest 6.1.0 | 主版本升级；先迁移一个图表样例，再迁移监控页                  |
+| `fuse.js`                        |  7.1.0 |                  latest 7.5.0 | 通常可升级，仍要验证搜索排序                                  |
+| `js-beautify`                    | 1.15.4 |                         2.0.3 | 18.e 已迁；typed 适配器隔离，默认样本与 1.15.4 相同           |
+| `js-cookie`                      |  3.0.5 |                  latest 3.0.8 | 建立 cookie key 类型和序列化边界                              |
+| `jsencrypt`                      |  3.3.2 |                  latest 3.5.4 | 登录加密需和后端公钥格式做集成验证                            |
+| `clipboard`                      | 2.0.11 |                 latest 2.0.11 | 版本长期未变；评估原生 Clipboard API，但不要夹带替换          |
+| `file-saver`                     |  2.0.5 |                  latest 2.0.5 | 先保留确保下载行为一致，再评估原生实现                        |
+| `nprogress`                      |  0.2.0 |                  latest 0.2.0 | 包版本长期未变；封装为 router UI 适配器                       |
+| `vuedraggable`                   |  4.1.0 | `latest=2.24.3`、`next=4.1.0` | **Vue 3 必须检查 `next` 分支，不能直接装 latest**             |
+| `vue-cropper`                    |  1.1.1 |  `latest=0.6.5`、`next=1.1.4` | **Vue 3 使用线需检查 `next`**                                 |
+| `unplugin-auto-import`           | 0.18.6 |                 latest 21.1.0 | 主版本跨度大；本手册默认先改显式导入                          |
+| `unplugin-vue-setup-extend-plus` |  1.0.1 |                  latest 1.0.1 | 优先用 Vue 原生 `defineOptions` 后删除插件                    |
+| `vite-plugin-svg-icons`          |  2.0.1 |                  latest 2.0.1 | 在 Vite 8 上做 dev/build 双测试；不要仅凭宽 peer 范围认定兼容 |
+| `vite-plugin-compression`        |  0.5.1 |                  latest 0.5.1 | 确认是否仍需构建时压缩；部署层已有压缩时可删除                |
 
 ## 4. 推荐安装方式
 

@@ -9,22 +9,13 @@ export type PaginationChange = {
 };
 
 export function defaultPagerCount(width: number): number {
-  return width < PAGINATION_BREAKPOINT
-    ? MOBILE_PAGER_COUNT
-    : DESKTOP_PAGER_COUNT;
+  return width < PAGINATION_BREAKPOINT ? MOBILE_PAGER_COUNT : DESKTOP_PAGER_COUNT;
 }
 
-export function nextPageOnSizeChange(
-  page: number,
-  limit: number,
-  total: number,
-): number {
+export function nextPageOnSizeChange(page: number, limit: number, total: number): number {
   return page * limit > total ? 1 : page;
 }
 
-export function paginationChange(
-  page: number,
-  limit: number,
-): PaginationChange {
+export function paginationChange(page: number, limit: number): PaginationChange {
   return { page, limit };
 }

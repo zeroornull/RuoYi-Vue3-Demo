@@ -13,7 +13,5 @@ export const ICON_COMPONENT_MAP: Record<(typeof ICON_CHOICES)[number], Component
 };
 
 export function resolveBuildIcon(name: string): Component | undefined {
-  return name in ICON_COMPONENT_MAP
-    ? ICON_COMPONENT_MAP[name as (typeof ICON_CHOICES)[number]]
-    : undefined;
+  return name in ICON_COMPONENT_MAP ? ICON_COMPONENT_MAP[name as (typeof ICON_CHOICES)[number]] : undefined;
 }
