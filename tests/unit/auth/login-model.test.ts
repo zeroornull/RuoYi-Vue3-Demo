@@ -3,6 +3,7 @@ import {
   applyCaptcha,
   canSubmitAuth,
   captchaDataUrl,
+  LOGIN_REQUIRED_MESSAGES,
   nextAuthStatus,
   passwordsMatch,
   readRememberMe,
@@ -29,6 +30,14 @@ function memoryCookies(): CookieJar & { data: Map<string, string> } {
 }
 
 describe("login and captcha boundaries", () => {
+  test("keeps the required-field copy used by the login form", () => {
+    expect(LOGIN_REQUIRED_MESSAGES).toEqual({
+      username: "请输入您的账号",
+      password: "请输入您的密码",
+      code: "请输入验证码",
+    });
+  });
+
   test("builds captcha data URLs and disables when the backend says so", () => {
     expect(captchaDataUrl("abc")).toBe("data:image/gif;base64,abc");
     expect(captchaDataUrl("data:image/png;base64,xx")).toBe("data:image/png;base64,xx");

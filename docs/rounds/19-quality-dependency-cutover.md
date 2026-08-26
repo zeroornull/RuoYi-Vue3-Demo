@@ -128,6 +128,13 @@ rg -n "@ts-ignore|@ts-expect-error|\bany\b|TODO.*migration|legacy/" src tests vi
 - 脚本：`lint`、`format`、`format:check`、`check`（typecheck → test → lint → format:check → build:prod）。`test` 仍是 `bun test`。CI 增加 lint / format:check。
 - 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor tests/tools tests/codegen`（195）；`bun run lint`（0 error）；`bun run format:check`；`bun run build:stage`（`build-*.js` 310.02 kB）。浏览器：`/tool/build` 默认手机号；`/tool/gen` `sys_user`/`sys_role`；`/system/user` 部门树与 admin 列表；390px 用户列表仍可读。
 
+### 19.b Vitest 与组件测试适配（工作区，未单独提交）
+
+- 执行时版本：`vitest@4.1.11`、`@vue/test-utils@2.4.11`、`happy-dom@20.11.6`。独立 `vitest.config.ts`（不 merge `vite.config.ts`，避免 `requireBuildEnv` 在 mode=test 下炸掉）。`vitest.config.ts` 不进 `tsconfig.node.json`：`skipLibCheck: false` 会撞上 happy-dom 的 `UnderlyingDefaultSource` 声明。
+- 现有 `bun:test` 断言未改写。`test` = `vitest run && bun test tests/unit tests/system tests/monitor tests/tools tests/codegen`；`test:watch` = `vitest`。CI 改为 `bun run test`。
+- 组件入口 `tests/vue/`：Pagination 翻页/改页大小/隐藏；DictTag 匹配标签与无类型 span；`v-hasPermi` 保留/删除按钮与 `*:*:*` 通配。登录必填文案抽到 `LOGIN_REQUIRED_MESSAGES`，Login.vue 引用；bun 测锁定文案。未把整页 Login 挂进 VTU（Element Plus `el-form` validate 在本仓库的 Vitest 套件里不稳定）。
+- 验证：`bun run test`（Vitest **7** + bun **196**）；`bun run typecheck` / `lint` / `format:check`；`bun run build:stage`。
+
 ## 停止条件
 
 - [ ] 干净环境冻结安装通过。
