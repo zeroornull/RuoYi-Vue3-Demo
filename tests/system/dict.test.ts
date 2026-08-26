@@ -71,7 +71,7 @@ describe("dict mock CRUD", () => {
       "sys_unused",
     );
     const options = dict("GET", "/system/dict/type/optionselect");
-    expect((options.body.data as unknown[]).length).toBe(7);
+    expect((options.body.data as unknown[]).length).toBe(11);
     const values = dict("GET", "/system/dict/data/type/sys_yes_no");
     expect(
       (values.body.data as Array<{ dictValue: string }>).map((row) => row.dictValue),
@@ -81,8 +81,8 @@ describe("dict mock CRUD", () => {
   test("creates type/data, navigates by dictId and batch-deletes", () => {
     expect(
       dict("POST", "/system/dict/type", {
-        dictName: "任务状态",
-        dictType: "sys_job_status",
+        dictName: "任务错过策略",
+        dictType: "sys_job_misfire",
         status: "0",
       }).body.code,
     ).toBe(200);
@@ -93,23 +93,23 @@ describe("dict mock CRUD", () => {
       }).body.msg,
     ).toBe("字典类型已存在");
     const created = dict("GET", "/system/dict/type/list", undefined, {
-      dictType: "sys_job_status",
+      dictType: "sys_job_misfire",
     });
     const typeRow = (created.body.rows as Array<{ dictId: string }>)[0];
     expect(
       (dict("GET", `/system/dict/type/${typeRow?.dictId}`).body.data as { dictType: string })
         .dictType,
-    ).toBe("sys_job_status");
+    ).toBe("sys_job_misfire");
     expect(
       dict("POST", "/system/dict/data", {
-        dictType: "sys_job_status",
+        dictType: "sys_job_misfire",
         dictLabel: "运行",
         dictValue: "0",
         dictSort: 1,
       }).body.code,
     ).toBe(200);
     const dataList = dict("GET", "/system/dict/data/list", undefined, {
-      dictType: "sys_job_status",
+      dictType: "sys_job_misfire",
     });
     expect(dataList.body.total).toBe(1);
     expect(dict("DELETE", "/system/dict/type/5").body.code).toBe(200);

@@ -42,13 +42,27 @@
 
 ## 实操顺序
 
-1. Swagger 外链/iframe。
-2. generator 查询、导入和基本信息。
-3. generator 编辑配置和代码预览。
-4. 表单 schema 类型。
-5. draggable 画布。
-6. dialogs、TreeNode、RightPanel。
-7. 生成结果对照测试。
+拆成子批次，一轮只做一块，不要一次做完 18.a—18.e。
+
+### 18.a Swagger 外链/iframe
+
+- swagger。
+
+### 18.b generator 查询、导入和基本信息
+
+- generator list / import / create / basicInfoForm。
+
+### 18.c generator 编辑配置和代码预览
+
+- editTable / genInfoForm / preview / 下载。
+
+### 18.d 表单构建器
+
+- 判别联合 schema、vuedraggable 画布、dialogs / TreeNode / RightPanel。
+
+### 18.e 生成结果对照
+
+- js-beautify 2.x 输出与旧快照人工审阅。
 
 ## 必须测试
 
@@ -74,13 +88,35 @@ bun run test -- tests/tools tests/codegen
 bun run build:stage
 ```
 
+## 本轮记录
+
+### 18.a Swagger 外链/iframe（工作区，未单独提交）
+
+- 页面：`src/views/tool/swagger/index.vue`。沙箱 iframe 指向 `swaggerUiUrl(appEnv.baseApi)`（`/swagger-ui/index.html`），与 Druid 同一套 sandbox / referrer 策略。
+- Mock：`vite/mock/tool.ts` 在鉴权前放行 `GET /swagger-ui/index.html`；`getRouters` 增加系统工具 / 系统接口；菜单 `3` / `116`。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor tests/tools`（177）；`bun run build:stage`（独立 `swagger-*.js` 0.67 kB）。浏览器：`/tool/swagger` iframe 显示 Swagger UI / 本地 Mock OpenAPI；390px 仍铺满；回归 `/monitor/cache` Redis 7.2.4。
+
+### 18.b generator 查询、导入和基本信息（工作区，未单独提交）
+
+- 页面：`src/views/tool/gen/{index,importTable,createTable,basicInfoForm}`。列表查询/排序/分页；导入 DB 表；SQL 建表（解析 `CREATE TABLE`）；删除确认；同步确认；编辑跳 `/tool/gen-edit/index/:tableId`（18.c 仍占位）。`v-hasRole` 未装，创建按钮用 `checkRole(roles, ["admin"])`。
+- Query / BasicInfo / Row 分模型；`parseCreateTableNames` / `tableNameToClassName` 无 `Record<string, any>`。`basicInfoForm` 已迁供 18.c 编辑页使用。
+- Mock：`vite/mock/tool.ts` 鉴权后处理 `/tool/gen/*`；无 token 返回 401。预览/下载未做（属 18.c）。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor tests/tools`（182）；`bun run build:stage`（`gen-*.js` 10.18 kB）。浏览器：搜 `user` 只剩 `sys_user`；导入 `sys_notice`；SQL 创建 `sys_demo`；编辑进占位「修改生成配置」；回归 Swagger UI。
+
+### 18.c generator 编辑配置和代码预览（工作区，未单独提交）
+
+- 页面：`editTable.vue` / `genInfoForm.vue`；列表补预览对话框与 zip/`genCode` 下载。隐藏路由 `/tool/gen-edit/index/:tableId` 接到真实编辑页。字段表用已有 `sortablejs` 按 `.allowDrag` 排序。
+- Query / BasicInfo / GenEditForm / PreviewFile 分模型；`formToUpdateRequest` 带 `params.genView`，没有 `Record<string, any>`。查询方式用 API 的 `GE`/`LE`。`js-beautify` 留给 18.e。
+- Mock：PUT `/tool/gen`、GET preview、`batchGenCode` zip、`genCode` 自定义路径。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor tests/tools`（184）；`bun run build:stage`（`editTable-*.js` 16.95 kB）。浏览器：预览 `domain.java`/`mapper.xml`/`index.vue`；编辑改表描述为「用户信息」并提交；`GET /tool/gen/batchGenCode?tables=sys_user` 200；回归 Swagger UI。
+
 ## 停止条件
 
-- [ ] 工具域所有页面完成或有明确不迁移决定。
-- [ ] draggable 使用 Vue 3 分支并经过交互验证。
-- [ ] 动态 schema 使用判别联合，不是超级可选接口。
-- [ ] 代码生成差异经过人工和自动双重审阅。
-- [ ] 第三方弱类型被窄适配器隔离。
+- [ ] 工具域所有页面完成或有明确不迁移决定。（18.a—18.c 已迁；18.d—18.e 未开始）
+- [ ] draggable 使用 Vue 3 分支并经过交互验证。（属 18.d）
+- [ ] 动态 schema 使用判别联合，不是超级可选接口。（属 18.d）
+- [ ] 代码生成差异经过人工和自动双重审阅。（预览/下载已迁；beautify 快照属 18.e）
+- [ ] 第三方弱类型被窄适配器隔离。（属 18.d / 18.e）
 
 ## 推荐提交
 

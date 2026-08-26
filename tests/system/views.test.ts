@@ -18,6 +18,19 @@ const migrated = [
   "system/role/index",
   "system/role/authUser",
   "system/role/selectUser",
+  "monitor/online/index",
+  "monitor/logininfor/index",
+  "monitor/operlog/index",
+  "monitor/operlog/detail",
+  "monitor/job/index",
+  "monitor/job/log",
+  "monitor/job/detail",
+  "monitor/cache/index",
+  "monitor/cache/list",
+  "monitor/server/index",
+  "monitor/druid/index",
+  "tool/swagger/index",
+  "tool/gen/index",
 ] as const;
 
 describe("16.a migrated views", () => {
@@ -48,6 +61,15 @@ describe("16.a migrated views", () => {
       "src/views/system/role/index.vue",
       "src/views/system/role/authUser.vue",
       "src/views/system/role/selectUser.vue",
+      "src/views/monitor/online/index.vue",
+      "src/views/monitor/logininfor/index.vue",
+      "src/views/monitor/operlog/index.vue",
+      "src/views/monitor/job/index.vue",
+      "src/views/monitor/job/log.vue",
+      "src/views/monitor/cache/index.vue",
+      "src/views/monitor/cache/list.vue",
+      "src/views/monitor/server/index.vue",
+      "src/views/tool/gen/index.vue",
     ];
     const sources = await Promise.all(files.map((file) => Bun.file(file).text()));
     for (const source of sources) {
@@ -65,5 +87,14 @@ describe("16.a migrated views", () => {
     expect(sources[9]).toContain("system:role:add");
     expect(sources[10]).toContain("system:role:remove");
     expect(sources[11]).toContain("system:role:add");
+    expect(sources[12]).toContain("monitor:online:forceLogout");
+    expect(sources[13]).toContain("monitor:logininfor:unlock");
+    expect(sources[14]).toContain("monitor:operlog:query");
+    expect(sources[15]).toContain("monitor:job:add");
+    expect(sources[16]).toContain("monitor:job:query");
+    expect(sources[17]).toContain("monitor:cache:list");
+    expect(sources[18]).toContain("monitor:cache:list");
+    expect(sources[19]).toContain("monitor:server:list");
+    expect(sources[20]).toContain("tool:gen:preview");
   });
 });

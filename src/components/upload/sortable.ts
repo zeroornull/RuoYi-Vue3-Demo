@@ -4,11 +4,12 @@ export function bindSortableList(
   element: HTMLElement | null,
   onEnd: (from: number, to: number) => void,
   ghostClass?: string,
+  handle?: string,
 ): { destroy: () => void } | null {
   if (!element) {
     return null;
   }
-  const options: Options = {
+  const options: Options & { handle?: string } = {
     onEnd(event: SortableEvent) {
       if (event.oldIndex === undefined || event.newIndex === undefined) {
         return;
@@ -18,6 +19,9 @@ export function bindSortableList(
   };
   if (ghostClass) {
     options.ghostClass = ghostClass;
+  }
+  if (handle) {
+    options.handle = handle;
   }
   const instance = Sortable.create(element, options);
   return { destroy: () => instance.destroy() };

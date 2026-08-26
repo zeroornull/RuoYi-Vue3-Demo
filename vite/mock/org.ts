@@ -86,6 +86,16 @@ function seedMenus(): MenuRow[] {
     menu("103", "1", "部门管理", 4, "dept", "system/dept/index", "Dept", "system:dept:list", "tree", "C"),
     menu("2", "0", "系统监控", 2, "monitor", "", "Monitor", "", "monitor", "M"),
     menu("200", "2", "在线用户", 1, "online", "monitor/online/index", "Online", "monitor:online:list", "online", "C"),
+    menu("201", "2", "登录日志", 2, "logininfor", "monitor/logininfor/index", "Logininfor", "monitor:logininfor:list", "logininfor", "C"),
+    menu("202", "2", "操作日志", 3, "operlog", "monitor/operlog/index", "Operlog", "monitor:operlog:list", "form", "C"),
+    menu("203", "2", "定时任务", 4, "job", "monitor/job/index", "Job", "monitor:job:list", "job", "C"),
+    menu("204", "2", "缓存监控", 5, "cache", "monitor/cache/index", "Cache", "monitor:cache:list", "redis", "C"),
+    menu("205", "2", "缓存列表", 6, "cacheList", "monitor/cache/list", "CacheList", "monitor:cache:list", "redis-list", "C"),
+    menu("206", "2", "服务监控", 7, "server", "monitor/server/index", "Server", "monitor:server:list", "server", "C"),
+    menu("207", "2", "数据监控", 8, "druid", "monitor/druid/index", "Druid", "monitor:druid:list", "druid", "C"),
+    menu("3", "0", "系统工具", 3, "tool", "", "Tool", "", "tool", "M"),
+    menu("115", "3", "代码生成", 2, "gen", "tool/gen/index", "Gen", "tool:gen:list", "code", "C"),
+    menu("116", "3", "系统接口", 3, "swagger", "tool/swagger/index", "Swagger", "tool:swagger:list", "swagger", "C"),
   ];
 }
 

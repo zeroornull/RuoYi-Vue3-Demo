@@ -77,13 +77,38 @@ bun run build:stage
 
 浏览器检查日志、任务、缓存、服务器图表和外链行为。
 
+## 本轮记录
+
+### 17.a 日志与在线用户（工作区，未单独提交）
+
+- 页面：`src/views/monitor/{online,logininfor,operlog}`。在线用户客户端分页 + 强退确认；登录日志查询/排序/删除/清空/解锁/导出；操作日志查询/排序/删除/清空/导出和失败详情对话框。
+- Query 与 Row 分模型；详情用 `OperationLog`，没有 `Record<string, any>`。
+- Mock：`vite/mock/monitor.ts`；无 token 的 `/monitor/*` 返回 401。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor`（165）；`bun run build:stage`。浏览器：在线用户强退、登录日志列表、操作日志失败详情（业务类型「删除」、异常信息）。
+
+### 17.b 任务调度（工作区，未单独提交）
+
+- 页面：`src/views/monitor/job/{index,log,detail}`。任务 CRUD、状态开关、立即执行；新增/编辑接第 14 轮 `Crontab`；隐藏路由 `/monitor/job-log/index/:jobId` 调度日志，`activeMenu=/monitor/job`；失败日志详情展示异常堆栈。
+- Query / Create / Update / Row 分模型；详情用 `Job` / `JobLog`，没有 `Record<string, any>`。
+- Mock：`vite/mock/job.ts` 覆盖 list/CRUD/changeStatus/run 和 jobLog list/delete/clean/export。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor`（169）；`bun run build:stage`。浏览器：新增任务并回填 cron、任务详情、立即执行、调度日志失败堆栈。
+
+### 17.c 缓存与服务器（工作区，未单独提交）
+
+- 页面：`src/views/monitor/cache/{index,list}`、`server/index`、`druid/index`。缓存监控 Redis INFO + 命令饼图 + 内存仪表；缓存列表 name/key/value 与按名/键/全部清理；服务器 CPU/内存/JVM 仪表与磁盘表，10s 可见性轮询；Druid 沙箱 iframe 指向 `appEnv.baseApi + /druid/login.html`。
+- `CacheInfo` 为具名字段，没有 `Record<string, any>`。服务器缺字段经 `coalesceServer` 降级为 0/空串，图表不崩。
+- 图表：`echarts@6.1.0` 按需 pie/gauge + CanvasRenderer；`createBoundChart` 负责 init/setOption/resize/dispose；主题切 `settings.isDark` 时 dispose 后重绘。
+- 轮询：`createVisibilityPoll` 保存 timer、不可见暂停、inflight skip、卸载 `stop` + 图表 dispose；缓存列表 `resize` listener 同步卸载。
+- Mock：`vite/mock/runtime.ts`（cache overview/names/keys/value/clear、server、`GET /druid/login.html` 在鉴权前放行）。
+- 验证：`bun run typecheck`；`bun test tests/unit tests/system tests/monitor`（173）；`bun run build:stage`（单一 `use-chart-*.js` chunk，约 436 kB / gzip 148 kB）。浏览器：`/monitor/cache` Redis 7.2.4 与双 canvas；暗色主题图表仍在；`/monitor/cacheList` 点 `login_tokens` → `admin` 值、清键、清全部后 Key 数量变 0；`/monitor/server` 核心数 8 / 三仪表 / 磁盘；`/monitor/druid` iframe「Druid Monitor」；回归定时任务列表仍可用。390px 服务监控表可读，三仪表因原 8 栅格并排变窄。
+
 ## 停止条件
 
-- [ ] 监控域所有页面有迁移状态。
-- [ ] 轮询、listener 和图表实例均正确清理。
-- [ ] ECharts 6 的空值、主题和 resize 行为已验证。
-- [ ] 日志/任务详情不依赖宽泛对象。
-- [ ] 导出和强制下线等高风险操作有确认与失败处理。
+- [x] 监控域所有页面有迁移状态。（17.a—17.c 已迁）
+- [x] 轮询、listener 和图表实例均正确清理。
+- [x] ECharts 6 的空值、主题和 resize 行为已验证。
+- [x] 17.a—17.b 日志/任务详情不依赖宽泛对象。
+- [x] 17.a—17.b 导出、强制下线和立即执行等高风险操作有确认与失败处理。
 
 ## 推荐提交
 

@@ -79,4 +79,69 @@ export const migratedViewLoaders: Record<string, LazyRouteComponent> = {
     "选择用户",
     () => import("../views/system/role/selectUser.vue"),
   ),
+  "monitor/online/index": loadVuePage(
+    "Online",
+    "在线用户",
+    () => import("../views/monitor/online/index.vue"),
+  ),
+  "monitor/logininfor/index": loadVuePage(
+    "Logininfor",
+    "登录日志",
+    () => import("../views/monitor/logininfor/index.vue"),
+  ),
+  "monitor/operlog/index": loadVuePage(
+    "Operlog",
+    "操作日志",
+    () => import("../views/monitor/operlog/index.vue"),
+  ),
+  "monitor/operlog/detail": loadVuePage(
+    "OperlogDetail",
+    "操作日志详细",
+    () => import("../views/monitor/operlog/detail.vue"),
+  ),
+  "monitor/job/index": loadVuePage(
+    "Job",
+    "定时任务",
+    () => import("../views/monitor/job/index.vue"),
+  ),
+  "monitor/job/log": loadVuePage(
+    "JobLog",
+    "调度日志",
+    () => import("../views/monitor/job/log.vue"),
+  ),
+  "monitor/job/detail": loadVuePage(
+    "JobDetail",
+    "任务详细",
+    () => import("../views/monitor/job/detail.vue"),
+  ),
+  "monitor/cache/index": loadVuePage(
+    "Cache",
+    "缓存监控",
+    () => import("../views/monitor/cache/index.vue"),
+  ),
+  "monitor/cache/list": loadVuePage(
+    "CacheList",
+    "缓存列表",
+    () => import("../views/monitor/cache/list.vue"),
+  ),
+  "monitor/server/index": loadVuePage(
+    "Server",
+    "服务监控",
+    () => import("../views/monitor/server/index.vue"),
+  ),
+  "monitor/druid/index": loadVuePage(
+    "Druid",
+    "数据监控",
+    () => import("../views/monitor/druid/index.vue"),
+  ),
+  "tool/swagger/index": loadVuePage(
+    "Swagger",
+    "系统接口",
+    () => import("../views/tool/swagger/index.vue"),
+  ),
+  "tool/gen/index": loadVuePage(
+    "Gen",
+    "代码生成",
+    () => import("../views/tool/gen/index.vue"),
+  ),
 };

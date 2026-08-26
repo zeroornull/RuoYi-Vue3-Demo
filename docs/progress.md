@@ -2,27 +2,27 @@
 
 > 快照日期：2026-08-26
 > 当前 HEAD：`cb50b8e`（第 11 轮已入库）
-> 下一轮：第 17 轮 — 监控域（可拆 17.a—17.c）
+> 下一轮：第 18 轮 — 工具域（18.a—18.c 已完成，下一子批次 18.d 表单构建器）
 > 状态只能使用：`未开始`、`进行中`、`已完成`、`阻塞`。
 
 ## 1. 当前快照
 
-第 **0—16** 轮已经做完。第 **0—11** 轮已入库；第 **12—16** 同在工作区，尚未单独提交。16.d 把角色列表、数据权限、分配用户和选择用户从占位移到真实页面，并接上本地 Mock。
+第 **0—17** 轮和第 **18.a—18.c** 子批次已经做完。第 **0—11** 轮已入库；第 **12—18.c** 同在工作区，尚未单独提交。18.c 把生成配置编辑、代码预览和 zip 下载接到真实页面。
 
-仓库已经不是空壳：根目录可 `dev` / `typecheck` / 三环境 `build`，有 Element Plus、类型化 HTTP/API、7 个 Pinia store、Vue Router 5 权限闭环、响应式 Layout、共享组件、认证业务页，以及系统管理的配置、组织结构、用户和角色授权页。监控与工具尚未迁。
+仓库已经不是空壳：根目录可 `dev` / `typecheck` / 三环境 `build`，有 Element Plus、类型化 HTTP/API、7 个 Pinia store、Vue Router 5 权限闭环、响应式 Layout、共享组件、认证业务页，系统管理 CRUD，监控域全套页面，Swagger，以及代码生成列表/编辑/预览。表单构建尚未迁。
 
 | 项 | 现状 |
 | --- | --- |
 | Git remote | `origin` → `https://github.com/zeroornull/RuoYi-Vue3-Demo.git` |
 | 旧代码对照 | 本机 `legacy/`（Git 忽略，不是备份） |
 | 可运行？ | 是。最小页 + Element Plus 中文 locale + 暗色变量 |
-| 业务 API | 是。认证 API 已接 user store；16.a—16.d 系统配置/组织/用户/角色已接；监控、工具尚未接页面 |
+| 业务 API | 是。认证 API 已接 user store；16.a—16.d 系统配置/组织/用户/角色已接；17.a—17.c 监控域已接；18.a—18.c 工具 Swagger 与代码生成已接；表单构建尚未接页面 |
 | Pinia | 是。7/7 store 已迁；permission 可解析后端路由并维护菜单集合 |
 | Router | 是。静态路由 + DTO 白名单转换 + 访问筛选 + 幂等注册/刷新恢复/退出清理 |
 | Layout | 是。桌面/移动端、侧栏、顶栏、TagsView、设置、keep-alive、iframe、图标、菜单搜索、全屏 |
 | 共享组件 | 是。DictTag/Pagination/上传/编辑器/Crontab/TreePanel 等已迁；仅少量全局注册 |
-| 登录/CRUD 界面？ | 登录/注册/锁屏/个人中心已迁；16.a—16.d 参数/字典/公告/岗位/部门/菜单/用户/角色已迁 |
-| 测试 | `tests/unit`+`tests/system` **161** 条 + integration **11** 条 + contracts **4** 条，共 **176** 条 |
+| 登录/CRUD 界面？ | 登录/注册/锁屏/个人中心已迁；16.a—16.d 系统管理已迁；17.a—17.c 监控域已迁；18.a—18.c Swagger 与代码生成已迁 |
+| 测试 | `tests/unit`+`tests/system`+`tests/monitor`+`tests/tools` **184** 条 + integration **11** 条 + contracts **4** 条，共 **199** 条 |
 | CI | `.github/workflows/bun-baseline.yml`，仅 `workflow_dispatch` |
 
 ### 本地复核
@@ -33,7 +33,7 @@ node --version                # v22.23.2（或满足 ^20.19.0 \|\| >=22.12.0）
 bun install --frozen-lockfile
 bun run env:check
 bun run lab:ts
-bun test tests/unit tests/system
+bun test tests/unit tests/system tests/monitor tests/tools
 bun run test -- tests/unit/layout tests/integration/navigation-shell tests/unit/router tests/integration/auth-routing tests/unit/components/shared tests/unit/auth tests/integration/auth-profile tests/contracts tests/system
 bun run typecheck
 bun run build:stage
@@ -44,7 +44,7 @@ bun run dev:backend           # 关闭 Mock，代理到 localhost:8080
 
 ### 下一轮先做什么
 
-打开 [第 17 轮：监控域](./rounds/17-monitoring-pages.md)。下一子批次是 17.a（online / logininfor / operlog）。
+打开 [第 18 轮：工具域、代码生成器与复杂第三方集成](./rounds/18-tools-codegen-third-party.md)。18.a—18.c 已完成。下一子批次是 18.d（表单构建器 schema + draggable + dialogs）。
 
 ## 2. 轮次总表
 
@@ -67,15 +67,15 @@ bun run dev:backend           # 关闭 Mock，代理到 localhost:8080
 | 14 | 通用组件与表单 | 已完成 | **与第 12—13 轮同在工作区** | 22 shared-component tests；110 unit / 122 all；typecheck + stage build |
 | 15 | 认证、个人中心与锁屏 | 已完成 | **与第 12—14 轮同在工作区** | 13 new auth tests；120 unit / 135 all；登录页浏览器验证 |
 | 16 | 系统管理域 | 已完成 | **与第 12—15 轮同在工作区** | 16.a—16.d 完成（161 unit+system / typecheck / stage）；浏览器验角色树与分配用户 |
-| 17 | 监控域 | 未开始 |  | 可拆 17.a—17.c |
-| 18 | 工具域与第三方 | 未开始 |  |  |
+| 17 | 监控域 | 已完成 | **与第 12—16 轮同在工作区** | 17.a—17.c 完成（173 unit+system+monitor / typecheck / stage）；ECharts 单 chunk；浏览器验 cache/server/druid |
+| 18 | 工具域与第三方 | 进行中 | 叠加在第 12—17 轮工作区 | 18.a—18.c 完成（184 unit+system+monitor+tools / typecheck / stage）；18.d—18.e 未开始 |
 | 19 | 质量、依赖收敛与切换 | 未开始 |  |  |
 
 Git 没有严格「一轮一提交」：2 与 3 同在 `e539f97`，5 与 6 同在 `a9d270a`。
 
-## 3. 第 12—16 轮未入库内容
+## 3. 第 12—18.c 轮未入库内容
 
-工作区相对 `cb50b8e` 包含已完成的第 12—16 轮：
+工作区相对 `cb50b8e` 包含已完成的第 12—17 轮和第 18.a—18.c 子批次：
 
 ```text
 src/router/                     # 后端 DTO、纯转换、组件白名单、访问筛选、注册表、单飞 guard、NProgress
@@ -83,16 +83,20 @@ src/stores/modules/permission*  # 异步生成路由、issue 与失败状态
 src/stores/access-cleanup.ts    # logout/401 统一清理动态访问状态
 src/layout/                     # 响应式壳层、菜单、TagsView、设置、主题、iframe、菜单搜索、全屏
 src/components/                 # 共享组件、上传、编辑器、Crontab、TreePanel、表单提交
-src/views/                      # 第 15 轮认证页 + 16.a—16.d 系统配置/组织/用户/角色
+src/views/                      # 第 15 轮认证页 + 16.a—16.d 系统管理 + 17.a—17.c 监控全套 + 18.a swagger + 18.b/18.c gen
+src/charts/                     # ECharts 6 按需注册 + createBoundChart
 src/icons/registry.ts           # 显式语义图标映射
 src/composables/                # CRUD 选择/分页 + useDict
-vite/mock/                      # 开发 Mock：认证 + 16.a—16.d 系统配置/组织/用户/角色
+src/utils/visibility-poll.ts    # 可见性轮询（暂停 / inflight skip / 卸载清理）
+vite/mock/                      # 开发 Mock：认证 + 系统管理 + 17.a—17.c 监控 + 18.a—18.c 工具
 tests/unit/auth/                # 登录、记住密码、RSA、profile/lock 边界
-tests/system/                   # 16.a—16.d config/dict/notice/post/dept/menu/user/role 模型与 Mock
+tests/system/                   # 16.a—16.d 系统管理模型与 Mock
+tests/monitor/                  # 17.a—17.c 在线用户/日志/任务/缓存/服务器/Druid
+tests/tools/                    # 18.a Swagger + 18.b/18.c 代码生成
 tests/integration/auth-profile/ # 登录失败、锁屏、profile patch
 tests/integration/              # auth-routing + navigation-shell
 docs/visual-baselines/          # 第 13 轮桌面/移动端 PNG
-package.json / bun.lock         # nprogress、icons、vue-quill@1.5.5、fuse.js@7.5.0、sortablejs@1.15.7
+package.json / bun.lock         # nprogress、icons、vue-quill@1.5.5、fuse.js@7.5.0、sortablejs@1.15.7、echarts@6.1.0
 ```
 
 推荐提交说明：
@@ -114,9 +118,10 @@ src/
   router/                 Router 5 静态/动态 routes、DTO 转换、访问 guard、注册表、占位组件
   layout/                 桌面/移动端壳层、菜单、Navbar、TagsView、Settings、AppMain、iframe
   components/             共享展示/上传/编辑器/Crontab/TreePanel；仅少量全局注册
-  views/                  登录、注册、锁屏、个人中心、401/404、系统 config/dict/notice/post/dept/menu/user/role
+  views/                  登录、注册、锁屏、个人中心、401/404、系统管理、monitor 全套、tool/swagger、tool/gen 列表与编辑
+  charts/                 ECharts 6 按需 pie/gauge + CanvasRenderer
   icons/                  显式 Element/custom SVG 图标注册表
-  utils/                  parseTime、handleTree、tansParams、字典/密码/权限纯函数
+  utils/                  parseTime、handleTree、tansParams、字典/密码/权限纯函数、visibility-poll
   types/                  env、http、api、dict、tree、id、query
   composables/useAppTitle.ts
   App.vue                 根 RouterView
@@ -126,7 +131,7 @@ tests/unit/               utils + http + api + stores + router + layout + shared
 tests/integration/        auth-routing 权限闭环 + navigation-shell
 ```
 
-16.a—16.d 的 config/dict/notice/post/dept/menu/user/role 已接到真实页面。监控/工具 component 仍走白名单占位。首页仍是占位。
+16.a—16.d 系统管理、17.a—17.c 监控域与 18.a—18.c 工具（Swagger + 代码生成）已接到真实页面。表单构建仍走白名单占位。首页仍是占位。
 
 ## 5. 依赖（执行时钉死）
 
@@ -150,6 +155,7 @@ tests/integration/        auth-routing 权限闭环 + navigation-shell
 | js-cookie | 3.0.8 | `Admin-Token` + remember-me |
 | file-saver | 2.0.5 | 下载 |
 | sass-embedded | 1.103.1 | 未把 `@parcel/watcher` 加入 trusted |
+| ECharts | 6.1.0 | 按需 `echarts/core` + pie/gauge + CanvasRenderer；staging 单 `use-chart` chunk |
 
 未装：auto-import、svg-icons 插件、compression。
 
@@ -175,7 +181,7 @@ tests/integration/        auth-routing 权限闭环 + navigation-shell
 阶段 B  TS + Vite            第 3—5 轮   完成
 阶段 C  基础设施 + API       第 6—9 轮   完成
 阶段 D  状态 / 路由 / 权限   第 10—12 轮  完成
-阶段 E  组件与业务页         第 13—18 轮  做到第 16；17—18 未开始
+阶段 E  组件与业务页         第 13—18 轮  做到第 18.c；18.d—18.e 未开始
 阶段 F  质量与切换           第 19 轮     未开始
 ```
 

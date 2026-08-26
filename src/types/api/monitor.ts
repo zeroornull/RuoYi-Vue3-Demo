@@ -110,6 +110,8 @@ export type JobLog = BaseEntity & {
   jobMessage?: string | null;
   exceptionInfo?: string | null;
   status: EnabledStatus;
+  startTime?: ApiDateTime | null;
+  endTime?: ApiDateTime | null;
 };
 
 export type CacheEntry = {
@@ -120,8 +122,22 @@ export type CacheEntry = {
 };
 
 export type CacheCommandStat = { name: string; value: number };
+export type CacheInfo = {
+  redis_version?: string;
+  redis_mode?: string;
+  tcp_port?: string;
+  connected_clients?: string;
+  uptime_in_days?: string;
+  used_memory_human?: string;
+  used_cpu_user_children?: string;
+  maxmemory_human?: string;
+  aof_enabled?: string;
+  rdb_last_bgsave_status?: string;
+  instantaneous_input_kbps?: string;
+  instantaneous_output_kbps?: string;
+};
 export type CacheOverview = {
-  info: Record<string, string>;
+  info: CacheInfo;
   dbSize: number;
   commandStats: CacheCommandStat[];
 };

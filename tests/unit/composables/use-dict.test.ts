@@ -27,5 +27,14 @@ describe("dictionary mapping", () => {
       "1",
       "2",
     ]);
+    expect(FALLBACK_DICTS.sys_common_status?.map((item) => item.value)).toEqual([
+      "0",
+      "1",
+    ]);
+    expect(FALLBACK_DICTS.sys_oper_type?.[3]?.label).toBe("删除");
+    expect(FALLBACK_DICTS.sys_job_group?.map((item) => item.value)).toEqual([
+      "DEFAULT",
+      "SYSTEM",
+    ]);
   });
 });

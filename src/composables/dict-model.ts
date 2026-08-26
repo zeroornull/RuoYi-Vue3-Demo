@@ -27,6 +27,30 @@ export const FALLBACK_DICTS: Record<string, DictItem[]> = {
     { label: "女", value: "1" },
     { label: "未知", value: "2" },
   ],
+  sys_common_status: [
+    { label: "成功", value: "0", elTagType: "success" },
+    { label: "失败", value: "1", elTagType: "danger" },
+  ],
+  sys_oper_type: [
+    { label: "其他", value: "0" },
+    { label: "新增", value: "1", elTagType: "info" },
+    { label: "修改", value: "2", elTagType: "warning" },
+    { label: "删除", value: "3", elTagType: "danger" },
+    { label: "授权", value: "4" },
+    { label: "导出", value: "5", elTagType: "warning" },
+    { label: "导入", value: "6" },
+    { label: "强退", value: "7" },
+    { label: "生成代码", value: "8" },
+    { label: "清空数据", value: "9", elTagType: "danger" },
+  ],
+  sys_job_group: [
+    { label: "默认", value: "DEFAULT" },
+    { label: "系统", value: "SYSTEM" },
+  ],
+  sys_job_status: [
+    { label: "正常", value: "0", elTagType: "success" },
+    { label: "暂停", value: "1", elTagType: "info" },
+  ],
 };
 
 export function dictDataToItem(row: DictData): DictItem {

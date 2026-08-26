@@ -41,7 +41,7 @@ export type GeneratorTable = BaseEntity & {
   subTableFkName?: string | null;
   className: string;
   tplCategory: "crud" | "tree" | "sub";
-  tplWebType: "element-ui" | "element-plus";
+  tplWebType: "element-ui" | "element-plus" | "element-plus-typescript";
   packageName: string;
   moduleName: string;
   businessName: string;
@@ -58,10 +58,21 @@ export type GeneratorTable = BaseEntity & {
   columns?: GeneratorColumn[];
 };
 
+export type GeneratorTableUpdateParams = {
+  genView?: "0" | "1";
+  treeCode?: string | null;
+  treeName?: string | null;
+  treeParentCode?: string | null;
+  parentMenuId?: EntityId | null;
+};
+
 export type GeneratorTableUpdateRequest = Omit<
   GeneratorTable,
   keyof BaseEntity
-> & { remark?: string | null };
+> & {
+  remark?: string | null;
+  params?: GeneratorTableUpdateParams;
+};
 export type ImportTablesRequest = {
   tables: string;
   tplWebType: "element-plus";

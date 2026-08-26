@@ -279,6 +279,38 @@ function seedDictTypes(): DictTypeRow[] {
       remark: "",
       createTime: "2026-01-01 00:00:00",
     },
+    {
+      dictId: "8",
+      dictName: "系统状态",
+      dictType: "sys_common_status",
+      status: "0",
+      remark: "",
+      createTime: "2026-01-01 00:00:00",
+    },
+    {
+      dictId: "9",
+      dictName: "操作类型",
+      dictType: "sys_oper_type",
+      status: "0",
+      remark: "",
+      createTime: "2026-01-01 00:00:00",
+    },
+    {
+      dictId: "10",
+      dictName: "任务分组",
+      dictType: "sys_job_group",
+      status: "0",
+      remark: "",
+      createTime: "2026-01-01 00:00:00",
+    },
+    {
+      dictId: "11",
+      dictName: "任务状态",
+      dictType: "sys_job_status",
+      status: "0",
+      remark: "",
+      createTime: "2026-01-01 00:00:00",
+    },
   ];
 }
 
@@ -298,6 +330,22 @@ function seedDictData(): DictDataRow[] {
     dataRow("12", "sys_user_sex", "男", "0", 1, "default", "Y"),
     dataRow("13", "sys_user_sex", "女", "1", 2, "default", "N"),
     dataRow("14", "sys_user_sex", "未知", "2", 3, "default", "N"),
+    dataRow("15", "sys_common_status", "成功", "0", 1, "success", "Y"),
+    dataRow("16", "sys_common_status", "失败", "1", 2, "danger", "N"),
+    dataRow("17", "sys_oper_type", "其他", "0", 1, "default", "N"),
+    dataRow("18", "sys_oper_type", "新增", "1", 2, "info", "N"),
+    dataRow("19", "sys_oper_type", "修改", "2", 3, "warning", "N"),
+    dataRow("20", "sys_oper_type", "删除", "3", 4, "danger", "N"),
+    dataRow("21", "sys_oper_type", "授权", "4", 5, "primary", "N"),
+    dataRow("22", "sys_oper_type", "导出", "5", 6, "warning", "N"),
+    dataRow("23", "sys_oper_type", "导入", "6", 7, "default", "N"),
+    dataRow("24", "sys_oper_type", "强退", "7", 8, "danger", "N"),
+    dataRow("25", "sys_oper_type", "生成代码", "8", 9, "warning", "N"),
+    dataRow("26", "sys_oper_type", "清空数据", "9", 10, "danger", "N"),
+    dataRow("27", "sys_job_group", "默认", "DEFAULT", 1, "default", "Y"),
+    dataRow("28", "sys_job_group", "系统", "SYSTEM", 2, "default", "N"),
+    dataRow("29", "sys_job_status", "正常", "0", 1, "success", "Y"),
+    dataRow("30", "sys_job_status", "暂停", "1", 2, "info", "N"),
   ];
 }
 

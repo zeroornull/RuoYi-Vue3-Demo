@@ -1,4 +1,11 @@
+import { dispatchMonitorMock, resetMockMonitorState } from "./monitor.ts";
+import { DRUID_LOGIN_HTML } from "./runtime.ts";
 import { dispatchSystemMock, resetMockSystemState } from "./system.ts";
+import {
+  dispatchPublicToolMock,
+  dispatchToolMock,
+  resetMockToolState,
+} from "./tool.ts";
 
 export type MockJson = Record<string, unknown>;
 
@@ -72,6 +79,8 @@ let user = defaultUser();
 export function resetMockAuthState(): void {
   user = defaultUser();
   resetMockSystemState();
+  resetMockMonitorState();
+  resetMockToolState();
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -199,6 +208,70 @@ function routers(): MockResponse {
             component: "monitor/online/index",
             meta: { title: "在线用户", icon: "user", noCache: false },
           },
+          {
+            name: "Logininfor",
+            path: "logininfor",
+            component: "monitor/logininfor/index",
+            meta: { title: "登录日志", icon: "logininfor", noCache: false },
+          },
+          {
+            name: "Operlog",
+            path: "operlog",
+            component: "monitor/operlog/index",
+            meta: { title: "操作日志", icon: "form", noCache: false },
+          },
+          {
+            name: "Job",
+            path: "job",
+            component: "monitor/job/index",
+            meta: { title: "定时任务", icon: "job", noCache: false },
+          },
+          {
+            name: "Cache",
+            path: "cache",
+            component: "monitor/cache/index",
+            meta: { title: "缓存监控", icon: "redis", noCache: false },
+          },
+          {
+            name: "CacheList",
+            path: "cacheList",
+            component: "monitor/cache/list",
+            meta: { title: "缓存列表", icon: "redis-list", noCache: false },
+          },
+          {
+            name: "Server",
+            path: "server",
+            component: "monitor/server/index",
+            meta: { title: "服务监控", icon: "server", noCache: false },
+          },
+          {
+            name: "Druid",
+            path: "druid",
+            component: "monitor/druid/index",
+            meta: { title: "数据监控", icon: "druid", noCache: false },
+          },
+        ],
+      },
+      {
+        name: "Tool",
+        path: "/tool",
+        hidden: false,
+        component: "Layout",
+        alwaysShow: true,
+        meta: { title: "系统工具", icon: "tool", noCache: false, link: null },
+        children: [
+          {
+            name: "Gen",
+            path: "gen",
+            component: "tool/gen/index",
+            meta: { title: "代码生成", icon: "code", noCache: false },
+          },
+          {
+            name: "Swagger",
+            path: "swagger",
+            component: "tool/swagger/index",
+            meta: { title: "系统接口", icon: "swagger", noCache: false },
+          },
         ],
       },
     ],
@@ -252,6 +325,18 @@ export function dispatchMockRequest(request: MockRequest): MockResponse {
   if (method === "POST" && path === "/register") {
     return ok({ code: 200, msg: "操作成功" });
   }
+  if (method === "GET" && path === "/druid/login.html") {
+    return {
+      status: 200,
+      body: { code: 200, msg: "ok" },
+      contentType: "text/html;charset=utf-8",
+      raw: DRUID_LOGIN_HTML,
+    };
+  }
+  const publicTool = dispatchPublicToolMock(request);
+  if (publicTool) {
+    return publicTool;
+  }
 
   const unauthorized = token !== MOCK_TOKEN
     ? ok({ code: 401, msg: "认证失败，无法访问系统资源" })
@@ -284,13 +369,26 @@ export function dispatchMockRequest(request: MockRequest): MockResponse {
     return ok({ code: 200, msg: "操作成功", imgUrl: "/profile.jpg" });
   }
 
-  if (unauthorized && path.startsWith("/system/")) {
+  if (
+    unauthorized &&
+    (path.startsWith("/system/") ||
+      path.startsWith("/monitor/") ||
+      path.startsWith("/tool/"))
+  ) {
     return unauthorized;
   }
 
   const system = dispatchSystemMock(request);
   if (system) {
     return system;
+  }
+  const monitor = dispatchMonitorMock(request);
+  if (monitor) {
+    return monitor;
+  }
+  const tool = dispatchToolMock(request);
+  if (tool) {
+    return tool;
   }
 
   return fail(`本地 Mock 未实现 ${method} ${path}`);

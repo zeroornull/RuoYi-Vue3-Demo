@@ -11,7 +11,7 @@
   "scripts": {
     "env:check": "bun scripts/env-check.ts",
     "lab:ts": "bunx --bun tsc --noEmit -p learning/ts-lab/tsconfig.json",
-    "test": "bun test tests/unit tests/system",
+    "test": "bun test tests/unit tests/system tests/monitor tests/tools",
     "dev": "bunx --bun vite",
     "dev:backend": "VITE_MOCK_API=false bunx --bun vite",
     "typecheck": "vue-tsc --build",
@@ -24,6 +24,7 @@
     "@element-plus/icons-vue": "2.3.2",
     "@vueup/vue-quill": "1.5.5",
     "axios": "1.19.0",
+    "echarts": "6.1.0",
     "element-plus": "2.14.5",
     "file-saver": "2.0.5",
     "fuse.js": "7.5.0",

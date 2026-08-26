@@ -2,8 +2,6 @@ import { RouterShell } from "./components/router-shell";
 import { loadVuePage } from "./components/static-pages";
 import type { AppRouteRecordRaw } from "./types";
 
-const loadDynamicPage = () =>
-  import("./components/static-pages").then((module) => module.DynamicRoutePage);
 const loadDictDataPage = loadVuePage(
   "Data",
   "字典数据",
@@ -18,6 +16,16 @@ const loadAuthUserPage = loadVuePage(
   "AuthUser",
   "分配用户",
   () => import("../views/system/role/authUser.vue"),
+);
+const loadJobLogPage = loadVuePage(
+  "JobLog",
+  "调度日志",
+  () => import("../views/monitor/job/log.vue"),
+);
+const loadGenEditPage = loadVuePage(
+  "GenEdit",
+  "修改生成配置",
+  () => import("../views/tool/gen/editTable.vue"),
 );
 
 export const protectedRoutes: AppRouteRecordRaw[] = [
@@ -76,7 +84,7 @@ export const protectedRoutes: AppRouteRecordRaw[] = [
       {
         path: "index/:jobId(\\d+)",
         name: "JobLog",
-        component: loadDynamicPage,
+        component: loadJobLogPage,
         meta: { title: "调度日志", activeMenu: "/monitor/job" },
       },
     ],
@@ -91,7 +99,7 @@ export const protectedRoutes: AppRouteRecordRaw[] = [
       {
         path: "index/:tableId(\\d+)",
         name: "GenEdit",
-        component: loadDynamicPage,
+        component: loadGenEditPage,
         meta: { title: "修改生成配置", activeMenu: "/tool/gen" },
       },
     ],
